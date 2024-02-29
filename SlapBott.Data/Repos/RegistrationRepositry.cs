@@ -19,6 +19,8 @@ namespace SlapBott.Data.Repos
 
         }
 
+
+        
         public Registration GetByDiscordID(ulong discordId)
         {
 

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
+using SlapBott.Services.Dtos;
 
 namespace SlapBott.Services
 {
@@ -20,26 +21,26 @@ namespace SlapBott.Services
             
             string msg = "U Already Have A Character";
 
-            //if (!CheckIfPlayerExists(discordUserID))  
-            //{
+            if (!CheckIfPlayerExists(discordUserID))
+            {
 
-            //    try
-            //    {
-            //        SaveRegistration(new Registration
-            //        {
-            //            UserName = username,
-            //            DiscordId = discordUserID,
-            //        }); 
-            //        msg = "U have joined the Cause";
-            //        //_mediator.Publish(new NewRegistration() { Name = username });
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        msg = $"There was an problem saving registration: {ex.Message}";
-            //    }
+                try
+                {
+                    SaveRegistration(new Registration
+                    {
+                        UserName = username,
+                        DiscordId = discordUserID,
+                    });
+                    msg = "U have joined the Cause";
+                    //_mediator.Publish(new NewRegistration() { Name = username });
+                }
+                catch (Exception ex)
+                {
+                    msg = $"There was an problem saving registration: {ex.Message}";
+                }
 
 
-            //}
+            }
 
 
             return msg;
@@ -62,10 +63,14 @@ namespace SlapBott.Services
         /// <returns></returns>
         public bool CheckIfPlayerExists(ulong discordUserId)
         {
-          
-            return GetUserByDiscordId(discordUserId).DiscordId == discordUserId;
-          
 
+            var reg = GetUserByDiscordId(discordUserId);
+            
+            if(reg == null) { 
+                return false;
+            }
+
+            return true;
         }
 
         public Registration GetUserByDiscordId(ulong discordUserID)
@@ -73,6 +78,12 @@ namespace SlapBott.Services
             return _registrationRepositry.GetByDiscordID(discordUserID);
         }
 
+
+        public int GetActiveCharacter(ulong discordUserID)
+        {
+           return GetUserByDiscordId(discordUserID).ActiveCharacter;
+
+        }
 
 
 

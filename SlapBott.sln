@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.Data", "SlapBott.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.Services", "SlapBot.Services\SlapBott.Services.csproj", "{50A9E1A7-29CB-4C40-8FAC-9FFF6F1BA8C8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mechanics-Ideas", "Mechanics-Ideas", "{0A6C271C-0D8E-4A50-BA3C-2C85EC2D5835}"
+	ProjectSection(SolutionItems) = preProject
+		Design = Design
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

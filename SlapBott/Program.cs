@@ -19,6 +19,7 @@
     using SlapBott.Data.Repos;
     using SlapBott.Services.Contracts;
     using SlapBot.Services;
+    using SlapBott.Services.Notifactions;
 
     public class Program
     {
@@ -47,7 +48,14 @@
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<RegistrationRepositry>()
                 .AddSingleton<IRaidService, RaidService>();
-              //  .AddSingleton<IMediator>();
+
+            _services.AddMediatR(options =>
+            {
+                // Configure MediatR options here
+                // For example, you can specify service lifetime, behavior, etc.
+                options.RegisterServicesFromAssembly(typeof(FailedReply).Assembly);
+
+            });
 
                 ConfigureServices(_services);
 

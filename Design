@@ -1,0 +1,135 @@
+-----------------------------
+Idle Hunters
+-----------------------------
+Bot Mechanics:
+* Raidbosses for each server creating a channel when they spawn, This will be a 24 hour per turn system so that debufs and buffs will get applied and removed correctly
+* War Mechanic, my idea is that a channel or more than one will spawn, it will generate enemies if an enemy doesnt get put in combat with a player,
+  ild like it to attack a "Server Health Bar", if the server health bar goes down it punish players or township systems, but on the other end if you win the war being,
+  the enemy health bar (this is probibly lowered by each kill) gets to 0, it will reward the players handsomely
+* Some form of Idle resource gathering, through sending an alt away or hiring (mainly for crafting or gold or a rare currency with a different function(maybe combining items))
+* A DND explore system that is psudo random where people say i want to explore, 
+  game returns you have found this and gives options on what you can do,
+  this can lead to finding unique raid or unlocking them for the server, or a bunch of other rewards or fights
+* An acheivments (Horizontal Progression) for the whole user which applies rewards to all characters 
+* Some form of dungeon spawn (either being spawned by a mechanic or just /startdungeon), i would like this to be party play and or solo 
+* a quest or job board where you can choose a passive quest to do, this can be forplayer driven quests, this could be kill amount of dragons to collect this amount of item type
+* Township system per server this includes Inn services such as heals for gold or somthing
+  
+-----------------------------
+Turn based system
+* Speed Based System, with base of 1, so if somone has "fast turn speed" being 0.5 they will attack twice that turn the same is for
+  if somone has 2 Turn Speed it takes two turns to move
+* For raid we need to find or hard code the slowest attack speed (keep in mind slows) so that raid have proper balance with Turn Speed
+* Front Line Back line Based on skill used
+*
+*
+*
+*
+*
+*
+-----------------------------
+RaidBosses
+* Base the boss's defence mechanics and or Health off of Item Levels 
+* Damage can be based off item level or Max HP
+* Punishment for player: They drop all items and are put in raid boss pool if the boss has been defeated
+* Maybe have Conditions to hit boss
+* Front Line Back line Effecting Skills 
+* Condition for min player count 
+-----------------------------
+Idle Mechanics
+*
+*
+*
+*
+*
+*
+-----------------------------
+Explore Mechanic
+* Based on Regions/Locations (they have recommended Level as some locations have worse encounters)
+  Example: Badlands has more Combat encounters overall at blah blah level
+* 
+* 
+* 
+* Npc encounters, some with options to bring To server Township
+* Caches/Rewards/Traps
+* Outcomes can lead to RaidBoss Spawning in location Area in server, or dungeon for player then can invite party
+-----------------------------
+Dungeons
+* 
+* 
+* 
+* 
+* 
+-----------------------------
+Character
+* Classes and an unlock level for Subclasses
+* Classes: Warrior, Rogue, Mage
+* SubClasses 
+	Warrior: Palidin, barb
+	Rogue: Archer, Assassin
+	Mage: Support(Cleric or healer idk), Elementalist
+	* SubClass Passives: Choice on class Choice
+	* Passive example: Elementilist: PowerOverWhelming: +10% ligtning 
+* Parabolic Leveling
+* Stat points per class/subclass with a parabolic cap based on level
+* Equimpent Slots: Head, Chest, Leggings, Boots, Weapon, Offhand
+* Proffessions: Create Items : Potions ect
+* Inventory : Bag slot limited and bank System
+-----------------------------
+Item Generation
+* Potential Generation per item
+* Amount of suffux's and prefix's based on Potential of item 
+* affix's are Based on Rarety and Ilevel
+* Prefix's are Stats Example: Str, Dex, Int, Crit, +%dmg type 
+* Suffux's are Stats Example: critdmg, effects, Penertration types, speed
+* Rareties: common, magic, rare, epic, Legendary, Unique(cant be generated as it is Manually Created for Mechanic rewards) 
+* Potential amount is changed based on Rarety
+* Legendarys have some special Example bonus affix, has an implicid idk what else we could make it
+* affix's will be psudo random being of teir so t1 life would be lowest life t10 life will be highest ect,
+  this is also affected by rarety so legendarys cant have t1 on everything
+* Hidden item level to Help Generate affix's: Dropped level *5 +|- 5
+
+Example Item - of lightning sword
+******Sword Of******
+Rarety: Legendary
+Damage: 15 Flat Ligtning
+TurnSpeed/attackspd: (Base 0.8)*1-(Speed Modifyer) = 0.68
+?Implicid: CritChance +5%
+(Hidden)Potential: 7
+(Hidden)ItemLevel: 55
+*************************
+Prefix's
+* +10 Str 
+* +2 Dex
+* +20% Ligtning
+* +5% CritChance
+Suffix's
+* +10% CritDmg
+* +50% To Use Skill Ligtning Strike On Damage 
+* +15% Speed
+-----------------------------
+Simple Crafting
+* Reroll Stat Teir T1-T10 Still needs Requiremnts to get to max Teir
+* Add Affix's
+* Reroll Stat Range on Teir
+* Strip Random Affix From Item And apply affix to item
+* mission board based with Profesions
+-----------------------------
+1-Channel Trading
+* player says trade This ID, it posts item for Cost or Crafting Item,
+  somone says buy item is removes from orginal char inventory to new char inventory
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

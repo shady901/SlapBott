@@ -8,17 +8,18 @@ namespace SlapBott.Data.Models
 
         public int Id { get; set; }
         public int DiscordID { get; set; }
-
-        public Stats stats;
-
+        public Stats Stats { get; set; }
+        public CombatStats CStats;
+        
         [ForeignKey("DiscordID")]
         public virtual Registration Registration { get; set; }
 
         public Character()
-        { 
+        {           
             
         }
 
+        
 
 
 

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Models
 {
-    public class Stats
+    public class Skill
     {
-        public int Level { get; set; }
-        public int Exp { get; set; }
-
+        public required string Name { get; set; }
     }
 }

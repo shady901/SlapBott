@@ -10,7 +10,7 @@ namespace SlapBott.Data.Models
         public required string UserName { get; set; }
 
         public virtual List<Character> UserCharacters { get; set; } = new List<Character>();
-        public int? ActiveCharacter { get; set; }
+        public int ActiveCharacter { get; set; }
 
         [ForeignKey ("ActiveCharacter")]
         public virtual Character? Character { get; set; }
