@@ -1,7 +1,11 @@
 ﻿using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
-
+/*
+           Get all Characters Participating
+           foreach add exp to characters
+           if leveled add to list for charctermangers
+           */
 namespace SlapBot.Services
 {
     public class RaidService :IRaidService

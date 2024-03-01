@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Models
 {
-    public class RaidBoss : Boss
+    public class SubClass: CharacterClass
     {
-    
-
 
 
 

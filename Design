@@ -1,4 +1,4 @@
------------------------------
+﻿-----------------------------
 Idle Hunters
 -----------------------------
 Bot Mechanics:
@@ -20,7 +20,7 @@ Turn based system
 * Speed Based System, with base of 1, so if somone has "fast turn speed" being 0.5 they will attack twice that turn the same is for
   if somone has 2 Turn Speed it takes two turns to move
 * For raid we need to find or hard code the slowest attack speed (keep in mind slows) so that raid have proper balance with Turn Speed
-* Front Line Back line Based on skill used
+* Front Line Back line Based on skill used this will only occur in raids or boss encounters
 *
 *
 *
@@ -37,9 +37,10 @@ RaidBosses
 * Condition for min player count 
 -----------------------------
 Idle Mechanics
-*
-*
-*
+* default farming location, unlocking more with explore based on the regions you explore in 
+* this should be you just send away a character for this amount of time and somthing happens it could be that you farmed or gathered 
+  resources this should help with proffesions in some way or something unique occured
+* gathering types could be chopping mining gathering(herbs) Enchanting(consumes resources to gather/make crafting mats)
 *
 *
 *
@@ -55,11 +56,11 @@ Explore Mechanic
 * Outcomes can lead to RaidBoss Spawning in location Area in server, or dungeon for player then can invite party
 -----------------------------
 Dungeons
-* 
-* 
-* 
-* 
-* 
+* dungeons should be found during the explore mechanic, and pop up as a hidden channel for the player that found it, this should allow for invites as its recommended for 1-4
+* if you die in the dungeon your gear will be droped in the position you died in, and can be aquired when any play come accross it 
+* i want to have a map system(grid) that is generated, i would like players to move around as well as mobs
+* i would like to have a boss that its diffculty is based on total Ilevel/playerlevel in the dungeon so thats its difficult for 1-2 players and moderate for 3-4
+* i would like some dungeons in regions to have a chance drop specific gear(uniques)
 -----------------------------
 Character
 * Classes and an unlock level for Subclasses
@@ -116,18 +117,60 @@ Simple Crafting
 * mission board based with Profesions
 -----------------------------
 1-Channel Trading
-* player says trade This ID, it posts item for Cost or Crafting Item,
+* player says trade This ID, cannot be equiped and can be resoursed or consumables, it posts item for Cost,
   somone says buy item is removes from orginal char inventory to new char inventory
+-----------------------------
+Township system
+* an Inn to heal and grab low teir consuables for lvl 1 ish
+* township has a job board this allows players or the town to create jobs/quests, this could be if township health is low,
+  a job is created to repair the town, or to have proffession player jobs such as i need my bow to have this upgrade, or to make 10 random bows
+* Township will have a health mechanic that is turned on during events such as the war mechanic, or dungeon portal spawns, after a certain period
+  the town will lose health if this hits 0 the inn and banks will turn off for a period, and any Npc's aquired will be removed
+-----------------------------
+Whats systems required first
+* Characters
+* Raid
+* Classes
+* SubClasses
+* Turnbased
+* Regions
+* Item gen
+* Dungeons
+* Idle system
+* Township
+* Explore
+* Trading 
+* Crafting
+* Professions
+* Township Job Board
+* Township events
+* Acheivments
 -----------------------------
 
 
 
+Levelexp 
 
-
-
-
-
-
+Level 1: 300×(1−1)×(1.5×1)=0
+Level 2: 300×(2−1)×(1.5×2)=900
+Level 3: 300×(3−1)×(1.5×3)=2700
+Level 4: 300×(4−1)×(1.5×4)=5400
+Level 5: 300×(5−1)×(1.5×5)=9000
+Level 6: 300×(6−1)×(1.5×6)=13500
+Level 7: 300×(7−1)×(1.5×7)=18900
+Level 8: 300×(8−1)×(1.5×8)=25200
+Level 9: 300×(9−1)×(1.5×9)=32400
+Level 10: 300×(10−1)×(1.5×10)=40500
+Level 11: 300×(11−1)×(1.5×11)=49500
+Level 12: 300×(12−1)×(1.5×12)=59400
+Level 13: 300×(13−1)×(1.5×13)=70200
+Level 14: 300×(14−1)×(1.5×14)=81900
+Level 15: 300×(15−1)×(1.5×15)=94500
+Level 16: 300×(16−1)×(1.5×16)=108000
+Level 17: 300×(17−1)×(1.5×17)=122400
+Level 18: 300×(18−1)×(1.5×18)=137700
+Level 19: 300×(19−1)×(1.5×19)=153900
+Level 20: 300×(20−1)×(1.5×20)=171000
 
 
 
