@@ -1,10 +1,11 @@
-﻿namespace SlapBott.Core.Commands { 
+﻿namespace SlapBott.Core.Commands
+{
 
 
     using Discord.Interactions;
     using InteractionFramework;
     using MediatR;
-    using SlapBott.Services;
+    using SlapBott.Services.Implmentations;
     using SlapBott.Services.Notifactions;
     using System.Reflection.Metadata;
 

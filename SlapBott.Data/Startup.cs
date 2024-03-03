@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SlapBott.Data;
 using SlapBott.Data.Models;
-using Slappbott.Data;
 
-namespace Slapbott.Data { 
+namespace Slapbott.Data
+{
 
     public class Startup
     {

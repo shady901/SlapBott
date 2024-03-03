@@ -1,21 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlapBott.Data.Models;
+using SlapBott.Services.Combat.Models;
 
-namespace Slappbott.Data
+namespace SlapBott.Data
 {
-    public class SlapbottDbContext: DbContext
+    public class SlapbottDbContext : DbContext
     {
         public DbSet<Registration> User { get; set; }
         public DbSet<Character> Character { get; set; }
-        public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options) { 
-        
+        public DbSet<CombatState> CombatStates { get; set; }
+        public DbSet<Enemy> Enemies { get; set; }
+
+        public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
+        {
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
+        {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Character>()
-                        .HasOne<Registration>(c => c.Registration)
+                        .HasOne(c => c.Registration)
                         .WithMany(r => r.UserCharacters)
                         .HasForeignKey(r => r.DiscordID);
 

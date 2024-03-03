@@ -1,11 +1,11 @@
 ﻿
 using MediatR;
 using Moq;
-using SlapBot.Services;
 using SlapBott.Data.Models;
 using SlapBott.Services;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
+using SlapBott.Services.Implmentations;
 
 namespace SlapBottTests.Services
 {

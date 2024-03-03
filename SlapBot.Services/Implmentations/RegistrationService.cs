@@ -3,22 +3,22 @@ using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
 using SlapBott.Services.Dtos;
 
-namespace SlapBott.Services
+namespace SlapBott.Services.Implmentations
 {
     public class RegistrationService
     {
 
         private RegistrationRepositry? _registrationRepositry { get; set; }
-        public RegistrationService(RegistrationRepositry repo) 
+        public RegistrationService(RegistrationRepositry repo)
         {
-             _registrationRepositry = repo;
+            _registrationRepositry = repo;
             //_mediator = mediator;
         }
 
-       
-        public string RegisterUser(ulong discordUserID, string username, int attempts = 0) 
+
+        public string RegisterUser(ulong discordUserID, string username, int attempts = 0)
         {
-            
+
             string msg = "U Already Have A Character";
 
             if (!CheckIfPlayerExists(discordUserID))
@@ -46,14 +46,14 @@ namespace SlapBott.Services
             return msg;
         }
 
-     
+
 
         public void SaveRegistration(Registration p)
         {
             _registrationRepositry.SaveRegistration(p);
         }
 
-        
+
 
         //checks if player exists within the DB based on a ulong Discord id that is gotten when a command called from discord 
         //players are shared across discord servers, and not tied to per server
@@ -65,8 +65,9 @@ namespace SlapBott.Services
         {
 
             var reg = GetUserByDiscordId(discordUserId);
-            
-            if(reg == null) { 
+
+            if (reg == null)
+            {
                 return false;
             }
 
@@ -81,7 +82,7 @@ namespace SlapBott.Services
 
         public int GetActiveCharacter(ulong discordUserID)
         {
-           return GetUserByDiscordId(discordUserID).ActiveCharacter;
+            return GetUserByDiscordId(discordUserID).ActiveCharacter;
 
         }
 

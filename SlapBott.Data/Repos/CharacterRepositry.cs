@@ -1,5 +1,5 @@
-﻿using SlapBott.Data.Models;
-using Slappbott.Data;
+﻿using SlapBott.Data;
+using SlapBott.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

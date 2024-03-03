@@ -15,11 +15,10 @@
     using InteractionFramework;
     using Microsoft.EntityFrameworkCore.Internal;
     using MediatR;
-    using SlapBott.Services;
     using SlapBott.Data.Repos;
     using SlapBott.Services.Contracts;
-    using SlapBot.Services;
     using SlapBott.Services.Notifactions;
+    using SlapBott.Services.Implmentations;
 
     public class Program
     {

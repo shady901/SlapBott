@@ -3,14 +3,14 @@ using Discord.Interactions;
 using InteractionFramework;
 using MediatR;
 using SlapBott.Data.Models;
-using SlapBott.Services;
 using SlapBott.Services.Dtos;
+using SlapBott.Services.Implmentations;
 using SlapBott.Services.Notifactions;
 using System.Reflection.Metadata;
 
 namespace SlapBott.Commands
 {
-  
+
     public class Attack : InteractionModuleBase<SocketInteractionContext>
     {
 
@@ -41,7 +41,7 @@ namespace SlapBott.Commands
             CharacterDto characterDto = new CharacterDto { Stats = new CombatStats() };
             characterDto = characterDto.FromCharacter(_characterService.GetCharacterByID(_registrationService.GetActiveCharacter(userid)));
 
-            string msg = _attackService.AssignAttack(characterDto, input);
+            string msg = _attackService.AssignAttack(characterDto, Context.Channel.Id, input );
 
             try
             {

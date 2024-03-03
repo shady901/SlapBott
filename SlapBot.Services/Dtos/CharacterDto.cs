@@ -15,7 +15,7 @@ namespace SlapBott.Services.Dtos
 
        public CharacterDto FromCharacter(Character character)
         {
-            return new CharacterDto { Stats = character.stats }; 
+            return new CharacterDto { Stats =character.CombatStats }; 
         }
 
         

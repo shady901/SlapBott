@@ -17,8 +17,8 @@ namespace SlapBott.Data.Models
 
         public ulong CharExp { get; set; }
         public int level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
-        public List<Ailments> ailments { get; set; }
-        public List<Buff> Buffs { get; set; }
+     //   public List<Ailments> ailments { get; set; }
+     //   public List<Buff> Buffs { get; set; }
         public CombatStats CombatStats;
         public SubClass CharacterClass { get; set; }
         public ICollection<Equipment> Equiped { get; set; }
