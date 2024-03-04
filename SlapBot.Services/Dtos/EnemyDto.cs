@@ -1,5 +1,7 @@
-﻿using SlapBott.Data.Models;
+﻿using SlapBott.Data.Enums;
+using SlapBott.Data.Models;
 using SlapBott.Services.Combat.Models;
+using SlapBott.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +10,19 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {
-    public class EnemyDto
+    public class EnemyDto: Target ,ITarget
     {
-        public int Id { get; set; }
+
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public Stats Stats { get; set; }
-    
+       
 
-        public Dictionary<string, Skill> Skills { get; set; }
+        //public void ApplyDamage(int damage, StatType elementalType)
+        //{
+            
+        //}
+
         public EnemyDto FromEnemy(Enemy enemy)
         {
             return new EnemyDto

@@ -1,5 +1,6 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
+using SlapBott.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {
-    public class CharacterDto
+    public class CharacterDto : Target, ITarget
     {
 
 
         public bool HasLeveled { get; set; } = false;
-        public int Id { get; set; }
+       
         public int DiscordID { get; set; }
         //public Stats Stats { get; set; }
 
@@ -23,11 +24,11 @@ namespace SlapBott.Services.Dtos
         public int level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
         //   public List<Ailments> ailments { get; set; }
         //   public List<Buff> Buffs { get; set; }
-        public Stats Stats;
+
         public SubClass CharacterClass { get; set; }
         //equipement inventory starts at id of 
         public Inventory Inventory { get; set; }
-        public Dictionary<int, Skill> Skills { get; set; }
+
         public CharacterDto FromCharacter(Character character)
         {
             return new CharacterDto { Stats = character.Stats };
@@ -120,5 +121,10 @@ namespace SlapBott.Services.Dtos
 
             return damage;
         }
+
+        //public void ApplyDamage(int damage, StatType elementalType)
+        //{
+            
+        //}
     }
 }

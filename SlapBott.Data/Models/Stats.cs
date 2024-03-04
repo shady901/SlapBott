@@ -50,6 +50,36 @@ namespace SlapBott.Data.Models
             get => stats[StatType.SpellPower]; 
             set => stats[StatType.SpellPower] = value; 
         }
+        public int ChaosResistance
+        {
+            get => stats[StatType.ChaosResistance];
+            set => stats[StatType.ChaosResistance] = value;
+        }
+
+        public int FireResistance
+        {
+            get => stats[StatType.FireResistance];
+            set => stats[StatType.FireResistance] = value;
+        }
+
+        public int PhysicalResistance
+        {
+            get => stats[StatType.PhysicalResistance];
+            set => stats[StatType.PhysicalResistance] = value;
+        }
+
+        public int FrostResistance
+        {
+            get => stats[StatType.FrostResistance];
+            set => stats[StatType.FrostResistance] = value;
+        }
+        public int LightningResistance
+        {
+            get => stats[StatType.LightningResistance];
+            set => stats[StatType.LightningResistance] = value;
+        }
+
+
 
 
         public Stats()
@@ -65,8 +95,11 @@ namespace SlapBott.Data.Models
                {StatType.MaxHealth,0},
                {StatType.Health,0},
                {StatType.AttackDamage,0},
-
-
+               {StatType.ChaosResistance,0},
+               {StatType.FireResistance,0},
+               {StatType.PhysicalResistance,0},
+               {StatType.FrostResistance,0},
+               {StatType.LightningResistance,0},
                {StatType.SpellPower,0},
                {StatType.PhysicalDamage,0},
                {StatType.ElementalDamage,0},

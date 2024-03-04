@@ -40,10 +40,12 @@ namespace SlapBott.Services.Implmentations
         {
             _combatManager.GetStateByChannelId(channelID);
         }
+
+
         public string AttackRaid(CharacterDto characterDto, Skill skill,int Target)
         {
-
-            _combatManager.PlayerTurn(characterDto, skill, Target);
+           EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
+            _combatManager.PlayerTurn(characterDto, skill, myTarget);
             _combatManager.SaveState();
             
 
@@ -51,6 +53,12 @@ namespace SlapBott.Services.Implmentations
             return "this is my raid results";
 
 
+
+        }
+        public void BossAttack()
+        {
+            
+            //get play
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Combat.Models;
+using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
 using System;
 using System.Collections.Generic;
@@ -56,21 +57,32 @@ namespace SlapBott.Services.Implmentations
 
             return _enemyService.GetEnemyByID(ID);
         }
-        public void PlayerTurn(CharacterDto character, Skill skill, int Target)
+        public void PlayerTurn(CharacterDto character, Skill skill, string Target)
         {
-            //get skill stats, scaling and stattype
-            //get those stats from character and items
-            CalculateDamageOfSkill(character, skill);
+            // buffs and afflictions not implemented in turns  //apply any retaliation(thorns, or debufs) to player
+
+            //EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
 
 
+            ApplyDamage(GetStatTypeByElementalType(skill.ElementalType),CalculateDamageOfSkill(character, skill), myTarget);
+           
             
-            //calc skill off char, modify based on effects/buffs
-            //Compare dodge againsted acc
-            //apply skill to target
-            //apply buffs to player
-            //apply afflictions and debufs to target
-            //apply any retaliation(thorns, or debufs) to player
+           
+           // _enemyService.SaveEnemy(myTarget);
             //end turn 
+            // if its not a raid boss begin enemy turn 
+
+
+
+        }
+        public void EnemyTurn(CharacterDto character, Skill skill, string Target)
+        {
+            
+           
+
+           
+
+           //end turn 
             // if its not a raid boss begin enemy turn 
 
 
@@ -78,19 +90,41 @@ namespace SlapBott.Services.Implmentations
         }
         public int CalculateDamageOfSkill(CharacterDto character, Skill skill ) 
         {
-            //attack dmg, each stat*(stats per type, ratio per type )
-            //int damage = (int)(character.GetCombinedStat(StatType.Dexterity) * skill.StatTypeRatio[StatType.Dexterity]);
-            //damage +=(int)(character.GetCombinedStat(StatType.Strength) * skill.StatTypeRatio[StatType.Strength]);
-            //damage += (int)(character.GetCombinedStat(StatType.Intelligence) * skill.StatTypeRatio[StatType.Intelligence]);
+           
+            //apply buffs and debuffs of the player when we have set themup
 
+
+            // attack base dmg + stat for skill * elemental damage %
             int damage = character.CalculateBaseStatDamageFor(skill) + character.GetCombinedStat(StatType.AttackDamage);
-            damage = damage * character.GetCombinedStat(skill);
+            damage = damage * character.GetCombinedStat(skill.GetSkillStatTypeByElement());
 
             return damage;
             
         }
-
-
+        public void ApplyDamage<T>(StatType elementalType, int damage, T target) where T : ITarget
+        {
+            target.ApplyDamage(damage, elementalType);
+         
+        }
+        public StatType GetStatTypeByElementalType(ElementalType elementalType)
+        {
+            switch (elementalType)
+            {
+              
+                case ElementalType.Fire:
+                    return StatType.FireResistance;
+                case ElementalType.Frost:
+                    return StatType.FrostResistance;
+                case ElementalType.Lightning:
+                    return StatType.LightningResistance;
+                case ElementalType.Physical:
+                    return StatType.PhysicalResistance;
+                case ElementalType.Chaos:
+                    return StatType.ChaosResistance;
+                default:
+                    return StatType.none;
+            }
+        }
 
 
     }

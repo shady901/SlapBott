@@ -16,7 +16,11 @@ namespace SlapBott.Data.Enums
         CritChance,
         Health,
         MaxHealth,
-
+        FireResistance,
+        FrostResistance,
+        LightningResistance,
+        PhysicalResistance,
+        ChaosResistance,
 
 
         //Modifiers
