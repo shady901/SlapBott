@@ -15,7 +15,7 @@ namespace SlapBott.Services.Dtos
         public string Name { get; set; }
         public string Description { get; set; }
         public Stats Stats { get; set; }
-        public CombatStats CStats { get; set; }
+    
 
         public Dictionary<string, Skill> Skills { get; set; }
         public EnemyDto FromEnemy(Enemy enemy)
@@ -26,7 +26,7 @@ namespace SlapBott.Services.Dtos
                 Name = enemy.Name,
                 Description = enemy.Description,
                 Stats = enemy.Stats,
-                CStats = enemy.CStats,
+           
             };
         }
         public Enemy ToEnemy(Enemy? enemy = null)
@@ -36,7 +36,7 @@ namespace SlapBott.Services.Dtos
             enemy.Name = Name;
             enemy.Description = Description;
             enemy.Stats = Stats;
-            enemy.CStats = CStats;
+            
             return enemy;
         }
     }

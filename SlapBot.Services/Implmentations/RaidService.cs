@@ -43,9 +43,9 @@ namespace SlapBott.Services.Implmentations
         public string AttackRaid(CharacterDto characterDto, Skill skill,int Target)
         {
 
-            _combatManager.Turn(characterDto, skill, Target);
+            _combatManager.PlayerTurn(characterDto, skill, Target);
             _combatManager.SaveState();
-
+            
 
 
             return "this is my raid results";

@@ -19,9 +19,10 @@ namespace SlapBott.Data.Models
         public int level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
      //   public List<Ailments> ailments { get; set; }
      //   public List<Buff> Buffs { get; set; }
-        public CombatStats CombatStats;
+        public Stats Stats;
+        public Inventory Inventory;
         public SubClass CharacterClass { get; set; }
-        public ICollection<Equipment> Equiped { get; set; }
+       
         
         public Character()
         {
@@ -31,27 +32,7 @@ namespace SlapBott.Data.Models
 
 
         }
-        public Equipment GetEquipmentBySlot(EquipType d)
-        {   
-            return Equiped.First(e => e.Type == d);
-        }
-        /// <summary>
-        /// ID is ItemID
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns>an equiment</returns>
-        public Equipment GetEquipmentByItemID(int ID) 
-        { 
-            return Equiped.First(e=>e.ItemID == ID);
-        }
-        public void AddExp(int exp)
-        {
-
-            var oldlevel = level;
-            CharExp += (ulong)exp;
-          
-            HasLeveled = oldlevel != level;
-        }
+      
         
     }
 }

@@ -13,8 +13,7 @@ namespace SlapBott.Services.Dtos
     {
 
         public int Id { get; set; }
-           public ulong ChannelID { get; set; }
-      
+        public ulong ChannelID { get; set; }      
         public bool IsPlayerTurn { get; set; }
         public IEnumerable<int> CharcterIds { get; set; }
         public IEnumerable<int> EnemyIds { get; set; }

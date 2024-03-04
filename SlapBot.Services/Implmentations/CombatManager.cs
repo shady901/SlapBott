@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Models;
+﻿using SlapBott.Data.Enums;
+using SlapBott.Data.Models;
 using SlapBott.Services.Combat.Models;
 using SlapBott.Services.Dtos;
 using System;
@@ -59,7 +60,12 @@ namespace SlapBott.Services.Implmentations
         {
             //get skill stats, scaling and stattype
             //get those stats from character and items
-            //calc skill off char, modify based on effects
+            CalculateDamageOfSkill(character, skill);
+
+
+            
+            //calc skill off char, modify based on effects/buffs
+            //Compare dodge againsted acc
             //apply skill to target
             //apply buffs to player
             //apply afflictions and debufs to target
@@ -70,7 +76,19 @@ namespace SlapBott.Services.Implmentations
 
 
         }
+        public int CalculateDamageOfSkill(CharacterDto character, Skill skill ) 
+        {
+            //attack dmg, each stat*(stats per type, ratio per type )
+            //int damage = (int)(character.GetCombinedStat(StatType.Dexterity) * skill.StatTypeRatio[StatType.Dexterity]);
+            //damage +=(int)(character.GetCombinedStat(StatType.Strength) * skill.StatTypeRatio[StatType.Strength]);
+            //damage += (int)(character.GetCombinedStat(StatType.Intelligence) * skill.StatTypeRatio[StatType.Intelligence]);
 
+            int damage = character.CalculateBaseStatDamageFor(skill) + character.GetCombinedStat(StatType.AttackDamage);
+            damage = damage * character.GetCombinedStat(skill);
+
+            return damage;
+            
+        }
 
 
 
