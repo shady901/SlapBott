@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlapBott.Data.Models
+namespace SlapBott.Services.Contracts
 {
-    public class RaidBoss : Boss
+    public interface IPlayerCharacterCreation
     {
-    
 
-       
+       string CreateCharacter(ulong DiscordID);
 
     }
 }

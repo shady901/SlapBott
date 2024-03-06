@@ -19,7 +19,7 @@ namespace SlapBott.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Character>()
+            modelBuilder.Entity<PlayerCharacter>()
                         .HasOne(c => c.Registration)
                         .WithMany(r => r.UserCharacters)
                         .HasForeignKey(r => r.DiscordID);

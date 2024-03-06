@@ -57,11 +57,15 @@ namespace SlapBott.Services.Implmentations
 
             return _enemyService.GetEnemyByID(ID);
         }
-        public void PlayerTurn(CharacterDto character, Skill skill, string Target)
+        public void Turn(CharacterDto character, Skill skill, string Target)
         {
+            EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
+
             // buffs and afflictions not implemented in turns  //apply any retaliation(thorns, or debufs) to player
 
-            //EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
+
+
+
 
 
             ApplyDamage(GetStatTypeByElementalType(skill.ElementalType),CalculateDamageOfSkill(character, skill), myTarget);
@@ -75,19 +79,7 @@ namespace SlapBott.Services.Implmentations
 
 
         }
-        public void EnemyTurn(CharacterDto character, Skill skill, string Target)
-        {
-            
-           
-
-           
-
-           //end turn 
-            // if its not a raid boss begin enemy turn 
-
-
-
-        }
+        
         public int CalculateDamageOfSkill(CharacterDto character, Skill skill ) 
         {
            

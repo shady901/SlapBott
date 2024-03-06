@@ -11,14 +11,12 @@
 
     public class JoinBot : InteractionModuleBase<SocketInteractionContext>
     {
-        // Dependencies can be accessed through Property injection, public properties with public setters will be set by the service provider
        
         private readonly RegistrationService _registrationService;
         
         private InteractionHandler _handler;
         public InteractionService Commands { get; set; }
-        // Constructor injection is also a valid way to access the dependencies
-        public JoinBot(InteractionHandler handler, RegistrationService registrationService)
+         public JoinBot(InteractionHandler handler, RegistrationService registrationService)
         {
             _handler = handler;
             _registrationService = registrationService;

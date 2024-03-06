@@ -16,15 +16,20 @@ namespace SlapBott.Services.Combat.Models
         public int Id;
         public int CombatStateId;
         public int CharacterId;
-
+        public bool HadTurn;
+        public bool IsActive;
 
         [ForeignKey("CharacterId")]
-        public virtual Character Character;
+        public virtual Character Character { get; set; }
 
         [ForeignKey("CombatStateId")]
-        public virtual CombatState CombatState;
+        public virtual CombatState CombatState { get; set; }
 
-
+    }
+    public class CombatStateEnemies
+    { 
+    
+    
     }
     public class CombatState
     {
@@ -33,16 +38,19 @@ namespace SlapBott.Services.Combat.Models
         public ulong ChannelID { get; set; }
         public bool IsPlayerTurn { get; set; }
 
+
+
+
         public int CurrentTurnId { get; set; }
 
-
-        [ForeignKey("CurrentTurnId")]
-        public virtual Turn CurrentTurn { get; set; }
-
-
+        [ForeignKey("CurrentTurnId,Id")] 
         public IEnumerable<Turn> Turns { get; set; }
+
+
+
+
         public IEnumerable<CombatStateCharacter> Charcters { get; set; }
-        public IEnumerable<int> EnemyIds { get; set; }
+        public IEnumerable<CombatStateEnemies> Enemies { get; set; }
         
         public CombatState() 
         {

@@ -1,5 +1,6 @@
 ﻿using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
+using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,7 @@ namespace SlapBott.Services.Implmentations
 
             return _characterRepositry.GetByCharacterID(id);
         }
+
+      
     }
 }
