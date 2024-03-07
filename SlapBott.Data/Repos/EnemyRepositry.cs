@@ -1,12 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SlapBott.Data.Models;
-using SlapBott.Services.Combat.Models;
-using Slappbott.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SlapBott.Data.Models;
+
 
 
 
@@ -24,7 +17,7 @@ namespace SlapBott.Data.Repos
         public Enemy GetEnemyByID(int Id)
         {
 
-            Enemy enemy = _dbContext.Enemies.First(enemy => enemy.Id == Id);
+            Enemy enemy = null; // _dbContext.Enemies.First(enemy => enemy.Id == Id);
 
             return enemy;
         }
@@ -35,15 +28,15 @@ namespace SlapBott.Data.Repos
         }
         public void AddOrUpdateEnemy(Enemy enemy)
         {
-            var meth = _dbContext.Enemies.Update;
+            //var meth = null;//_dbContext.Enemies.Update;
 
 
-            if (enemy.Id <= 0) // not in the database
-            {
-                meth = _dbContext.Enemies.Add;
-            }
+            //if (enemy.Id <= 0) // not in the database
+            //{
+            //    meth = _dbContext.Enemies.Add;
+            //}
 
-            meth(enemy);
+            //meth(enemy);
 
         }
     }

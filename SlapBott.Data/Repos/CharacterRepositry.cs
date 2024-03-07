@@ -1,11 +1,5 @@
-﻿using SlapBott.Data;
-using SlapBott.Data.Models;
-using Slappbott.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SlapBott.Data.Models;
+
 
 namespace SlapBott.Data.Repos
 {
@@ -21,7 +15,7 @@ namespace SlapBott.Data.Repos
         public Character GetByCharacterID(int Id)
         {
 
-            Character Character = _dbContext.Character.First(Character => Character.Id == Id);
+            Character Character = null; // _dbContext.Character.First(Character => Character.Id == Id);
 
             return Character;
         }

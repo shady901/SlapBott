@@ -1,12 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SlapBott.Data;
-using SlapBott.Data.Models;
-using Slappbott.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SlapBott.Data.Models;
 
 namespace SlapBott.Data.Repos
 {
@@ -25,9 +17,9 @@ namespace SlapBott.Data.Repos
         public Registration GetByDiscordID(ulong discordId)
         {
 
-            var user = _dbContext.User.FirstOrDefault(User => User.DiscordId == discordId);
+            //nnjmjm1var user = _dbContext.User.FirstOrDefault(User => User.DiscordId == discordId);
 
-            return user;
+            return null;
         }
 
         public void SaveRegistration(Registration reg)
@@ -37,15 +29,15 @@ namespace SlapBott.Data.Repos
         }
         public void AddOrUpdateRegistration(Registration reg)
         {
-            var meth = _dbContext.User.Update;
+            //var meth = _dbContext.User.Update;
             
 
-            if (reg.DiscordId <= 0) // not in the database
-            {
-                meth = _dbContext.User.Add;
-            }
+            //if (reg.DiscordId <= 0) // not in the database
+            //{
+            //    meth = _dbContext.User.Add;
+            //}
 
-            meth(reg);
+            //meth(reg);
 
         }
 

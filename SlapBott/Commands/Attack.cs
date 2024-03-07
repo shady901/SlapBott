@@ -1,12 +1,9 @@
-﻿using Discord;
-using Discord.Interactions;
+﻿using Discord.Interactions;
 using InteractionFramework;
-using MediatR;
 using SlapBott.Data.Models;
 using SlapBott.Services.Dtos;
 using SlapBott.Services.Implmentations;
-using SlapBott.Services.Notifactions;
-using System.Reflection.Metadata;
+
 
 namespace SlapBott.Commands
 {
@@ -38,7 +35,7 @@ namespace SlapBott.Commands
            
             var userid = Context.User.Id;
             var userName = Context.User.Username;
-            CharacterDto characterDto = new CharacterDto { Stats = new CombatStats() };
+            CharacterDto characterDto = new CharacterDto { Stats = new Stats() };
             characterDto = characterDto.FromCharacter(_characterService.GetCharacterByID(_registrationService.GetActiveCharacter(userid)));
 
             string msg = _attackService.AssignAttack(characterDto, Context.Channel.Id, input );

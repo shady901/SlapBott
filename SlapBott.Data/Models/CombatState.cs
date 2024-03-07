@@ -16,7 +16,6 @@ namespace SlapBott.Services.Combat.Models
         public int Id;
         public int CombatStateId;
         public int CharacterId;
-        public bool HadTurn;
         public bool IsActive;
 
         [ForeignKey("CharacterId")]
@@ -26,43 +25,28 @@ namespace SlapBott.Services.Combat.Models
         public virtual CombatState CombatState { get; set; }
 
     }
-    public class CombatStateEnemies
-    { 
-    
-    
-    }
+
     public class CombatState
     {
 
         public int Id { get; set; }
         public ulong ChannelID { get; set; }
-        public bool IsPlayerTurn { get; set; }
-
-
-
 
         public int CurrentTurnId { get; set; }
 
+        //private ICollection<CombatStateCharacter> _enemies { get; set; } //this will have 1 or n number of enemy characters
+
+
+
         [ForeignKey("CurrentTurnId,Id")] 
-        public IEnumerable<Turn> Turns { get; set; }
+        public ICollection<Turn> Turns { get; set; }
 
-
-
-
-        public IEnumerable<CombatStateCharacter> Charcters { get; set; }
-        public IEnumerable<CombatStateEnemies> Enemies { get; set; }
-        
+        //public ICollection<CombatStateCharacter> Characters { get; set; } // this will have active and non active Characters in it
+        //public ICollection<CombatStateCharacter> Enemies { get => _enemies.Where(x=> x.Character is Enemy).ToList(); set => _enemies.Add((CombatStateCharacter)value); } //this will have 1 or n number of enemy characters        
         public CombatState() 
         {
-            CharcterIds = new List<CombatStateCharacter>();
-            EnemyIds = new List<int>();
+
         }
-        public CombatState(IEnumerable<int> playerCharacters, IEnumerable<int> enemyCharacters) 
-        {
-            CharcterIds = playerCharacters;
-            EnemyIds = enemyCharacters;
-        }
-        //public List<Effects> effects { get; set; }
 
 
     }

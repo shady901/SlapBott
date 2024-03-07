@@ -9,10 +9,10 @@ namespace SlapBott.Data.Models
         public required ulong DiscordId { get; set; }
         public required string UserName { get; set; }
 
-        public virtual List<PlayerCharacter> UserCharacters { get; set; } = new List<PlayerCharacter>();
-        public int ActiveCharacter { get; set; }
+        public virtual List<PlayerCharacter> PlayerCharacters { get; set; } = new List<PlayerCharacter>();
+        public int ActiveCharacterId { get; set; }
 
-        [ForeignKey ("ActiveCharacter")]
+        [ForeignKey ("ActiveCharacterId")]
         public virtual Character? Character { get; set; }
 
 

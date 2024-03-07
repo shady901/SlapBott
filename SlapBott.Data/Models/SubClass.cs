@@ -9,7 +9,7 @@ namespace SlapBott.Data.Models
     public class SubClass: CharacterClass
     {
 
-
+        public int Id { get; set; }
 
     }
 }

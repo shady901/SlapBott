@@ -82,7 +82,7 @@ namespace SlapBott.Services.Implmentations
 
         public int GetActiveCharacter(ulong discordUserID)
         {
-            return GetUserByDiscordId(discordUserID).ActiveCharacter;
+            return GetUserByDiscordId(discordUserID).ActiveCharacterId;
 
         }
 

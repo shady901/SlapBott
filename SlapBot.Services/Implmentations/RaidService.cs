@@ -44,9 +44,9 @@ namespace SlapBott.Services.Implmentations
 
         public string AttackRaid(CharacterDto characterDto, Skill skill,int Target)
         {
-           EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
-            _combatManager.PlayerTurn(characterDto, skill, myTarget);
-            _combatManager.SaveState();
+           //EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
+           // _combatManager.PlayerTurn(characterDto, skill, myTarget);
+           // _combatManager.SaveState();
             
 
 

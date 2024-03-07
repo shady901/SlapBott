@@ -1,14 +1,8 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
-using SlapBott.Services.Combat.Models;
+
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace SlapBott.Services.Implmentations
 {
     public class CombatManager

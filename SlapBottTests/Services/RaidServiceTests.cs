@@ -1,6 +1,7 @@
 ﻿
-using SlapBot.Services;
+
 using SlapBott.Services.Contracts;
+using SlapBott.Services.Implmentations;
 
 namespace SlapBottTests.Services
 {
@@ -13,7 +14,7 @@ namespace SlapBottTests.Services
         [Fact]
         void ShouldReturnJoinedMessageWhenUserJoinsRaid()
         {
-            IRaidService raidService = new RaidService();
+            IRaidService raidService = new RaidService(null);
 
             string result = raidService.JoinRaid(userId, channelId);
 
@@ -24,7 +25,7 @@ namespace SlapBottTests.Services
         [Fact]
         void ShouldThrowExceptionIfUserDoesntExist()
         {
-            IRaidService raidService = new RaidService();
+            IRaidService raidService = new RaidService(null);
 
             Assert.Throws<Exception>(() => { raidService.JoinRaid(userId, channelId); });
         }

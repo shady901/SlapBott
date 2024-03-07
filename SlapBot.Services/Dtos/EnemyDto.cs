@@ -1,12 +1,5 @@
-﻿using SlapBott.Data.Enums;
-using SlapBott.Data.Models;
-using SlapBott.Services.Combat.Models;
+﻿using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {

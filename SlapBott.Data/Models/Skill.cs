@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace SlapBott.Data.Models
         public required string Name { get; set; }
         public string? Description { get; set; }
         public ElementalType ElementalType { get; set; }
+
         public Dictionary<StatType,double> StatTypeRatio { get; set; }
         //buffs debufs
 
@@ -23,7 +25,6 @@ namespace SlapBott.Data.Models
         {
             switch (ElementalType)
             {
-               
                 case ElementalType.Fire:
                     return StatType.ElementalDamage;
                 case ElementalType.Frost:

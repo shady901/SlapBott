@@ -1,12 +1,4 @@
-﻿using SlapBott.Services.Combat.Models;
-using SlapBott.Services.Contracts;
-using SlapBott.Services.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SlapBott.Services.Dtos;
 using SlapBott.Data.Repos;
 
 namespace SlapBott.Services.Implmentations

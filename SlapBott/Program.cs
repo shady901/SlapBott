@@ -1,20 +1,12 @@
 ﻿namespace SlapBott.Core
 {
     using Discord;
-    using Discord.Commands;
     using Discord.WebSocket;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using System.Reflection;
     using Slapbott.Data;
-    using System.Resources;
-    using Slappbott.Data;
-    using Microsoft.EntityFrameworkCore;
-    using Discord.Interactions.Builders;
     using Discord.Interactions;
     using InteractionFramework;
-    using Microsoft.EntityFrameworkCore.Internal;
-    using MediatR;
     using SlapBott.Data.Repos;
     using SlapBott.Services.Contracts;
     using SlapBott.Services.Notifactions;

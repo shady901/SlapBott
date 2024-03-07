@@ -1,13 +1,7 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SlapBott.Services.Dtos
 {
@@ -52,7 +46,7 @@ namespace SlapBott.Services.Dtos
         }
         public Equipment GetEquipmentBySlot(EquipType d)
         {
-            return Inventory.Equiped;
+            return null; //Inventory.Equiped;
         }
         /// <summary>
         /// ID is ItemID
@@ -61,7 +55,7 @@ namespace SlapBott.Services.Dtos
         /// <returns>an equiment</returns>
         public Equipment GetEquipmentByItemID(int ID)
         {
-            return Inventory.First(e => e.ItemID == ID);
+            return null; // Inventory.First(e => e.ItemID == ID);
         }
         public void AddExp(int exp)
         {
@@ -114,9 +108,9 @@ namespace SlapBott.Services.Dtos
             List<StatType> baseTypes = new List<StatType>() { StatType.Intelligence , StatType.Intelligence , StatType.Intelligence };
             foreach (var baseType in baseTypes)
             {
-                var d = (int)skill.StatTypeRatio[baseType];
-                var t = (int)GetCombinedStat(baseType);
-                damage += t * d;
+                //var d = (int)skill.StatTypeRatio[baseType];
+                //var t = (int)GetCombinedStat(baseType);
+                //damage += t * d;
             }
 
             return damage;

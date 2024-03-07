@@ -1,12 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SlapBott.Data.Models;
-using SlapBott.Services.Combat.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SlapBott.Services.Combat.Models;
 
 namespace SlapBott.Services.Dtos
 {
@@ -18,18 +10,18 @@ namespace SlapBott.Services.Dtos
         public bool IsPlayerTurn { get; set; }
         public IEnumerable<CharacterDto> CharcterIds { get; set; }
         public IEnumerable<int> EnemyIds { get; set; }
-        public List<CharacterDto> Frontline => CharcterIds.Where(x => x.IsMelee).ToList();
-        public List<CharacterDto> Backline => CharcterIds.Where(x => x.IsRanged).ToList();
+        //public List<CharacterDto> Frontline => CharcterIds.Where(x => x.IsMelee).ToList();
+        //public List<CharacterDto> Backline => CharcterIds.Where(x => x.IsRanged).ToList();
 
         public CombatStateDto()
         {
-            CharcterIds = new List<int>();
-            EnemyIds = new List<int>();
+            //CharcterIds = new List<int>();
+            //EnemyIds = new List<int>();
         }
         public CombatStateDto(IEnumerable<int> playerCharacters, IEnumerable<int> enemyCharacters)
         {
-            CharcterIds = playerCharacters;
-            EnemyIds = enemyCharacters;
+            //CharcterIds = playerCharacters;
+            //EnemyIds = enemyCharacters;
         }
 
 
@@ -39,19 +31,19 @@ namespace SlapBott.Services.Dtos
             return new CombatStateDto
             {
                 Id = state.Id,
-                IsPlayerTurn = state.IsPlayerTurn,
-                CharcterIds = state.Charcters.Select(x => {
-                return (new CharacterDto().FromCharacter(x.Character));
-               })
-               ,
-               EnemyIds = state.EnemyIds
+                //IsPlayerTurn = state.IsPlayerTurn,
+               // CharcterIds = state.Charcters.Select(x => {
+               // return (new CharacterDto().FromCharacter(x.Character));
+               //})
+              
+               //EnemyIds = state.EnemyIds
             };
         }
         public CombatState ToCombatState(CombatState? combatState = null)
         {
 
             combatState.Id = Id;
-            combatState.IsPlayerTurn = IsPlayerTurn;
+            //combatState.IsPlayerTurn = IsPlayerTurn;
             return combatState;
         }
         //public List<Effects> effects { get; set; }

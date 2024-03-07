@@ -10,7 +10,7 @@ namespace SlapBott.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<SlapbottDbContext>();
 
-            optionsBuilder.UseSqlite(Properties.Resources.DbConnection);
+            optionsBuilder.UseNpgsql(Properties.Resources.DbConnection);
 
             return new SlapbottDbContext(optionsBuilder.Options);
         }
