@@ -14,9 +14,10 @@ namespace SlapBott.Data.Config
                 .WithMany(r => r.PlayerCharacters)
                 .HasForeignKey(r => r.DiscordID);
 
-
+        //    builder.ToTable<PlayerCharacter>("Character");
 
 
         }
+
     }
 }

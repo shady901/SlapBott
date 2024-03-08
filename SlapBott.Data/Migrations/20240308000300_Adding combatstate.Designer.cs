@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240307002858_Adding Registration")]
-    partial class AddingRegistration
+    [Migration("20240308000300_Adding combatstate")]
+    partial class Addingcombatstate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,44 @@ namespace SlapBott.Data.Migrations
                     b.ToTable("Character");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Character");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Enemy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("CharExp")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<int>("CharacterClassId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterClassId");
+
+                    b.ToTable("Enemies", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Enemy");
 
                     b.UseTphMappingStrategy();
                 });
@@ -172,6 +210,46 @@ namespace SlapBott.Data.Migrations
                     b.ToTable("CombatStates");
                 });
 
+            modelBuilder.Entity("SlapBott.Services.Combat.Models.EnemyCombatState", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CombatStateId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CombatStateId");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("EnemyCombatState");
+                });
+
+            modelBuilder.Entity("SlapBott.Services.Combat.Models.PlayerCharacterCombatState", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CombatStateId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ParticipantId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CombatStateId");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.ToTable("PlayerCharacterCombatState");
+                });
+
             modelBuilder.Entity("SlapBott.Services.Combat.Models.Turn", b =>
                 {
                     b.Property<int>("Id")
@@ -184,9 +262,6 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("CombatStateId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CurrentTurnId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TurnId")
@@ -213,7 +288,32 @@ namespace SlapBott.Data.Migrations
                     b.HasDiscriminator().HasValue("PlayerCharacter");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Boss", b =>
+                {
+                    b.HasBaseType("SlapBott.Data.Models.Enemy");
+
+                    b.HasDiscriminator().HasValue("Boss");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.RaidBoss", b =>
+                {
+                    b.HasBaseType("SlapBott.Data.Models.Boss");
+
+                    b.HasDiscriminator().HasValue("RaidBoss");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.SubClass", "CharacterClass")
+                        .WithMany()
+                        .HasForeignKey("CharacterClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CharacterClass");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Enemy", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.SubClass", "CharacterClass")
                         .WithMany()
@@ -254,6 +354,56 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Turn");
                 });
 
+            modelBuilder.Entity("SlapBott.Services.Combat.Models.EnemyCombatState", b =>
+                {
+                    b.HasOne("SlapBott.Services.Combat.Models.CombatState", "CombatState")
+                        .WithMany()
+                        .HasForeignKey("CombatStateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SlapBott.Services.Combat.Models.CombatState", null)
+                        .WithMany("Enemies")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SlapBott.Data.Models.Enemy", "Enemy")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CombatState");
+
+                    b.Navigation("Enemy");
+                });
+
+            modelBuilder.Entity("SlapBott.Services.Combat.Models.PlayerCharacterCombatState", b =>
+                {
+                    b.HasOne("SlapBott.Services.Combat.Models.CombatState", "CombatState")
+                        .WithMany()
+                        .HasForeignKey("CombatStateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SlapBott.Services.Combat.Models.CombatState", null)
+                        .WithMany("Characters")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+
+                    b.Navigation("CombatState");
+                });
+
             modelBuilder.Entity("SlapBott.Services.Combat.Models.Turn", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Attacker")
@@ -292,6 +442,10 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Services.Combat.Models.CombatState", b =>
                 {
+                    b.Navigation("Characters");
+
+                    b.Navigation("Enemies");
+
                     b.Navigation("Turns");
                 });
 

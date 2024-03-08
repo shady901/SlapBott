@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SlapBott.Data.Models
 {
-    public class Character
+    public  class Character
     {
      
         public bool HasLeveled { get; set; } =false;

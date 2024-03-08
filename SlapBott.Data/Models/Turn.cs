@@ -29,7 +29,6 @@ namespace SlapBott.Services.Combat.Models
         [ForeignKey("AttackerId")]
         public virtual Character Attacker { get; set; }
 
-        [ForeignKey("TurnId,CombatStateId")]
         public virtual CombatState CombatState { get; set; }
 
 

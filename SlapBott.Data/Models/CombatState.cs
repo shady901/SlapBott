@@ -10,21 +10,37 @@ using System.Threading.Tasks;
 namespace SlapBott.Services.Combat.Models
 {
 
-    public class CombatStateCharacter
-    {
 
+    public class ParticipantCombatState
+    {
         public int Id;
         public int CombatStateId;
-        public int CharacterId;
+        public int ParticipantId;
         public bool IsActive;
-
-        [ForeignKey("CharacterId")]
-        public virtual Character Character { get; set; }
-
         [ForeignKey("CombatStateId")]
         public virtual CombatState CombatState { get; set; }
 
+
     }
+
+    public class PlayerCharacterCombatState: ParticipantCombatState
+    {
+
+
+        [ForeignKey("ParticipantId")]
+        public virtual PlayerCharacter Character { get; set; }
+       
+    }
+
+    public class EnemyCombatState: ParticipantCombatState
+    {
+
+        [ForeignKey("ParticipantId")]
+        public virtual Enemy Enemy { get; set; }
+
+
+    }
+
 
     public class CombatState
     {
@@ -38,12 +54,15 @@ namespace SlapBott.Services.Combat.Models
 
 
 
-        [ForeignKey("CurrentTurnId,Id")] 
+        //[ForeignKey("CurrentTurnId,Id")] 
         public ICollection<Turn> Turns { get; set; }
 
-        //public ICollection<CombatStateCharacter> Characters { get; set; } // this will have active and non active Characters in it
-        //public ICollection<CombatStateCharacter> Enemies { get => _enemies.Where(x=> x.Character is Enemy).ToList(); set => _enemies.Add((CombatStateCharacter)value); } //this will have 1 or n number of enemy characters        
-        public CombatState() 
+        [ForeignKey("Id")]
+        public ICollection<PlayerCharacterCombatState> Characters { get; set; } // this will have active and non active Characters in it
+
+        [ForeignKey("Id")]
+        public ICollection<EnemyCombatState> Enemies { get; set;} //this will have 1 or n number of enemy characters        
+        public CombatState()
         {
 
         }

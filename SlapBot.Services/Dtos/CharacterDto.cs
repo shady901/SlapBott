@@ -29,7 +29,7 @@ namespace SlapBott.Services.Dtos
         }
         public Character ToCharacter(Character? character = null)
         {
-            return new Character { Stats = character.Stats };
+            return new PlayerCharacter { Stats = character.Stats };
         }
 
 

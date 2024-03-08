@@ -12,7 +12,7 @@ namespace SlapBott.Data.Config
                 .HasOne(x => x.CombatState)
                 .WithMany(x => x.Turns)
                 .HasPrincipalKey(x => new { x.CurrentTurnId, x.Id })
-                .HasForeignKey(x => new { x.TurnId, x.CombatStateId});
+                .HasForeignKey(x => new { x.TurnId, x.CombatStateId });
 
 
             builder.HasOne(x => x.Attacker)
