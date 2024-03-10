@@ -11,6 +11,8 @@
     using SlapBott.Services.Contracts;
     using SlapBott.Services.Notifactions;
     using SlapBott.Services.Implmentations;
+    using System;
+    using SlapBott.Data.Contracts;
 
     public class Program
     {
@@ -23,6 +25,7 @@
             AlwaysDownloadUsers = true,
         };
 
+   
         public static async Task Main(string[] args)
         {
             //_configuration = new ConfigurationBuilder()
@@ -36,9 +39,12 @@
                 .AddSingleton<DiscordSocketClient>()
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
                 .AddSingleton<InteractionHandler>()
+                .AddSingleton<ModalHandler>()
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<RegistrationRepositry>()
+                .AddSingleton<PlayerCharacterService>()
                 .AddSingleton<IRaidService, RaidService>();
+            
 
             _services.AddMediatR(options =>
             {
@@ -59,17 +65,29 @@
 
             client.Log += LogAsync;
             client.SlashCommandExecuted += Client_SlashCommandExecuted;
-
-            // Here we can initialize the service that will register and execute our commands
-            await _servicesProvider.GetRequiredService<InteractionHandler>()
+             client.ModalSubmitted += Client_ModalSubmitted;
+          
+                // Here we can initialize the service that will register and execute our commands
+                await _servicesProvider.GetRequiredService<InteractionHandler>()
                 .InitializeAsync();
 
             // Bot token can be provided from the Configuration object we set up earlier
             await client.LoginAsync(TokenType.Bot, Properties.Resources.Token);
             await client.StartAsync();
 
+           
+
             // Never quit the program until manually forced to.
             await Task.Delay(Timeout.Infinite);
+        }
+
+        private static async Task Client_ModalSubmitted(SocketModal modal)
+        {
+
+            ModalHandler modalHandler = new ModalHandler(_servicesProvider.GetService<PlayerCharacterService>());
+           string modalReply =  modalHandler.HandleSubmittedModal(modal);
+            await modal.RespondAsync(modalReply);
+         
         }
 
         private static Task Client_SlashCommandExecuted(SocketSlashCommand arg)

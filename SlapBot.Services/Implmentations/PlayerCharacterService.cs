@@ -9,17 +9,15 @@ namespace SlapBott.Services.Implmentations
 
 
 
-        //public string CreateCharacter(ulong DiscordID)
-        //{
-        //    base.Create(new PlayerCharacter()
-        //    {
-
-        //    });
-        //}
         public string CreateCharacter(ulong DiscordID)
         {
-            throw new NotImplementedException();
+            //base.Create(new PlayerCharacter()
+            //{
+               
+            //});
+            return null;
         }
+
     }
 
 
