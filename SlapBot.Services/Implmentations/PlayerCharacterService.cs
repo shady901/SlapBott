@@ -3,7 +3,7 @@ using SlapBott.Services.Contracts;
 
 namespace SlapBott.Services.Implmentations
 {
-    public class PlayerCharacterService : IPlayerCharacterCreation
+    public class PlayerCharacterService
     {
 
 

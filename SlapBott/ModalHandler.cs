@@ -8,6 +8,27 @@ using Discord.WebSocket;
 using SlapBott.Data.Contracts;
 using SlapBott.Data.Models;
 
+
+
+
+
+//var mb = new ModalBuilder()
+
+//.WithTitle("Create Your Character")
+//.WithCustomId("New_Character")
+//.AddTextInput("Race?", "Race_name", placeholder: "Elf")
+
+// .AddTextInput("Bio?", "Your_description", TextInputStyle.Paragraph,
+//"rusic high elf with dark blue eyes and long green hair");
+//  mb.Components.ActionRows.Add(firstrow);
+
+
+
+
+
+
+
+
 namespace SlapBott.Services.Implmentations
 {
     public class ModalHandler: IModalHandler
@@ -18,15 +39,15 @@ namespace SlapBott.Services.Implmentations
             _playerCharacterService = playerCharacterService;
         }
 
-     
+
 
         public string HandleSubmittedModal(SocketModal modal)
         {
-            
 
-            if (modal.Data.CustomId !=null)
+          
+            if (modal.Data.CustomId != null)
             {
-                 string customId = modal.Data.CustomId;
+                string customId = modal.Data.CustomId;
 
                 switch (customId)
                 {
@@ -46,14 +67,14 @@ namespace SlapBott.Services.Implmentations
         {
             List<SocketMessageComponentData> components = modal.Data.Components.ToList();
             // _playerCharacterService.CreateCharacter(modal);
-           string Race = components
-                .First(x => x.CustomId == "Race_name").Value;
+            string Race = components
+                 .First(x => x.CustomId == "Race_name").Value;
             string Bio = components
                 .First(x => x.CustomId == "Your_description").Value;
 
 
 
-            PlayerCharacterDto newChar = new PlayerCharacterDto() { };
+            //PlayerCharacterDto newChar = new PlayerCharacterDto() { };
             return "Your Character has been created";
         }
 

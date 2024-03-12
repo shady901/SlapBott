@@ -10,9 +10,9 @@ namespace SlapBott.Commands
     public class CreateCharacter : InteractionModuleBase<SocketInteractionContext>
     {
         // private IPlayerCharacterCreation? _characterCreationService;
-        private InteractionHandler _handler;
+        private InteractionHandler? _handler;
         public InteractionService Commands { get; set; }
-        public CreateCharacter(InteractionHandler handler) 
+        public CreateCharacter(InteractionHandler? handler) 
         {
             _handler = handler;
                // _characterCreationService = characterCreationService;
@@ -24,17 +24,33 @@ namespace SlapBott.Commands
         [SlashCommand("createnewcharacter", description: "Creates a New Character", ignoreGroupNames: false, runMode: RunMode.Async)]
         public async Task JoinBotAsync()
         {
-           
-         //   string msg = _characterCreationService.CreateCharacter(Context.User.Id);
-                var mb = new ModalBuilder()
-                .WithTitle("Create Your Character")
-                .WithCustomId("New Character")
-                .AddTextInput("Race?", "Race_name", placeholder: "Elf")
-                .AddTextInput("Bio?", "Your_description", TextInputStyle.Paragraph,
-                "rusic high elf with dark blue eyes and long green hair");
+
+            var em = new SelectMenuBuilder()
+           .WithPlaceholder("Select An option")
+           .WithCustomId("SelectClass")
+           .WithMinValues(1)
+           .WithMaxValues(1)
+           .AddOption("Elf", "elf", "Bonus Dex")
+           .AddOption("Human", "human", "Bonus Health and Armor");
+
+            Embed embed = new EmbedBuilder()
+                 .WithTitle("Chose Your Race")
+                 .WithDescription("Elf: Bonus to Dexterity(example)\n Human: Bonuses to Health and Armor")
+                .Build();
+            //ButtonBuilder testbutton = new ButtonBuilder()
+            //    .WithCustomId("testbutton")
+            //    .WithLabel("Attack")
+            //    .WithStyle(ButtonStyle.Primary);
+          
+            var builder = new ComponentBuilder()         
+             .WithSelectMenu(em);
+            
+
             try
             {
-                await Context.Interaction.RespondWithModalAsync(mb.Build());
+                await Context.Interaction.RespondAsync(embed:embed,components:builder.Build());
+             
+              
 
             }
             catch (Exception ex)

@@ -65,7 +65,8 @@
 
             client.Log += LogAsync;
             client.SlashCommandExecuted += Client_SlashCommandExecuted;
-             client.ModalSubmitted += Client_ModalSubmitted;
+            client.SelectMenuExecuted += Client_SelectMenuExecuted;
+            client.ModalSubmitted += Client_ModalSubmitted;
           
                 // Here we can initialize the service that will register and execute our commands
                 await _servicesProvider.GetRequiredService<InteractionHandler>()
@@ -81,13 +82,21 @@
             await Task.Delay(Timeout.Infinite);
         }
 
-        private static async Task Client_ModalSubmitted(SocketModal modal)
+        private static Task Client_SelectMenuExecuted(SocketMessageComponent arg)
+        {
+            Console.WriteLine(arg.Data.CustomId);
+            SelectMenuHandler handler= new SelectMenuHandler(_servicesProvider.GetService<PlayerCharacterService>());
+            handler.HandleSubmittedSelectMenu(arg);
+            return Task.CompletedTask;
+        }
+
+        private static Task Client_ModalSubmitted(SocketModal modal)
         {
 
             ModalHandler modalHandler = new ModalHandler(_servicesProvider.GetService<PlayerCharacterService>());
-           string modalReply =  modalHandler.HandleSubmittedModal(modal);
-            await modal.RespondAsync(modalReply);
-         
+            string modalReply = modalHandler.HandleSubmittedModal(modal);
+            return Task.CompletedTask;
+
         }
 
         private static Task Client_SlashCommandExecuted(SocketSlashCommand arg)
