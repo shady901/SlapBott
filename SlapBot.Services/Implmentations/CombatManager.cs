@@ -9,7 +9,6 @@ namespace SlapBott.Services.Implmentations
     {
         private CombatStateService _combatStateService;
         private CombatStateDto? _state = new();
-        private CharacterService? _characterService;
         private EnemyService? _enemyService;
         public CombatManager(CombatStateService combatStateService, EnemyService enemyService)
         {  
@@ -51,7 +50,7 @@ namespace SlapBott.Services.Implmentations
 
             return _enemyService.GetEnemyByID(ID);
         }
-        public void Turn(CharacterDto character, Skill skill, string Target)
+        public void Turn(PlayerCharacterDto character, Skill skill, string Target)
         {
             EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
 
@@ -74,7 +73,7 @@ namespace SlapBott.Services.Implmentations
 
         }
         
-        public int CalculateDamageOfSkill(CharacterDto character, Skill skill ) 
+        public int CalculateDamageOfSkill(PlayerCharacterDto character, Skill skill ) 
         {
            
             //apply buffs and debuffs of the player when we have set themup

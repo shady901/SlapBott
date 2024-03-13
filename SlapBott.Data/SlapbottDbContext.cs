@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlapBott.Data.Config;
 using SlapBott.Data.Models;
+using SlapBott.Data.Repos;
 using SlapBott.Services.Combat.Models;
 
 namespace SlapBott.Data
@@ -16,11 +17,12 @@ namespace SlapBott.Data
 
         public DbSet<Registration> User { get; set; }
 
-
+        public DbSet<TempCharacter>TempCharacters { get; set; }
         public DbSet<PlayerCharacter> PlayerCharacter { get; set; }
         public DbSet<Enemy> Enemies { get; set; }
         public DbSet<Boss> Bosses { get; set; }
         public DbSet<RaidBoss> RaidBosses { get; set; }
+       
 
         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
@@ -38,6 +40,7 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<Enemy>(new EnemyConfiguration());
             modelBuilder.ApplyConfiguration<Boss>(new BossConfiguration());
             modelBuilder.ApplyConfiguration<RaidBoss>(new RaidBossConfiguration());
+            modelBuilder.ApplyConfiguration<TempCharacter>(new TempCharacterConfiguration());
 
 
 

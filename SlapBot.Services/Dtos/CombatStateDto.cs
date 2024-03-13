@@ -8,7 +8,7 @@ namespace SlapBott.Services.Dtos
         public int Id { get; set; }
         public ulong ChannelID { get; set; }      
         public bool IsPlayerTurn { get; set; }
-        public IEnumerable<CharacterDto> CharcterIds { get; set; }
+        public IEnumerable<PlayerCharacterDto> CharcterIds { get; set; }
         public IEnumerable<int> EnemyIds { get; set; }
         //public List<CharacterDto> Frontline => CharcterIds.Where(x => x.IsMelee).ToList();
         //public List<CharacterDto> Backline => CharcterIds.Where(x => x.IsRanged).ToList();

@@ -12,12 +12,12 @@ namespace SlapBottTests.Services
     public class AttackServiceTests
     {
         private Mock<IRaidService> _mockIRaidService;
-        private Mock<CharacterDto> _mockCharacter;
+        private Mock<PlayerCharacterDto> _mockCharacter;
         private readonly Mock<IMediator> _mockMediator;
 
         public AttackServiceTests() {
             _mockIRaidService = new Mock<IRaidService>();
-            _mockCharacter = new Mock<CharacterDto>();
+            _mockCharacter = new Mock<PlayerCharacterDto>();
             _mockMediator = new Mock<IMediator>();
         }
 

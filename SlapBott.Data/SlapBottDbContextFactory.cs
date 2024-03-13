@@ -8,9 +8,12 @@ namespace SlapBott.Data
 
         public SlapbottDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<SlapbottDbContext>();
 
-            optionsBuilder.UseNpgsql(Properties.Resources.DbConnection);
+            
+            var optionsBuilder = new DbContextOptionsBuilder<SlapbottDbContext>();
+            optionsBuilder.UseSqlite(Properties.Resources.DbConnection);
+
+
 
             return new SlapbottDbContext(optionsBuilder.Options);
         }

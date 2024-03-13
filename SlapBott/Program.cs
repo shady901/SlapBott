@@ -13,6 +13,8 @@
     using SlapBott.Services.Implmentations;
     using System;
     using SlapBott.Data.Contracts;
+    using SlapBott.Data;
+    using Microsoft.EntityFrameworkCore;
 
     public class Program
     {
@@ -28,6 +30,9 @@
    
         public static async Task Main(string[] args)
         {
+
+            
+
             //_configuration = new ConfigurationBuilder()
             //    .AddEnvironmentVariables(prefix: "DC_")
             //    .AddJsonFile("appsettings.json", optional: true)
@@ -42,9 +47,12 @@
                 .AddSingleton<ModalHandler>()
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<RegistrationRepositry>()
+                .AddSingleton<CharacterRepositry>()
                 .AddSingleton<PlayerCharacterService>()
                 .AddSingleton<IRaidService, RaidService>();
-            
+
+
+            _services.AddDbContext<SlapbottDbContext>(options => options.UseSqlite(Properties.Resources.DbConnection));
 
             _services.AddMediatR(options =>
             {
@@ -58,7 +66,7 @@
 
                 _servicesProvider = _services.BuildServiceProvider();
 
-
+            
             
             
             var client = _servicesProvider.GetRequiredService<DiscordSocketClient>();
@@ -85,7 +93,7 @@
         private static Task Client_SelectMenuExecuted(SocketMessageComponent arg)
         {
             Console.WriteLine(arg.Data.CustomId);
-            SelectMenuHandler handler= new SelectMenuHandler(_servicesProvider.GetService<PlayerCharacterService>());
+            SelectMenuHandler handler= new SelectMenuHandler(_servicesProvider.GetService<PlayerCharacterService>(),_servicesProvider.GetService<RegistrationService>());
             handler.HandleSubmittedSelectMenu(arg);
             return Task.CompletedTask;
         }

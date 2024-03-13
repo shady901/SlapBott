@@ -18,6 +18,10 @@ namespace SlapBott.Data.Config
             builder.HasOne(x => x.Character)
                 .WithMany().HasForeignKey(x => x.ActiveCharacterId);
 
+            builder.HasOne(x => x.TempCharacter)
+                .WithOne().HasForeignKey(nameof(TempCharacter), "TemporaryCharacterId");
+
+
 
             builder.HasMany(x => x.PlayerCharacters)
                     .WithOne(x => x.Registration).HasForeignKey(x=>x.DiscordID);

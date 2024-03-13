@@ -1,4 +1,5 @@
 ﻿using SlapBott.Data.Models;
+using SlapBott.Data.Repos;
 using SlapBott.Services.Contracts;
 
 namespace SlapBott.Services.Implmentations
@@ -7,17 +8,23 @@ namespace SlapBott.Services.Implmentations
     {
 
 
+        private CharacterRepositry? _characterRepositry { get; set; }
+        public PlayerCharacterService(CharacterRepositry repo)
+        {
+            _characterRepositry = repo;
+            //_mediator = mediator;
+        }
 
+        public Character GetCharacterByID(int id)
+        {
+            return _characterRepositry.GetByCharacterID(id);
+        }
 
         public string CreateCharacter(ulong DiscordID)
         {
-            //base.Create(new PlayerCharacter()
-            //{
-               
-            //});
             return null;
         }
-
+       
     }
 
 

@@ -19,7 +19,7 @@ namespace SlapBott.Services.Implmentations
         public string RegisterUser(ulong discordUserID, string username, int attempts = 0)
         {
 
-            string msg = "U Already Have A Character";
+            string msg = "U Already Have A Registered Account";
 
             if (!CheckIfPlayerExists(discordUserID))
             {
@@ -80,10 +80,16 @@ namespace SlapBott.Services.Implmentations
         }
 
 
-        public int GetActiveCharacter(ulong discordUserID)
+        public int GetActiveCharacterId(ulong discordUserID)
         {
             return GetUserByDiscordId(discordUserID).ActiveCharacterId;
 
+        }
+
+        public int GetActiveTempCharacterId(ulong discordUserID)
+        {
+            return GetUserByDiscordId(discordUserID).TemporaryCharacterId;
+            
         }
 
 

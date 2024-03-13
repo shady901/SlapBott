@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace SlapBott.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Addingcombatstate : Migration
+    public partial class Addinginit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +14,10 @@ namespace SlapBott.Data.Migrations
                 name: "CombatStates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ChannelID = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    CurrentTurnId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ChannelID = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    CurrentTurnId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,12 +29,12 @@ namespace SlapBott.Data.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ElementalType = table.Column<int>(type: "integer", nullable: false),
-                    StatTypeRatio = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    ElementalType = table.Column<int>(type: "INTEGER", nullable: false),
+                    StatTypeRatio = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,8 +45,8 @@ namespace SlapBott.Data.Migrations
                 name: "SubClass",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
@@ -58,13 +57,13 @@ namespace SlapBott.Data.Migrations
                 name: "Enemies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    CharExp = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    CharacterClassId = table.Column<int>(type: "integer", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CharExp = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    CharacterClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,9 +80,9 @@ namespace SlapBott.Data.Migrations
                 name: "EnemyCombatState",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    ParticipantId = table.Column<int>(type: "integer", nullable: false),
-                    CombatStateId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    ParticipantId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CombatStateId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,15 +111,17 @@ namespace SlapBott.Data.Migrations
                 name: "Character",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    HasLeveled = table.Column<bool>(type: "boolean", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    CharExp = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    CharacterClassId = table.Column<int>(type: "integer", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
-                    DiscordID = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    HasLeveled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CharExp = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    CharacterClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 21, nullable: false),
+                    DiscordID = table.Column<int>(type: "INTEGER", nullable: true),
+                    TempCharacter_DiscordID = table.Column<int>(type: "INTEGER", nullable: true),
+                    TemporaryCharacterId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,9 +138,9 @@ namespace SlapBott.Data.Migrations
                 name: "PlayerCharacterCombatState",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    ParticipantId = table.Column<int>(type: "integer", nullable: false),
-                    CombatStateId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    ParticipantId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CombatStateId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,11 +169,11 @@ namespace SlapBott.Data.Migrations
                 name: "Turns",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TurnId = table.Column<int>(type: "integer", nullable: false),
-                    CombatStateId = table.Column<int>(type: "integer", nullable: false),
-                    AttackerId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TurnId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CombatStateId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AttackerId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,11 +196,12 @@ namespace SlapBott.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DiscordId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    UserName = table.Column<string>(type: "text", nullable: false),
-                    ActiveCharacterId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DiscordId = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    ActiveCharacterId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TemporaryCharacterId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,10 +218,10 @@ namespace SlapBott.Data.Migrations
                 name: "TurnAttackRecord",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SkillId = table.Column<int>(type: "integer", nullable: false),
-                    TurnId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SkillId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TurnId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,6 +249,18 @@ namespace SlapBott.Data.Migrations
                 name: "IX_Character_DiscordID",
                 table: "Character",
                 column: "DiscordID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Character_TempCharacter_DiscordID",
+                table: "Character",
+                column: "TempCharacter_DiscordID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Character_TemporaryCharacterId",
+                table: "Character",
+                column: "TemporaryCharacterId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enemies_CharacterClassId",
@@ -305,6 +319,21 @@ namespace SlapBott.Data.Migrations
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Character_Users_TempCharacter_DiscordID",
+                table: "Character",
+                column: "TempCharacter_DiscordID",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Character_Users_TemporaryCharacterId",
+                table: "Character",
+                column: "TemporaryCharacterId",
+                principalTable: "Users",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
@@ -316,6 +345,14 @@ namespace SlapBott.Data.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Character_Users_DiscordID",
+                table: "Character");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Character_Users_TempCharacter_DiscordID",
+                table: "Character");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Character_Users_TemporaryCharacterId",
                 table: "Character");
 
             migrationBuilder.DropTable(

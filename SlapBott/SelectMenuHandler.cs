@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
+using SlapBott.Services.Dtos;
 using SlapBott.Services.Implmentations;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,11 @@ namespace SlapBott
     public class SelectMenuHandler
     {
         private PlayerCharacterService? _playerCharacterService;
-
-        public SelectMenuHandler(PlayerCharacterService? playerCharacterService)
+        private RegistrationService? _registrationService;
+        public SelectMenuHandler(PlayerCharacterService? playerCharacterService, RegistrationService? registrationService)
         {
             _playerCharacterService = playerCharacterService;
+            _registrationService = registrationService;
         }
 
         public void HandleSubmittedSelectMenu(SocketMessageComponent arg)
@@ -27,19 +29,27 @@ namespace SlapBott
             switch (condition)
             {
                 case "createcharacter":
-                    CreatingCharacter(arg);
+                    CreatingCharacter(arg, Splitarg[1]);
                     break;
                 default:
                     break;
             }
         }
 
-        public async void CreatingCharacter(SocketMessageComponent arg)
+        public async void CreatingCharacter(SocketMessageComponent arg,string characterStat)
         {
-            string? menuVarible = arg.Data.Values.ToString();
+            if (characterStat=="selectclass")
+            {
+               PlayerCharacterDto charcter = new PlayerCharacterDto()
+                    .FromCharacter(
+                   _playerCharacterService.GetCharacterByID(
+                   _registrationService.GetActiveTempCharacterId(arg.User.Id)));
+                
+            }
 
-           
-            
+
+
+
         }
 
 

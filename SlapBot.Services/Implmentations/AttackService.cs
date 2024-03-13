@@ -30,7 +30,7 @@ namespace SlapBott.Services.Implmentations
 
 
         // this assigns an attack type based on player input being "/Attack Raid" "/Attack" if not specified we need to store current target
-        public string AssignAttack(CharacterDto userActiveChar, ulong channelID,string? playerInput = null)
+        public string AssignAttack(PlayerCharacterDto userActiveChar, ulong channelID,string? playerInput = null)
         {
             string msg = "Somthing Went Wrong";
             var (raid, skill, Target) = ParameterManager(playerInput);
