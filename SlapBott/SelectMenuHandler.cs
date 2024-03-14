@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Models;
 using SlapBott.Services.Dtos;
 using SlapBott.Services.Implmentations;
 using System;
@@ -15,6 +16,7 @@ namespace SlapBott
     {
         private PlayerCharacterService? _playerCharacterService;
         private RegistrationService? _registrationService;
+        private PlayerCharacterDto? _playerCharacterDto;
         public SelectMenuHandler(PlayerCharacterService? playerCharacterService, RegistrationService? registrationService)
         {
             _playerCharacterService = playerCharacterService;
@@ -26,32 +28,41 @@ namespace SlapBott
             List<string> Splitarg = arg.Data.CustomId.ToLower().Trim().Split('_').ToList();
           
             string? condition = Splitarg.FirstOrDefault();
+            _playerCharacterDto = SetupBaseCharacterDto(arg.User.Id);
             switch (condition)
             {
                 case "createcharacter":
-                    CreatingCharacter(arg, Splitarg[1]);
+                    ÄssigningRace(arg,Splitarg[1]);
                     break;
                 default:
                     break;
             }
         }
 
-        public async void CreatingCharacter(SocketMessageComponent arg,string characterStat)
+        public void ÄssigningRace(SocketMessageComponent arg,string characterStat)
         {
-            if (characterStat=="selectclass")
+            if (characterStat=="selectrace")
             {
-               PlayerCharacterDto charcter = new PlayerCharacterDto()
-                    .FromCharacter(
-                   _playerCharacterService.GetCharacterByID(
-                   _registrationService.GetActiveTempCharacterId(arg.User.Id)));
-                
+                string race = arg.Data.Values.First();
+                _playerCharacterDto.Race.Name = (Races)Enum.Parse(typeof(Races), race);
+                //should be getting matching class from database and assigning it to the dto for saving
+                //character.CharacterClass = new CharacterClass();
+                //return character;
+                arg.RespondAsync(embed: BuilderReplies.RaceSelectedReply(arg.Data.Values.First()));
             }
-
-
-
-
+ 
         }
 
+        public PlayerCharacterDto SetupBaseCharacterDto(ulong argId)
+        {
+            PlayerCharacterDto character = new PlayerCharacterDto()
+                  .FromCharacter(
+                 _playerCharacterService.GetPlayerCharacterByDiscordIdOrNew(
+             argId
+                 ));
+            return character;
+            
+        }
 
 
     }

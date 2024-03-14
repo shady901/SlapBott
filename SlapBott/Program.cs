@@ -12,7 +12,6 @@
     using SlapBott.Services.Notifactions;
     using SlapBott.Services.Implmentations;
     using System;
-    using SlapBott.Data.Contracts;
     using SlapBott.Data;
     using Microsoft.EntityFrameworkCore;
 
@@ -47,7 +46,7 @@
                 .AddSingleton<ModalHandler>()
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<RegistrationRepositry>()
-                .AddSingleton<CharacterRepositry>()
+                .AddSingleton<PlayerCharacterRepositry>()
                 .AddSingleton<PlayerCharacterService>()
                 .AddSingleton<IRaidService, RaidService>();
 

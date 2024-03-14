@@ -8,18 +8,18 @@ namespace SlapBott.Services.Implmentations
     {
 
 
-        private CharacterRepositry? _characterRepositry { get; set; }
-        public PlayerCharacterService(CharacterRepositry repo)
+        private PlayerCharacterRepositry? _playerCharacterRepositry { get; set; }
+        public PlayerCharacterService(PlayerCharacterRepositry repo)
         {
-            _characterRepositry = repo;
+            _playerCharacterRepositry = repo;
             //_mediator = mediator;
         }
 
-        public Character GetCharacterByID(int id)
+        public PlayerCharacter GetPlayerCharacterByDiscordIdOrNew(ulong id)
         {
-            return _characterRepositry.GetByCharacterID(id);
+            return _playerCharacterRepositry.GetPlayerCharacterByDiscordID(id);
         }
-
+        
         public string CreateCharacter(ulong DiscordID)
         {
             return null;
@@ -28,13 +28,5 @@ namespace SlapBott.Services.Implmentations
     }
 
 
-    //public class CharacterService
-    //{
-
-    //    public string Create<T>(T character) where T: Character
-    //    {
-
-    //    }
-    //}
 
 }

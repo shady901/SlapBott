@@ -66,12 +66,8 @@ namespace SlapBott.Services.Implmentations
 
             var reg = GetUserByDiscordId(discordUserId);
 
-            if (reg == null)
-            {
-                return false;
-            }
 
-            return true;
+            return reg is null ?  true : false;
         }
 
         public Registration GetUserByDiscordId(ulong discordUserID)
@@ -80,15 +76,15 @@ namespace SlapBott.Services.Implmentations
         }
 
 
-        public int GetActiveCharacterId(ulong discordUserID)
+        public int? GetActiveCharacterId(ulong discordUserID)
         {
             return GetUserByDiscordId(discordUserID).ActiveCharacterId;
 
         }
 
-        public int GetActiveTempCharacterId(ulong discordUserID)
+        public int? GetActiveTempCharacterId(ulong discordUserID)
         {
-            return GetUserByDiscordId(discordUserID).TemporaryCharacterId;
+            return GetUserByDiscordId(discordUserID).PlayerCharacters.First(x=>x.IsTemp)?.Id;
             
         }
 

@@ -9,13 +9,15 @@ namespace SlapBott.Commands
 {
     public class CreateCharacter : InteractionModuleBase<SocketInteractionContext>
     {
-        // private IPlayerCharacterCreation? _characterCreationService;
         private InteractionHandler? _handler;
+        private RegistrationService _registrationService;
         public InteractionService Commands { get; set; }
-        public CreateCharacter(InteractionHandler? handler) 
+        
+        public CreateCharacter(InteractionHandler? handler,RegistrationService registrationService) 
         {
             _handler = handler;
-               // _characterCreationService = characterCreationService;
+            _registrationService = registrationService;
+            // _characterCreationService = characterCreationService;
         }
 
 
@@ -24,39 +26,26 @@ namespace SlapBott.Commands
         [SlashCommand("createnewcharacter", description: "Creates a New Character", ignoreGroupNames: false, runMode: RunMode.Async)]
         public async Task JoinBotAsync()
         {
+
+            
             try
             {
-                await Context.Interaction.RespondAsync(embed:GetChoseRaceEmbed(),components:GetChoseRaceMessageComponent());
+                if (_registrationService.CheckIfPlayerExists(Context.User.Id))
+                {
+                    await Context.Interaction.RespondAsync(embed: BuilderReplies.GetChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent());
+
+                }
+                else 
+                {
+                    await Context.Interaction.RespondAsync("U Dont Exist");
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
         }
-        public Embed GetChoseRaceEmbed()
-        {
-            Embed embed = new EmbedBuilder()
-             .WithTitle("Chose Your Race")
-             .WithDescription("Elf: Bonus to Dexterity(example)\n Human: Bonuses to Health and Armor")
-             .Build();
-            return embed;
-        }
-        public MessageComponent GetChoseRaceMessageComponent()
-        {
-            var em = new SelectMenuBuilder()
-            .WithPlaceholder("Select An option")
-            .WithCustomId("createcharacter_selectclass")
-            .WithMinValues(1)
-            .WithMaxValues(1)
-            .AddOption("Elf", "elf", "Bonus Dex")
-            .AddOption("Human", "human", "Bonus Health and Armor");
-
-            var builder = new ComponentBuilder()
-             .WithSelectMenu(em)
-             .Build();
-
-            return builder;
-        }
+       
 
 
     }

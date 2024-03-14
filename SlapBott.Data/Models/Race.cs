@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Models
 {
-    public class SubClass: CharacterClass
+    public enum Races
     {
+        Elf,Human,Orc
+    }
 
+    public class Race
+    {
         public int Id { get; set; }
-       
-        public int RequiredLevel { get; set; }
+        public Races Name { get; set; }
     }
 }

@@ -9,22 +9,16 @@ namespace SlapBott.Data.Config
         public void Configure(EntityTypeBuilder<Registration> builder)
         {
             builder.ToTable("Users");
+            builder.HasKey(x => x.Id);
+
 
             builder.Property(x=>x.UserName).IsRequired();
             builder.Property(x => x.DiscordId).IsRequired();
 
-            builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Character)
                 .WithMany().HasForeignKey(x => x.ActiveCharacterId);
 
-            builder.HasOne(x => x.TempCharacter)
-                .WithOne().HasForeignKey(nameof(TempCharacter), "TemporaryCharacterId");
-
-
-
-            builder.HasMany(x => x.PlayerCharacters)
-                    .WithOne(x => x.Registration).HasForeignKey(x=>x.DiscordID);
 
         }
     }

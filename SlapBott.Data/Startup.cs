@@ -12,7 +12,6 @@ namespace Slapbott.Data
 
         public static void ConfigureServices(IServiceCollection services, string connectionString)
         {
-
             services.AddDbContext<SlapbottDbContext>(options =>
                 options.UseSqlite(connectionString));
             

@@ -13,13 +13,13 @@ namespace SlapBott.Data.Models
         public List<Equipment> Bag { get; set; }
         public List<Equipment> Bank { get; set; }
 
-        private Item item;
-
+       
 
 
 
         public int GetAllEquipedItemsStatsByStatType(StatType statType)
         {
+            Item item = new();
             int stat = 0;
             if (Equiped.Count >= 1)
             {

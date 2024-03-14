@@ -11,10 +11,10 @@ namespace SlapBott.Services.Dtos
 {
     public class PlayerCharacterDto : Target, ITarget
     {
-
+        public bool IsTemp { get; set; }
         public bool HasLeveled { get; set; } = false;
-
-        public int DiscordID { get; set; }
+        public Race Race { get; set; }
+        public ulong DiscordId { get; set; }
         //public Stats Stats { get; set; }
 
         public ulong CharExp { get; set; }
@@ -22,18 +22,16 @@ namespace SlapBott.Services.Dtos
         //   public List<Ailments> ailments { get; set; }
         //   public List<Buff> Buffs { get; set; }
 
-        public SubClass CharacterClass { get; set; }
+        public CharacterClass CharacterClass { get; set; }
+        public SubClass SubClass { get; set; }
         //equipement inventory starts at id of 
         public Inventory Inventory { get; set; }
 
-        public PlayerCharacterDto FromCharacter(Character character)
+        public PlayerCharacterDto FromCharacter(PlayerCharacter character)
         {
-            return new PlayerCharacterDto { Stats = character.Stats };
+            return new PlayerCharacterDto { Stats = character.Character.Stats, IsTemp = character.IsTemp};
         }
-        public Character ToCharacter(Character? character = null)
-        {
-            return new PlayerCharacter { Stats = character.Stats };
-        }
+
 
 
         public Skill GetBySkill(string skill)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SlapBott.Data.Models;
+using System.Reflection.Emit;
 
 
 namespace SlapBott.Data.Config
@@ -9,13 +10,14 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<PlayerCharacter> builder)
         {
+            builder.HasKey(x => x.Id);
+
             builder
                 .HasOne(c => c.Registration)
                 .WithMany(r => r.PlayerCharacters)
-                .HasForeignKey(r => r.DiscordID);
-
-        //    builder.ToTable<PlayerCharacter>("Character");
-
+                .HasForeignKey(r => r.RegistrationId);
+          
+            
 
         }
 
