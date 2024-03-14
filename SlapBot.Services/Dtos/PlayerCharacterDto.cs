@@ -13,7 +13,8 @@ namespace SlapBott.Services.Dtos
     {
         public bool IsTemp { get; set; }
         public bool HasLeveled { get; set; } = false;
-        public Race Race { get; set; }
+        public Races SelectedRace { get; set; }
+        public RaceDto? Race { get; set; }
         public ulong DiscordId { get; set; }
         //public Stats Stats { get; set; }
 
@@ -22,10 +23,13 @@ namespace SlapBott.Services.Dtos
         //   public List<Ailments> ailments { get; set; }
         //   public List<Buff> Buffs { get; set; }
 
-        public CharacterClass CharacterClass { get; set; }
-        public SubClass SubClass { get; set; }
+        public Classes SelectedClass { get; set; }
+        public CharacterClassDto? CharacterClass { get; set; }
+        public SubClassDto? SubClass { get; set; }
         //equipement inventory starts at id of 
-        public Inventory Inventory { get; set; }
+        public InventoryDto? Inventory { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
         public PlayerCharacterDto FromCharacter(PlayerCharacter character)
         {
@@ -69,36 +73,34 @@ namespace SlapBott.Services.Dtos
 
         public int GetCombinedStat(StatType statType)
         {
-            switch (statType)
+
+            //return Stats.Dexterity + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+            //var itemStat = Inventory.GetAllEquipedItemsStatsByStatType(statType);
+            if (Inventory.Equiped.Count >= 0)
             {
-                case StatType.Dexterity:
-                    return Stats.Dexterity + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.Strength:
-                    return Stats.Strength + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.Intelligence:
-                    return Stats.Intelligence + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.AttackDamage:
-                    return Stats.AttackDamage + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.CritChance:
-                    return Stats.CritChance + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.SpellPower:
-                    return Stats.SpellPower + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.Health:
-                    return Stats.Health + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                case StatType.MaxHealth:
-                    return Stats.MaxHealth + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                default:
-                    return 0;
+                switch (statType)
+                {
+                    case StatType.Dexterity:
+                        return Stats.Dexterity + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.Strength:
+                        return Stats.Strength + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.Intelligence:
+                        return Stats.Intelligence + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.AttackDamage:
+                        return Stats.AttackDamage + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.CritChance:
+                        return Stats.CritChance + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.SpellPower:
+                        return Stats.SpellPower + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.Health:
+                        return Stats.Health + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    case StatType.MaxHealth:
+                        return Stats.MaxHealth + Inventory.GetAllEquipedItemsStatsByStatType(statType);
+                    default:
+                        return 0;
+                }
             }
-
-
-
-
-
-
-
-
-
+            return 0;
         }
 
 

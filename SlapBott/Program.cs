@@ -19,7 +19,7 @@
     {
         private static IConfiguration _configuration;
         private static IServiceProvider _servicesProvider;
-
+        private static RepliesHandler _handler;
         private static readonly DiscordSocketConfig _socketConfig = new()
         {
             GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.GuildMembers,
@@ -42,8 +42,7 @@
                 .AddSingleton(_socketConfig)
                 .AddSingleton<DiscordSocketClient>()
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
-                .AddSingleton<InteractionHandler>()
-                .AddSingleton<ModalHandler>()
+                .AddSingleton<InteractionHandler>()                
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<RegistrationRepositry>()
                 .AddSingleton<PlayerCharacterRepositry>()
@@ -69,6 +68,7 @@
             
             
             var client = _servicesProvider.GetRequiredService<DiscordSocketClient>();
+           _handler = new RepliesHandler(_servicesProvider.GetService<PlayerCharacterService>(), _servicesProvider.GetService<RegistrationService>());
 
             client.Log += LogAsync;
             client.SlashCommandExecuted += Client_SlashCommandExecuted;
@@ -92,17 +92,15 @@
         private static Task Client_SelectMenuExecuted(SocketMessageComponent arg)
         {
             Console.WriteLine(arg.Data.CustomId);
-            SelectMenuHandler handler= new SelectMenuHandler(_servicesProvider.GetService<PlayerCharacterService>(),_servicesProvider.GetService<RegistrationService>());
-            handler.HandleSubmittedSelectMenu(arg);
+            _handler.HandleSubmittedSelectMenu(arg);
             return Task.CompletedTask;
         }
 
         private static Task Client_ModalSubmitted(SocketModal modal)
         {
-
-            ModalHandler modalHandler = new ModalHandler(_servicesProvider.GetService<PlayerCharacterService>());
-            string modalReply = modalHandler.HandleSubmittedModal(modal);
-            return Task.CompletedTask;
+            Console.WriteLine(modal.Data.CustomId);
+            _handler.HandleSubmittedModal(modal);
+             return Task.CompletedTask;
 
         }
 
@@ -117,11 +115,8 @@
 
         private static void ConfigureServices(IServiceCollection services)
         {
-
-
             // Configure services from DAL project
             Startup.ConfigureServices(services, Properties.Resources.DbConnection);
-
         }
 
     }

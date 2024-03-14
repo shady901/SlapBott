@@ -17,7 +17,7 @@ namespace SlapBott.Data.Repos
 
             PlayerCharacter Character = _dbContext.PlayerCharacter.FirstOrDefault(PCharacter => PCharacter.DiscordId == id);
            
-            return Character ?? new PlayerCharacter() {Character = new(), Race = new() };
+            return Character ?? new PlayerCharacter() {Character = new() };
         }
 
 
