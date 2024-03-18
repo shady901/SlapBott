@@ -27,12 +27,11 @@ namespace SlapBott.Commands
         public async Task JoinBotAsync()
         {
 
-            
             try
             {
                 if (_registrationService.CheckIfPlayerExists(Context.User.Id))
                 {
-                    await Context.Interaction.RespondAsync(embed: BuilderReplies.GetChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent());
+                    await Context.Interaction.RespondAsync(embed: BuilderReplies.ChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent());
 
                 }
                 else 

@@ -1,6 +1,7 @@
 ﻿using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
 using SlapBott.Services.Contracts;
+using SlapBott.Services.Dtos;
 
 namespace SlapBott.Services.Implmentations
 {
@@ -9,22 +10,22 @@ namespace SlapBott.Services.Implmentations
 
 
         private PlayerCharacterRepositry? _playerCharacterRepositry { get; set; }
+      
         public PlayerCharacterService(PlayerCharacterRepositry repo)
         {
             _playerCharacterRepositry = repo;
             //_mediator = mediator;
         }
 
-        public PlayerCharacter GetPlayerCharacterByDiscordIdOrNew(ulong id)
+        public PlayerCharacter GetTempPlayerCharacterByDiscordIdOrNew(ulong id, int regId)
         {
-            return _playerCharacterRepositry.GetPlayerCharacterByDiscordID(id);
+            return _playerCharacterRepositry.GetTempPlayerCharacterByDiscordID(id,regId);
         }
-        
-        public string CreateCharacter(ulong DiscordID)
+
+        public void SaveCharacter(PlayerCharacter p)
         {
-            return null;
+            _playerCharacterRepositry.SaveCharacter(p);
         }
-       
     }
 
 

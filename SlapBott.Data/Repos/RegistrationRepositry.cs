@@ -19,7 +19,7 @@ namespace SlapBott.Data.Repos
 
             //nnjmjm1var user = _dbContext.User.FirstOrDefault(User => User.DiscordId == discordId);
 
-            return _dbContext.User.FirstOrDefault(user =>user.DiscordId.Equals(discordId));
+            return _dbContext.User.FirstOrDefault(user =>user.DiscordId == discordId);
         }
 
         public void SaveRegistration(Registration reg)

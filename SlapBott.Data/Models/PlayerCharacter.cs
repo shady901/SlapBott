@@ -22,7 +22,7 @@ namespace SlapBott.Data.Models
         public int CharacterId { get; set; }
         public bool IsTemp { get; set; } = true;
 
-        public Race? Race { get; set; }
+     
         [ForeignKey("CharacterId")]
         public virtual Character Character { get; set; }
 

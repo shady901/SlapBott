@@ -67,7 +67,7 @@ namespace SlapBott.Services.Implmentations
             var reg = GetUserByDiscordId(discordUserId);
 
 
-            return reg is null ?  true : false;
+            return reg is null ? false : true ;
         }
 
         public Registration GetUserByDiscordId(ulong discordUserID)

@@ -39,7 +39,7 @@
                  await RespondAsync(msg);
             }catch (Exception ex)
             {
-        
+                    Console.WriteLine(ex.Message);
             }
 
 
