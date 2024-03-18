@@ -15,13 +15,14 @@ namespace SlapBott.Data
 
         public DbSet<CombatState> CombatStates { get; set; }
 
-        public DbSet<Registration> User { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
 
         public DbSet<PlayerCharacter> PlayerCharacter { get; set; }
         public DbSet<Enemy> Enemies { get; set; }
         public DbSet<Boss> Bosses { get; set; }
         public DbSet<RaidBoss> RaidBosses { get; set; }
        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Stats> PlayersStats { get; set; }
 
         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
@@ -30,8 +31,7 @@ namespace SlapBott.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Character>().ToTable(nameof(Character));
-            modelBuilder.ApplyConfiguration<Skill>(new SkillConfiguration());
+           modelBuilder.ApplyConfiguration<Skill>(new SkillConfiguration());
             modelBuilder.ApplyConfiguration<Turn>(new TurnConfiguration());
             modelBuilder.ApplyConfiguration<CombatState>(new CombatStateConfiguration());
             modelBuilder.ApplyConfiguration<Registration>(new RegistrationConfiguration()); 
@@ -40,14 +40,11 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<Boss>(new BossConfiguration());
             modelBuilder.ApplyConfiguration<RaidBoss>(new RaidBossConfiguration());
             modelBuilder.ApplyConfiguration<Inventory>(new InventoryConfiguration());
+            modelBuilder.ApplyConfiguration<Stats>(new PlayerStatsConfiguration());
 
+          
 
-            //modelBuilder.ApplyConfiguration<PlayerCharacter>(new PlayCharacterConfiguration());
-
-
-            //modelBuilder.Entity<Registration>()
-            //    .ToTable("User");
-
+     
 
 
         }

@@ -36,7 +36,7 @@ namespace SlapBott.Commands
                 }
                 else 
                 {
-                    await Context.Interaction.RespondAsync("U Dont Exist");
+                    await Context.Interaction.RespondAsync("U have not Joined the Bot");
                 }
             }
             catch (Exception ex)

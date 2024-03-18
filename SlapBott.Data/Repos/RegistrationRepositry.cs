@@ -19,7 +19,7 @@ namespace SlapBott.Data.Repos
 
             //nnjmjm1var user = _dbContext.User.FirstOrDefault(User => User.DiscordId == discordId);
 
-            return _dbContext.User.FirstOrDefault(user =>user.DiscordId == discordId);
+            return _dbContext.Registrations.FirstOrDefault(user =>user.DiscordId == discordId);
         }
 
         public void SaveRegistration(Registration reg)
@@ -29,12 +29,12 @@ namespace SlapBott.Data.Repos
         }
         public void AddOrUpdateRegistration(Registration reg)
         {
-            var meth = _dbContext.User.Update;
+            var meth = _dbContext.Registrations.Update;
 
 
             if (reg.DiscordId <= 0) // not in the database
             {
-                meth = _dbContext.User.Add;
+                meth = _dbContext.Registrations.Add;
             }
 
             meth(reg);

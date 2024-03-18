@@ -14,8 +14,7 @@ namespace SlapBott.Data.Models
         public int Id { get; set; }
         public Stats Stats { get; set; }
         public Dictionary<string, Skill> Skills { get; set; }
-
-
+       
         const double ResMax = .75;
 
         public void ApplyDamage(int damage, StatType elementalType)

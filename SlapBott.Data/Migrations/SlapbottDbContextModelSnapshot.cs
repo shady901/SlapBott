@@ -29,9 +29,15 @@ namespace SlapBott.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("StatsId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -63,6 +69,63 @@ namespace SlapBott.Data.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CharID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("InventoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<ulong>("Seed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SlotID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("Equipment");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Equiped")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
+
+                    b.ToTable("Inventories");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
                 {
                     b.Property<int>("Id")
@@ -86,7 +149,8 @@ namespace SlapBott.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterId");
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
 
                     b.HasIndex("RegistrationId");
 
@@ -113,7 +177,7 @@ namespace SlapBott.Data.Migrations
 
                     b.HasIndex("ActiveCharacterId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Registration", (string)null);
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Skill", b =>
@@ -139,6 +203,66 @@ namespace SlapBott.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Stats", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AttackDamage")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ChaosResistance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CritChance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Dexterity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FireResistance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FrostResistance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Health")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Intelligence")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LightningResistance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MaxHealth")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PhysicalResistance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SpellPower")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Strength")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("stats")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
+
+                    b.ToTable("PlayersStats");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.TurnAttackRecord", b =>
@@ -268,11 +392,29 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Character");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Equipment", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Inventory", null)
+                        .WithMany("Bag")
+                        .HasForeignKey("InventoryId");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Character", "Character")
+                        .WithOne("Inventory")
+                        .HasForeignKey("SlapBott.Data.Models.Inventory", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
-                        .WithMany()
-                        .HasForeignKey("CharacterId")
+                        .WithOne()
+                        .HasForeignKey("SlapBott.Data.Models.PlayerCharacter", "CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -292,6 +434,17 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
                         .WithMany()
                         .HasForeignKey("ActiveCharacterId");
+
+                    b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Stats", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Character", "Character")
+                        .WithOne("Stats")
+                        .HasForeignKey("SlapBott.Data.Models.Stats", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Character");
                 });
@@ -383,6 +536,19 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Attacker");
 
                     b.Navigation("CombatState");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
+                {
+                    b.Navigation("Inventory");
+
+                    b.Navigation("Stats")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
+                {
+                    b.Navigation("Bag");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>

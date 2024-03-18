@@ -15,9 +15,9 @@ namespace SlapBott.Data.Repos
         public PlayerCharacter GetTempPlayerCharacterByDiscordID(ulong id, int regId)
         {
 
-            PlayerCharacter Character = _dbContext.PlayerCharacter.FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
-           
-            return Character ?? new PlayerCharacter() {Character = new(), DiscordId = id, RegistrationId = regId};
+            PlayerCharacter playerCharacter = _dbContext.PlayerCharacter.FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
+          
+            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() }, DiscordId = id, RegistrationId = regId};
         }
         public PlayerCharacter GetPlayerCharacterByDiscordID(ulong id, int regId)
         {
@@ -38,7 +38,7 @@ namespace SlapBott.Data.Repos
             var meth = _dbContext.PlayerCharacter.Update;
 
 
-            if (c.DiscordId <= 0) // not in the database
+            if (c.CharacterId <= 0) // not in the database
             {
                 meth = _dbContext.PlayerCharacter.Add;
             }

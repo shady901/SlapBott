@@ -14,10 +14,11 @@ namespace SlapBott.Data.Config
 
             builder
                 .HasOne(c => c.Registration)
+                
                 .WithMany(r => r.PlayerCharacters)
                 .HasForeignKey(r => r.RegistrationId);
-          
-            
+
+            builder.HasOne(c => c.Character).WithOne();
 
         }
 

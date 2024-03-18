@@ -11,6 +11,7 @@ namespace SlapBott.Services.Dtos
 {
     public class PlayerCharacterDto : Target, ITarget
     {
+      
         public bool IsTemp { get; set; }
         public bool HasLeveled { get; set; } = false;
         public Races SelectedRace { get; set; }
@@ -27,37 +28,37 @@ namespace SlapBott.Services.Dtos
         public CharacterClassDto? CharacterClass { get; set; }
         public SubClassDto? SubClass { get; set; }
         //equipement inventory starts at id of 
-        public InventoryDto? Inventory { get; set; }
+        public InventoryDto Inventory { get; set; }
         public string? Name { get; set; } 
-        public string? Description { get; set; } 
+        public string? Description { get; set; }
+        public int CharId { get; private set; }
 
-        public PlayerCharacterDto FromCharacter(PlayerCharacter character)
+        public PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
             return new PlayerCharacterDto
             {
-                regId = character.RegistrationId,
-                Stats = character.Character.Stats,
-                IsTemp = character.IsTemp,
-                Name = character.Character.Name ?? "Temp",
-                Description = character.Character.Description ?? "Temp",
-                DiscordId = character.DiscordId,
+                regId = playercharacter.RegistrationId,
+                Stats = playercharacter.Character.Stats,
+                IsTemp = playercharacter.IsTemp,
+                Name = playercharacter.Character.Name ?? "Temp",
+                Description = playercharacter.Character.Description ?? "Temp",
+                DiscordId = playercharacter.DiscordId,
+                CharId = playercharacter.CharacterId,
                 //SelectedClass = character.Character.SelectedCharacterClass,
                 //SelectedRace = character.Character.SelectedRace,
             };
         }
         public PlayerCharacter ToCharacter(PlayerCharacter? playerCharacter = null)
         {
-            if (playerCharacter == null)
-            {
-                playerCharacter = new PlayerCharacter() {Character = new Character()};
-            }
+           
             playerCharacter.RegistrationId = regId;
             playerCharacter.DiscordId = DiscordId;
             playerCharacter.Character.Name = Name;
             playerCharacter.Character.Description = Description;
             playerCharacter.Character.Stats = Stats;
             playerCharacter.IsTemp = IsTemp;
-            //playerCharacter.Character.SelectedCharacterClass = SelectedClass;
+            playerCharacter.CharacterId = CharId;
+           //playerCharacter.Character.SelectedCharacterClass = SelectedClass;
             //playerCharacter.Character.SelectedRace = SelectedRace;
 
             return playerCharacter;

@@ -8,7 +8,7 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<Registration> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("Registration");
             builder.HasKey(x => x.Id);
 
 

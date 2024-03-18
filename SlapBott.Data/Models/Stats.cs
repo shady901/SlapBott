@@ -1,6 +1,7 @@
 ﻿using SlapBott.Data.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,14 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
         public int CharacterId { get; set; }
+        [ForeignKey("CharacterId")]
+        public virtual Character Character { get; set; }
+
+
+
+
         public Dictionary<StatType, int> stats { get; set; }
+
         public int Health
         {
             get => stats[StatType.Health];
@@ -92,7 +100,6 @@ namespace SlapBott.Data.Models
                {StatType.Dexterity, 0},
                {StatType.Strength, 0},
                {StatType.Intelligence,0},
-               {StatType.SpellPower,0},
                {StatType.CritChance,0},
                {StatType.MaxHealth,0},
                {StatType.Health,0},

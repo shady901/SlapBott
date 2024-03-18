@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Dtos;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -20,6 +22,9 @@ namespace SlapBott
         private PlayerCharacterService? _playerCharacterService;
         private RegistrationService? _registrationService;
         private PlayerCharacterDto? _playerCharacterDto;
+        private PlayerCharacter? _playerCharacter;
+        private Registration? _registration;
+
         public RepliesHandler(PlayerCharacterService? playerCharacterService, RegistrationService? registrationService)
         {
             _playerCharacterService = playerCharacterService;
@@ -28,11 +33,10 @@ namespace SlapBott
 
         public void HandleSubmittedSelectMenu(SocketMessageComponent arg)
         {
-            List<string> Splitarg = arg.Data.CustomId.ToLower().Trim().Split('_').ToList();
-          
+            List<string> Splitarg = arg.Data.CustomId.ToLower().Trim().Split('_').ToList();          
             string? condition = Splitarg.FirstOrDefault();
-            var v = _registrationService.GetUserByDiscordId(arg.User.Id);
-            if (v == null) 
+            SetTheRegistrationfromDiscordId(arg.User.Id);
+            if (_registration == null)
             {
                 arg.RespondAsync("you have not joined the bot");
             }
@@ -40,80 +44,85 @@ namespace SlapBott
             {
                 if (condition == "createcharacter")
                 {
-                    switch (Splitarg[1])
+                    SelectMenuCreateCharacter(Splitarg[1],arg);
+
+                }
+            }
+        }
+        
+        public void HandleSubmittedModal(SocketModal modal)
+        {
+            SetTheRegistrationfromDiscordId(modal.User.Id);
+            if (_registration == null)
+            {
+                modal.RespondAsync("you have not joined the bot");
+            }
+            else 
+            {
+                if (modal.Data.CustomId != null)
+                {
+                    string customId = modal.Data.CustomId;
+
+                    switch (customId)
                     {
-                        case "selectrace":
-                            AssigningRace(arg, v.Id);
-                            break;
-                        case "selectclass":
-                            AssigningClass(arg, v.Id);
+                        case "createcharacter_namedescription":
+                            AssignCharacterNameDescription(modal);
                             break;
                         default:
+                            modal.RespondAsync("ERROR: ModalHandler couldnt find customID");
                             break;
                     }
                 }
-            }
-        }
-        public string HandleSubmittedModal(SocketModal modal)
-        {
-
-
-            if (modal.Data.CustomId != null)
-            {
-                string customId = modal.Data.CustomId;
-
-                switch (customId)
+                else
                 {
-                    case "createcharacter_namedescription":
-                         AssignCharacterNameDescription(modal,1);
-                        break;
-                    default:
-                        return "ERROR: ModalHandler couldnt find customID";
+                    modal.RespondAsync("ERROR: ModalHandler CustomId Is NUll");
                 }
             }
 
-            return "ERROR: ModalHandler CustomId Is NUll";
         }
-
-        public void AssignCharacterNameDescription(SocketModal modal, int regId)
+        private void SelectMenuCreateCharacter(string condition, SocketMessageComponent arg)
         {
-            SetupBaseCharacterDto(modal.User.Id,regId);
+            SetupBaseCharacterDto(arg.User.Id);
+            switch (condition)
+            {
+                case "selectrace":
+                    AssigningRace(arg);
+                    break;
+                case "selectclass":
+                    AssigningClass(arg);
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void AssignCharacterNameDescription(SocketModal modal)
+        {
             if (_playerCharacterDto!=null)
             {
                 var components = modal.Data.Components.ToList();
                 _playerCharacterDto.Name = components.First(x => x.CustomId == "character_name").Value;
                 _playerCharacterDto.Description = components.First(x => x.CustomId == "character_description").Value;
-                SaveCharacter();
+              
                 modal.RespondAsync(embed: BuilderReplies.ReplyCreatedCompleteEmbed(
                     _playerCharacterDto.Name,
                     _playerCharacterDto.Description,
                     _playerCharacterDto.SelectedRace.ToString(),
                     _playerCharacterDto.SelectedClass.ToString()
                     ),ephemeral : true);
-              
-            }
-            modal.RespondAsync("Something went Wrong");
-        }
-        private void AssigningClass(SocketMessageComponent arg,int regId)
-        {
-            SetupBaseCharacterDto(arg.User.Id,regId);
-            string cClass = arg.Data.Values.First();
-            try
-            {
-                _playerCharacterDto.SelectedClass = (Classes)Enum.Parse(typeof(Classes), cClass);
+                _playerCharacterDto.IsTemp = false;
                 SaveCharacter();
-                arg.RespondWithModalAsync(BuilderReplies.ModalCharacterNameDescription());
             }
-            catch (Exception ex)
+            else
             {
-                arg.RespondAsync("Couldnt Assign A Class" + ex.Message);
+                modal.RespondAsync("Something went Wrong");
+
             }
-
         }
+     
 
-        public void AssigningRace(SocketMessageComponent arg, int regId)
+        private void AssigningRace(SocketMessageComponent arg)
         {
-            SetupBaseCharacterDto(arg.User.Id, regId);
+        
             string race = arg.Data.Values.First();
             try
             {
@@ -130,18 +139,39 @@ namespace SlapBott
  
         }
 
-        public void SetupBaseCharacterDto(ulong argId, int regId)
+        private void SetupBaseCharacterDto(ulong argId)
         {
+            _playerCharacter = new();
+            _playerCharacter = _playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(argId, _registration.Id);
             _playerCharacterDto = new PlayerCharacterDto()
-                  .FromCharacter(
-                 _playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(
-             argId,regId
-                 ));
+                  .FromCharacter(_playerCharacter);
         }
-        public void SaveCharacter()
+        private void SaveCharacter()
         {
-             _playerCharacterService.SaveCharacter(_playerCharacterDto.ToCharacter());
+             _playerCharacterService.SaveCharacter(_playerCharacterDto.ToCharacter(_playerCharacter));
+        }
+        private void SetTheRegistrationfromDiscordId(ulong DiscordId)
+        {
+            _registration = _registrationService.GetUserByDiscordId(DiscordId);
+            
+        }
+        private void AssigningClass(SocketMessageComponent arg)
+        {
+            
+            string cClass = arg.Data.Values.First();
+            try
+            {
+                _playerCharacterDto.SelectedClass = (Classes)Enum.Parse(typeof(Classes), cClass);
+                SaveCharacter();
+                arg.RespondWithModalAsync(BuilderReplies.ModalCharacterNameDescription());
+            }
+            catch (Exception ex)
+            {
+                arg.RespondAsync("AssigningClass Meth Failed" + ex.Message);
+            }
+
         }
 
+        
     }
 }

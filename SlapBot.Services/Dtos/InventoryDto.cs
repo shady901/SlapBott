@@ -27,5 +27,6 @@ namespace SlapBott.Services.Dtos
             }
             return stat;
         }
+
     }
 }
