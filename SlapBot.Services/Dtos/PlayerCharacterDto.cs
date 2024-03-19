@@ -31,22 +31,31 @@ namespace SlapBott.Services.Dtos
         public InventoryDto Inventory { get; set; }
         public string? Name { get; set; } 
         public string? Description { get; set; }
-        public int CharId { get; private set; }
+      //  public int CharId { get; private set; }
 
         public PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
+            if (playercharacter.Character == null)
+            {
+                Console.WriteLine($"From CharacterMeth DId:{playercharacter.DiscordId} CharId:{playercharacter.CharacterId} char is null");
+                
+            }
+
             return new PlayerCharacterDto
             {
-                regId = playercharacter.RegistrationId,
-                Stats = playercharacter.Character.Stats,
-                IsTemp = playercharacter.IsTemp,
-                Name = playercharacter.Character.Name ?? "Temp",
-                Description = playercharacter.Character.Description ?? "Temp",
-                DiscordId = playercharacter.DiscordId,
-                CharId = playercharacter.CharacterId,
-                //SelectedClass = character.Character.SelectedCharacterClass,
-                //SelectedRace = character.Character.SelectedRace,
-            };
+
+                    regId = playercharacter.RegistrationId,
+                    Stats = playercharacter.Character.Stats,
+                    IsTemp = playercharacter.IsTemp,
+                    Name = playercharacter.Character.Name ?? "Temp",
+                    Description = playercharacter.Character.Description ?? "Temp",
+                    DiscordId = playercharacter.DiscordId,
+                    Id = playercharacter.Id,
+                    //SelectedClass = character.Character.SelectedCharacterClass,
+                    //SelectedRace = character.Character.SelectedRace,
+                };
+            
+               
         }
         public PlayerCharacter ToCharacter(PlayerCharacter? playerCharacter = null)
         {
@@ -57,7 +66,8 @@ namespace SlapBott.Services.Dtos
             playerCharacter.Character.Description = Description;
             playerCharacter.Character.Stats = Stats;
             playerCharacter.IsTemp = IsTemp;
-            playerCharacter.CharacterId = CharId;
+           
+           // playerCharacter.CharacterId = CharId;
            //playerCharacter.Character.SelectedCharacterClass = SelectedClass;
             //playerCharacter.Character.SelectedRace = SelectedRace;
 

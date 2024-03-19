@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Models;
 
 
 namespace SlapBott.Data.Repos
@@ -15,9 +16,9 @@ namespace SlapBott.Data.Repos
         public PlayerCharacter GetTempPlayerCharacterByDiscordID(ulong id, int regId)
         {
 
-            PlayerCharacter playerCharacter = _dbContext.PlayerCharacter.FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
-          
-            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() }, DiscordId = id, RegistrationId = regId};
+            PlayerCharacter playerCharacter = _dbContext.PlayerCharacter.Include(x => x.Character).FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
+           
+            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new()} }, DiscordId = id, RegistrationId = regId};
         }
         public PlayerCharacter GetPlayerCharacterByDiscordID(ulong id, int regId)
         {

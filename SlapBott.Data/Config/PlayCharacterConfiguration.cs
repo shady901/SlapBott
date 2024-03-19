@@ -20,6 +20,7 @@ namespace SlapBott.Data.Config
 
             builder.HasOne(c => c.Character).WithOne();
 
+           
         }
 
     }

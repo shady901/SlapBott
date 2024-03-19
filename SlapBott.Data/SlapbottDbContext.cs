@@ -23,7 +23,7 @@ namespace SlapBott.Data
         public DbSet<RaidBoss> RaidBosses { get; set; }
        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Stats> PlayersStats { get; set; }
-
+        public DbSet<Race> Races { get; set; }
         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
 
@@ -41,7 +41,7 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<RaidBoss>(new RaidBossConfiguration());
             modelBuilder.ApplyConfiguration<Inventory>(new InventoryConfiguration());
             modelBuilder.ApplyConfiguration<Stats>(new PlayerStatsConfiguration());
-
+            modelBuilder.ApplyConfiguration<Race>(new RacesConfiguration());
           
 
      

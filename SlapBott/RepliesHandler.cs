@@ -53,6 +53,7 @@ namespace SlapBott
         public void HandleSubmittedModal(SocketModal modal)
         {
             SetTheRegistrationfromDiscordId(modal.User.Id);
+            SetupBaseCharacterDto(modal.User.Id);
             if (_registration == null)
             {
                 modal.RespondAsync("you have not joined the bot");
@@ -109,8 +110,8 @@ namespace SlapBott
                     _playerCharacterDto.SelectedRace.ToString(),
                     _playerCharacterDto.SelectedClass.ToString()
                     ),ephemeral : true);
-                _playerCharacterDto.IsTemp = false;
-                SaveCharacter();
+                SaveAndCompleteCreation();
+             
             }
             else
             {
@@ -141,6 +142,7 @@ namespace SlapBott
 
         private void SetupBaseCharacterDto(ulong argId)
         {
+            _playerCharacterDto = new();
             _playerCharacter = new();
             _playerCharacter = _playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(argId, _registration.Id);
             _playerCharacterDto = new PlayerCharacterDto()
@@ -171,7 +173,27 @@ namespace SlapBott
             }
 
         }
+        private void SaveAndCompleteCreation()
+        { 
+            _playerCharacterDto.IsTemp = false;
+            _registration.ActiveCharacterId = _playerCharacterDto.Id;
+           
+            //generate starting stats and equiment and other starting data
+            
+         
+            try
+            {
+                SaveCharacter();
+                _registrationService.SaveRegistration(_registration);
+                
+            }
+            catch (Exception ex)
+            {
 
+               Console.WriteLine("(CompleteCreation)Failed too Save Character Or register "+ex);
+            }
+          
+        }
         
     }
 }

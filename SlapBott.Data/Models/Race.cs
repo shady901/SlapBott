@@ -11,5 +11,9 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
         public Races Name { get; set; }
+
+        public Dictionary<StatType, int> BaseStats { get; set; }
+        public Dictionary<StatType, int> PerLevelStats { get; set; }
+
     }
 }

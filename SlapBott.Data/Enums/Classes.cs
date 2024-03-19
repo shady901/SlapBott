@@ -9,7 +9,7 @@ namespace SlapBott.Data.Enums
     public enum Classes
     {
 
-        none = 0,
+        None = 0,
         Warrior,
         Mage,
     }

@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240318080215_adding somechanges 1")]
-    partial class addingsomechanges1
+    [Migration("20240318235742_Adding Races")]
+    partial class AddingRaces
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,10 +39,15 @@ namespace SlapBott.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("RaceId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("StatsId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RaceId");
 
                     b.ToTable("Character");
                 });
@@ -119,7 +124,6 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Equiped")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -153,11 +157,33 @@ namespace SlapBott.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterId");
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
 
                     b.HasIndex("RegistrationId");
 
                     b.ToTable("PlayerCharacter");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
+                {
+                    b.Property<int>("Name")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BaseStats")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PerLevelStats")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Races");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
@@ -214,46 +240,7 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AttackDamage")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ChaosResistance")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("CharacterId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CritChance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Dexterity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FireResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FrostResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Health")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Intelligence")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LightningResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MaxHealth")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PhysicalResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SpellPower")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Strength")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("stats")
@@ -384,6 +371,17 @@ namespace SlapBott.Data.Migrations
                     b.HasDiscriminator().HasValue("RaidBoss");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Race", "Race")
+                        .WithMany()
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Race");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.Enemy", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
@@ -416,8 +414,8 @@ namespace SlapBott.Data.Migrations
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
-                        .WithMany()
-                        .HasForeignKey("CharacterId")
+                        .WithOne()
+                        .HasForeignKey("SlapBott.Data.Models.PlayerCharacter", "CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -434,7 +432,7 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
                 {
-                    b.HasOne("SlapBott.Data.Models.Character", "Character")
+                    b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
                         .WithMany()
                         .HasForeignKey("ActiveCharacterId");
 
@@ -543,11 +541,9 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
                 {
-                    b.Navigation("Inventory")
-                        .IsRequired();
+                    b.Navigation("Inventory");
 
-                    b.Navigation("Stats")
-                        .IsRequired();
+                    b.Navigation("Stats");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>

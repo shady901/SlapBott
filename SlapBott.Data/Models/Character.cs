@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SlapBott.Data.Models
 {
-    public  class Character
+    public class Character
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -19,11 +19,19 @@ namespace SlapBott.Data.Models
         //[ForeignKey("BStatsId")]
         //public  Stats? BStats { get; set; }
         public int StatsId { get; set; }
-        public Stats Stats { get; set; }
+        public Stats? Stats { get; set; }
         public int InventoryId { get; set; }
         [ForeignKey("InventoryId")]
         public Inventory? Inventory { get; set; }
-        // public virtual Race? Race { get; set; }
+
+
+        public Races? RaceId { get; set; }
+        [ForeignKey("RaceId")]
+        public virtual Race? Race { get; set; }
+
+
+
+
         // public virtual CharacterClass CharacterClass { get; set; }
         //public virtual SubClass SubClass { get; set; }
         // public Classes SelectedCharacterClass { get; set; }

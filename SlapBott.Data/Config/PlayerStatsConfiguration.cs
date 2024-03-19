@@ -16,11 +16,18 @@ namespace SlapBott.Data.Config
                 .HasOne(s => s.Character)
                 .WithOne(c => c.Stats)
                 .HasForeignKey<Stats>(s => s.CharacterId);
+            
             builder.Property(x => x.stats)
                            .HasConversion(
                                            v => JsonConvert.SerializeObject(v),
                                            v => JsonConvert.DeserializeObject<Dictionary<StatType, int>>(v)
                                        );
+        
+
+
+
         }
+
+
     }
 }

@@ -11,10 +11,10 @@ namespace SlapBott.Data.Models
 
         public virtual List<PlayerCharacter> PlayerCharacters { get; set; } = new List<PlayerCharacter>();
         public int? ActiveCharacterId { get; set; }
-        
 
         [ForeignKey ("ActiveCharacterId")]
-        public virtual Character? Character { get; set; }
+
+        public virtual PlayerCharacter? Character { get; set; }
 
         
 

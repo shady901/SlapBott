@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240318084119_adding somechanges 3")]
-    partial class addingsomechanges3
+    [Migration("20240318225513_Adding changed init")]
+    partial class Addingchangedinit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,7 +119,6 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Equiped")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -215,46 +214,7 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AttackDamage")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ChaosResistance")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("CharacterId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CritChance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Dexterity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FireResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("FrostResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Health")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Intelligence")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LightningResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MaxHealth")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PhysicalResistance")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SpellPower")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Strength")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("stats")
@@ -435,7 +395,7 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
                 {
-                    b.HasOne("SlapBott.Data.Models.Character", "Character")
+                    b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
                         .WithMany()
                         .HasForeignKey("ActiveCharacterId");
 
@@ -546,8 +506,7 @@ namespace SlapBott.Data.Migrations
                 {
                     b.Navigation("Inventory");
 
-                    b.Navigation("Stats")
-                        .IsRequired();
+                    b.Navigation("Stats");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
