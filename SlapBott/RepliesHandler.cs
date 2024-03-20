@@ -127,6 +127,7 @@ namespace SlapBott
             string race = arg.Data.Values.First();
             try
             {
+                
               //  Races a = (Races)Enum.Parse(typeof(Races), race);
                 _playerCharacterDto.SelectedRace = (Races)Enum.Parse(typeof(Races), race);
                 SaveCharacter();
@@ -177,10 +178,12 @@ namespace SlapBott
         { 
             _playerCharacterDto.IsTemp = false;
             _registration.ActiveCharacterId = _playerCharacterDto.Id;
-           
+            _playerCharacterDto.SetCharacerRaceBaseStats();
+           // _playerCharacterDto.SetCharacerClassBaseStats();
+
             //generate starting stats and equiment and other starting data
-            
-         
+
+
             try
             {
                 SaveCharacter();

@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240319000025_Adding Races nullable")]
-    partial class AddingRacesnullable
+    [Migration("20240319223453_Adding Init")]
+    partial class AddingInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,23 +167,40 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
                 {
-                    b.Property<int>("Name")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BaseStats")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("Name")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PerLevelStats")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.ToTable("Races");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BaseStats = "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}",
+                            Name = 1,
+                            PerLevelStats = "{\"Dexterity\":1}"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BaseStats = "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}",
+                            Name = 2,
+                            PerLevelStats = "{\"MaxHealth\":20}"
+                        });
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
@@ -374,7 +391,7 @@ namespace SlapBott.Data.Migrations
             modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Race", "Race")
-                        .WithMany()
+                        .WithMany("Character")
                         .HasForeignKey("RaceId");
 
                     b.Navigation("Race");
@@ -547,6 +564,11 @@ namespace SlapBott.Data.Migrations
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
                 {
                     b.Navigation("Bag");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
+                {
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>

@@ -19,7 +19,7 @@ namespace SlapBott.Data.Config
                 .HasForeignKey(r => r.RegistrationId);
 
             builder.HasOne(c => c.Character).WithOne();
-
+            
            
         }
 

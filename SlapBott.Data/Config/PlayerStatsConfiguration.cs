@@ -15,7 +15,7 @@ namespace SlapBott.Data.Config
                 
                 .HasOne(s => s.Character)
                 .WithOne(c => c.Stats)
-                .HasForeignKey<Stats>(s => s.CharacterId);
+                .HasForeignKey<Character>(s => s.StatsId);
             
             builder.Property(x => x.stats)
                            .HasConversion(

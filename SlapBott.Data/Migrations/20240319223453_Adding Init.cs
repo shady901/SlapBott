@@ -2,31 +2,16 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SlapBott.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Addingchangedinit : Migration
+    public partial class AddingInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Character",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CharExp = table.Column<ulong>(type: "INTEGER", nullable: false),
-                    StatsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    InventoryId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Character", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "CombatStates",
                 columns: table => new
@@ -43,6 +28,21 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Races",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<int>(type: "INTEGER", nullable: false),
+                    BaseStats = table.Column<string>(type: "TEXT", nullable: false),
+                    PerLevelStats = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Races", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Skills",
                 columns: table => new
                 {
@@ -56,6 +56,29 @@ namespace SlapBott.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Skills", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Character",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CharExp = table.Column<ulong>(type: "INTEGER", nullable: false),
+                    StatsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    InventoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RaceId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Character", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Character_Races_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "Races",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -301,6 +324,20 @@ namespace SlapBott.Data.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                table: "Races",
+                columns: new[] { "Id", "BaseStats", "Name", "PerLevelStats" },
+                values: new object[,]
+                {
+                    { 1, "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}", 1, "{\"Dexterity\":1}" },
+                    { 2, "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}", 2, "{\"MaxHealth\":20}" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Character_RaceId",
+                table: "Character",
+                column: "RaceId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Enemies_CharacterId",
                 table: "Enemies",
@@ -392,6 +429,10 @@ namespace SlapBott.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Character_Races_RaceId",
+                table: "Character");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_PlayerCharacter_Character_CharacterId",
                 table: "PlayerCharacter");
 
@@ -428,6 +469,9 @@ namespace SlapBott.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CombatStates");
+
+            migrationBuilder.DropTable(
+                name: "Races");
 
             migrationBuilder.DropTable(
                 name: "Character");

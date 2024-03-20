@@ -11,8 +11,7 @@ namespace SlapBott.Data.Models
     public class Stats
     {
         public int Id { get; set; }
-        public int CharacterId { get; set; }
-        [ForeignKey("CharacterId")]
+ 
         public virtual Character Character { get; set; }
 
         public Dictionary<StatType, int> stats { get; set; }

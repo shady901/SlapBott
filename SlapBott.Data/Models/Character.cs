@@ -18,14 +18,14 @@ namespace SlapBott.Data.Models
         //public int BStatsId { get; set; }
         //[ForeignKey("BStatsId")]
         //public  Stats? BStats { get; set; }
-        public int StatsId { get; set; }
+        public int StatsId { get; set; }      
         public Stats? Stats { get; set; }
         public int InventoryId { get; set; }
         [ForeignKey("InventoryId")]
         public Inventory? Inventory { get; set; }
 
 
-        public Races? RaceId { get; set; }
+        public int? RaceId { get; set; }
         [ForeignKey("RaceId")]
         public virtual Race? Race { get; set; }
 

@@ -32,7 +32,7 @@ namespace SlapBott.Services.Dtos
         public string? Name { get; set; } 
         public string? Description { get; set; }
       //  public int CharId { get; private set; }
-
+        public int statsId { get; set; }
         public PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
             if (playercharacter.Character == null)
@@ -44,16 +44,20 @@ namespace SlapBott.Services.Dtos
             return new PlayerCharacterDto
             {
 
-                    regId = playercharacter.RegistrationId,
-                    Stats = playercharacter.Character.Stats,
-                    IsTemp = playercharacter.IsTemp,
-                    Name = playercharacter.Character.Name ?? "Temp",
-                    Description = playercharacter.Character.Description ?? "Temp",
-                    DiscordId = playercharacter.DiscordId,
-                    Id = playercharacter.Id,
+                regId = playercharacter.RegistrationId,
+                statsId = playercharacter.Character.StatsId,
+                Stats = playercharacter.Character.Stats,
+                IsTemp = playercharacter.IsTemp,
+                Name = playercharacter.Character.Name ?? "Temp",
+                Description = playercharacter.Character.Description ?? "Temp",
+                DiscordId = playercharacter.DiscordId,
+                Id = playercharacter.Id,
+                
+                SelectedRace = playercharacter.Character.RaceId is null ? Races.None : (Races)playercharacter.Character.RaceId,
+                Race = playercharacter.Character.Race is null ? new RaceDto() : new RaceDto().FromRace(playercharacter.Character.Race),
                     //SelectedClass = character.Character.SelectedCharacterClass,
-                    //SelectedRace = character.Character.SelectedRace,
-                };
+                  
+            };
             
                
         }
@@ -66,11 +70,10 @@ namespace SlapBott.Services.Dtos
             playerCharacter.Character.Description = Description;
             playerCharacter.Character.Stats = Stats;
             playerCharacter.IsTemp = IsTemp;
-           
-           // playerCharacter.CharacterId = CharId;
+            playerCharacter.Character.RaceId = (int)SelectedRace;
+            
            //playerCharacter.Character.SelectedCharacterClass = SelectedClass;
-            //playerCharacter.Character.SelectedRace = SelectedRace;
-
+          
             return playerCharacter;
         }
 
@@ -156,10 +159,22 @@ namespace SlapBott.Services.Dtos
             return damage;
         }
 
-        //public void ApplyDamage(int damage, StatType elementalType)
-        //{
+        public void SetCharacerRaceBaseStats()
+        {
+            if (Race?.BaseStats != null)
+            {
+                Stats.stats = Race.BaseStats;
+            }
+           
+        }
+        public void SetCharacerClassBaseStats()
+        {
+            if (Race?.BaseStats != null)
+            {
+                Stats.stats = Race.BaseStats;
+            }
 
-        //}
+        }
 
 
 

@@ -16,7 +16,12 @@ namespace SlapBott.Data.Repos
         public PlayerCharacter GetTempPlayerCharacterByDiscordID(ulong id, int regId)
         {
 
-            PlayerCharacter playerCharacter = _dbContext.PlayerCharacter.Include(x => x.Character).FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
+            PlayerCharacter playerCharacter = _dbContext.PlayerCharacter
+                .Include(x => x.Character)
+                     .ThenInclude(x => x.Stats)
+                .Include(x => x.Character)
+                     .ThenInclude(x => x.Race)
+                .FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
            
             return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new()} }, DiscordId = id, RegistrationId = regId};
         }

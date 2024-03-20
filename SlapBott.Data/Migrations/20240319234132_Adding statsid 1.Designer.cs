@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240318225513_Adding changed init")]
-    partial class Addingchangedinit
+    [Migration("20240319234132_Adding statsid 1")]
+    partial class Addingstatsid1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,10 +39,18 @@ namespace SlapBott.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("RaceId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("StatsId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RaceId");
+
+                    b.HasIndex("StatsId")
+                        .IsUnique();
 
                     b.ToTable("Character");
                 });
@@ -160,6 +168,44 @@ namespace SlapBott.Data.Migrations
                     b.ToTable("PlayerCharacter");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BaseStats")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Name")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PerLevelStats")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Races");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BaseStats = "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}",
+                            Name = 1,
+                            PerLevelStats = "{\"Dexterity\":1}"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BaseStats = "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}",
+                            Name = 2,
+                            PerLevelStats = "{\"MaxHealth\":20}"
+                        });
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
                 {
                     b.Property<int>("Id")
@@ -214,17 +260,11 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("stats")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CharacterId")
-                        .IsUnique();
 
                     b.ToTable("PlayersStats");
                 });
@@ -345,6 +385,23 @@ namespace SlapBott.Data.Migrations
                     b.HasDiscriminator().HasValue("RaidBoss");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Race", "Race")
+                        .WithMany("Character")
+                        .HasForeignKey("RaceId");
+
+                    b.HasOne("SlapBott.Data.Models.Stats", "Stats")
+                        .WithOne("Character")
+                        .HasForeignKey("SlapBott.Data.Models.Character", "StatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Race");
+
+                    b.Navigation("Stats");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.Enemy", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
@@ -398,17 +455,6 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
                         .WithMany()
                         .HasForeignKey("ActiveCharacterId");
-
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.Stats", b =>
-                {
-                    b.HasOne("SlapBott.Data.Models.Character", "Character")
-                        .WithOne("Stats")
-                        .HasForeignKey("SlapBott.Data.Models.Stats", "CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Character");
                 });
@@ -505,8 +551,6 @@ namespace SlapBott.Data.Migrations
             modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
                 {
                     b.Navigation("Inventory");
-
-                    b.Navigation("Stats");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
@@ -514,9 +558,20 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Bag");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
+                {
+                    b.Navigation("Character");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
                 {
                     b.Navigation("PlayerCharacters");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Stats", b =>
+                {
+                    b.Navigation("Character")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SlapBott.Services.Combat.Models.CombatState", b =>
