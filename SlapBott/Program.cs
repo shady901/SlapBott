@@ -44,6 +44,8 @@
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
                 .AddSingleton<InteractionHandler>()                
                 .AddSingleton<RegistrationService>()
+                .AddSingleton<SkillService>()
+                .AddSingleton<SkillRepo>()
                 .AddSingleton<RegistrationRepositry>()
                 .AddSingleton<PlayerCharacterRepositry>()
                 .AddSingleton<PlayerCharacterService>()
@@ -68,7 +70,7 @@
             
             
             var client = _servicesProvider.GetRequiredService<DiscordSocketClient>();
-           _handler = new RepliesHandler(_servicesProvider.GetService<PlayerCharacterService>(), _servicesProvider.GetService<RegistrationService>());
+           _handler = new RepliesHandler(_servicesProvider.GetService<PlayerCharacterService>(), _servicesProvider.GetService<RegistrationService>(),_servicesProvider.GetService<SkillService>());
 
             client.Log += LogAsync;
             client.SlashCommandExecuted += Client_SlashCommandExecuted;

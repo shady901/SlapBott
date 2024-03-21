@@ -17,12 +17,13 @@ namespace SlapBott.Data.Repos
         {
 
             PlayerCharacter playerCharacter = _dbContext.PlayerCharacter
-                .Include(x => x.Character)
-                     .ThenInclude(x => x.Stats)
-                .Include(x => x.Character)
-                     .ThenInclude(x => x.Race)
-                .FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.IsTemp && PCharacter.RegistrationId == regId);
-           
+                .Where(pc => pc.DiscordId == id && pc.IsTemp && pc.RegistrationId == regId)
+                .Include(pc => pc.Character.Stats)
+                .Include(pc => pc.Character.Race)
+                .Include(pc => pc.Character.CharacterClass)
+                .Include (pc => pc.Character.LearnedSkill)
+                .FirstOrDefault();
+
             return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new()} }, DiscordId = id, RegistrationId = regId};
         }
         public PlayerCharacter GetPlayerCharacterByDiscordID(ulong id, int regId)

@@ -28,9 +28,12 @@ namespace SlapBott.Data.Models
         public int? RaceId { get; set; }
         [ForeignKey("RaceId")]
         public virtual Race? Race { get; set; }
+        public int? ClassId { get; set; }
+        [ForeignKey("ClassId")]
+        public virtual CharacterClass? CharacterClass { get; set; }
 
-
-
+        
+        public virtual List<Skill> LearnedSkill { get; set; } = new List<Skill>();
 
         // public virtual CharacterClass CharacterClass { get; set; }
         //public virtual SubClass SubClass { get; set; }

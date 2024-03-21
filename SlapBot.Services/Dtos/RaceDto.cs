@@ -22,6 +22,7 @@ namespace SlapBott.Services.Dtos
         {
             return new RaceDto()
             {
+                Id = r.Id,
                 Name = r.Name,
                 BaseStats = r.BaseStats,
                 PerLevelStats = r.PerLevelStats,

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlapBott.Data;
 
@@ -10,9 +11,11 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    partial class SlapbottDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240320212410_Adding Class config")]
+    partial class AddingClassconfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -35,10 +38,6 @@ namespace SlapBott.Data.Migrations
                     b.Property<int>("InventoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("LearnedSkill")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -58,7 +57,7 @@ namespace SlapBott.Data.Migrations
                     b.HasIndex("StatsId")
                         .IsUnique();
 
-                    b.ToTable("Characters");
+                    b.ToTable("Character");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.CharacterClass", b =>
@@ -279,9 +278,6 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CharacterId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -289,6 +285,7 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("StatTypeRatio")
@@ -297,19 +294,7 @@ namespace SlapBott.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterId");
-
                     b.ToTable("Skills");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "You use All your force to create a Powerfull Strike",
-                            ElementalType = 4,
-                            Name = "Strike",
-                            StatTypeRatio = "{\"Strength\":0.4,\"Dexterity\":0.3,\"Intelligence\":0.25}"
-                        });
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Stats", b =>
@@ -519,15 +504,6 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
                         .WithMany()
                         .HasForeignKey("ActiveCharacterId");
-
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.Skill", b =>
-                {
-                    b.HasOne("SlapBott.Data.Models.Character", "Character")
-                        .WithMany()
-                        .HasForeignKey("CharacterId");
 
                     b.Navigation("Character");
                 });

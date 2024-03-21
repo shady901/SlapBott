@@ -9,7 +9,7 @@ namespace SlapBott.Services.Contracts
 
        string JoinRaid(ulong userId, ulong channelId);
 
-       string AttackRaid(PlayerCharacterDto character, Skill skill, int Target);
+       string AttackRaid(PlayerCharacterDto character, SkillDto skill, int Target);
 
        bool IsValidTarget(string Target);
        void SetupState(ulong channelID);

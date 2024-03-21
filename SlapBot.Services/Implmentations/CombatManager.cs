@@ -61,7 +61,7 @@ namespace SlapBott.Services.Implmentations
 
 
 
-            ApplyDamage(GetStatTypeByElementalType(skill.ElementalType),CalculateDamageOfSkill(character, skill), myTarget);
+            //ApplyDamage(GetStatTypeByElementalType(skill.ElementalType),CalculateDamageOfSkill(character, skill), myTarget);
            
             
            
@@ -73,19 +73,19 @@ namespace SlapBott.Services.Implmentations
 
         }
         
-        public int CalculateDamageOfSkill(PlayerCharacterDto character, Skill skill ) 
-        {
+        //public int CalculateDamageOfSkill(PlayerCharacterDto character, Skill skill ) 
+        //{
            
-            //apply buffs and debuffs of the player when we have set themup
+        //    //apply buffs and debuffs of the player when we have set themup
 
 
-            // attack base dmg + stat for skill * elemental damage %
-            int damage = character.CalculateBaseStatDamageFor(skill) + character.GetCombinedStat(StatType.AttackDamage);
-            damage = damage * character.GetCombinedStat(skill.GetSkillStatTypeByElement());
+        //    // attack base dmg + stat for skill * elemental damage %
+        //    int damage = character.CalculateBaseStatDamageFor(skill) + character.GetCombinedStat(StatType.AttackDamage);
+        //    damage = damage * character.GetCombinedStat(skill.GetSkillStatTypeByElement());
 
-            return damage;
+        //    return damage;
             
-        }
+        //}
         public void ApplyDamage<T>(StatType elementalType, int damage, T target) where T : ITarget
         {
             target.ApplyDamage(damage, elementalType);

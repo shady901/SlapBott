@@ -33,12 +33,20 @@ namespace SlapBott.Services.Dtos
         public string? Description { get; set; }
       //  public int CharId { get; private set; }
         public int statsId { get; set; }
+       
         public PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
             if (playercharacter.Character == null)
             {
                 Console.WriteLine($"From CharacterMeth DId:{playercharacter.DiscordId} CharId:{playercharacter.CharacterId} char is null");
                 
+            }
+
+
+            var LearnedSkills = new List<SkillDto> { };
+            foreach (var item in playercharacter.Character.LearnedSkill)
+            {
+                LearnedSkills.Add(new SkillDto().FromSkill(item));
             }
 
             return new PlayerCharacterDto
@@ -52,11 +60,17 @@ namespace SlapBott.Services.Dtos
                 Description = playercharacter.Character.Description ?? "Temp",
                 DiscordId = playercharacter.DiscordId,
                 Id = playercharacter.Id,
-                
+                Skills = LearnedSkills,
+
+
                 SelectedRace = playercharacter.Character.RaceId is null ? Races.None : (Races)playercharacter.Character.RaceId,
                 Race = playercharacter.Character.Race is null ? new RaceDto() : new RaceDto().FromRace(playercharacter.Character.Race),
-                    //SelectedClass = character.Character.SelectedCharacterClass,
-                  
+
+
+                SelectedClass = playercharacter.Character.ClassId is null ? Classes.None : (Classes)playercharacter.Character.ClassId,
+                CharacterClass = playercharacter.Character.CharacterClass is null ? new CharacterClassDto() : new CharacterClassDto().FromClass(playercharacter.Character.CharacterClass),
+                //SelectedClass = character.Character.SelectedCharacterClass,
+
             };
             
                
@@ -71,22 +85,22 @@ namespace SlapBott.Services.Dtos
             playerCharacter.Character.Stats = Stats;
             playerCharacter.IsTemp = IsTemp;
             playerCharacter.Character.RaceId = (int)SelectedRace;
-            
+            playerCharacter.Character.ClassId = SelectedClass == Classes.None ? null : (int)SelectedClass;
            //playerCharacter.Character.SelectedCharacterClass = SelectedClass;
           
             return playerCharacter;
         }
 
 
-        public Skill GetBySkill(string skill)
+        public SkillDto GetBySkill(string skill)
         {
             if (skill == string.Empty)
             {
                 return null;
             }
-            var temp = Skills.Values.FirstOrDefault(x => x.Name.ToLower().Contains(skill.ToLower()));
+            SkillDto? TargetSkill = Skills?.FirstOrDefault(x => x.Name.ToLower().Contains(skill.ToLower()));
 
-            return temp;
+            return TargetSkill;
 
         }
         public Equipment GetEquipmentBySlot(EquipType d)
@@ -169,14 +183,13 @@ namespace SlapBott.Services.Dtos
         }
         public void SetCharacerClassBaseStats()
         {
-            if (Race?.BaseStats != null)
+            if (CharacterClass?.BaseStats != null)
             {
-                Stats.stats = Race.BaseStats;
+                Stats.stats = CharacterClass.BaseStats;
             }
 
         }
 
-
-
+       
     }
 }

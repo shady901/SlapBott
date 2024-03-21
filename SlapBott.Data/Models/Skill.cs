@@ -11,8 +11,9 @@ namespace SlapBott.Data.Models
 {
     public class Skill
     {
-        public required int Id { get; set; }
-        public required string Name { get; set; }
+        public int Id { get; set; }
+        public virtual Character Character { get; set; }
+        public string? Name { get; set; }
         public string? Description { get; set; }
         public ElementalType ElementalType { get; set; }
 
@@ -21,25 +22,7 @@ namespace SlapBott.Data.Models
 
 
 
-        public StatType GetSkillStatTypeByElement()
-        {
-            switch (ElementalType)
-            {
-                case ElementalType.Fire:
-                    return StatType.ElementalDamage;
-                case ElementalType.Frost:
-                    return StatType.ElementalDamage;
-                case ElementalType.Lightning:
-                    return StatType.ElementalDamage;
-                case ElementalType.Physical:
-                    return StatType.PhysicalDamage;
-                case ElementalType.Chaos:
-                    return StatType.ChaosDamage;
-                default:
-                    return StatType.none;
-            }
-
-        }
+       
         
     }
 }

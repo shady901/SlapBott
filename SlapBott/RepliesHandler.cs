@@ -24,11 +24,12 @@ namespace SlapBott
         private PlayerCharacterDto? _playerCharacterDto;
         private PlayerCharacter? _playerCharacter;
         private Registration? _registration;
-
-        public RepliesHandler(PlayerCharacterService? playerCharacterService, RegistrationService? registrationService)
+        private SkillService? _skillService;
+        public RepliesHandler(PlayerCharacterService? playerCharacterService, RegistrationService? registrationService, SkillService? skillService)
         {
             _playerCharacterService = playerCharacterService;
             _registrationService = registrationService;
+            _skillService = skillService;
         }
 
         public void HandleSubmittedSelectMenu(SocketMessageComponent arg)
@@ -131,7 +132,7 @@ namespace SlapBott
               //  Races a = (Races)Enum.Parse(typeof(Races), race);
                 _playerCharacterDto.SelectedRace = (Races)Enum.Parse(typeof(Races), race);
                 SaveCharacter();
-                arg.RespondAsync(embed: BuilderReplies.RaceSelectedReply(arg.Data.Values.First()), components: BuilderReplies.GetChoseClassMessageComponent());
+                arg.RespondAsync(embed: BuilderReplies.RaceSelectedReply(arg.Data.Values.First()), components: BuilderReplies.GetChoseClassMessageComponent(), ephemeral:true);
             }
             catch (Exception ex)
             {
@@ -179,8 +180,8 @@ namespace SlapBott
             _playerCharacterDto.IsTemp = false;
             _registration.ActiveCharacterId = _playerCharacterDto.Id;
             _playerCharacterDto.SetCharacerRaceBaseStats();
-           // _playerCharacterDto.SetCharacerClassBaseStats();
-
+            _playerCharacterDto.SetCharacerClassBaseStats();
+            SetStartingSkills();
             //generate starting stats and equiment and other starting data
 
 
@@ -197,6 +198,14 @@ namespace SlapBott
             }
           
         }
-        
+        private void SetStartingSkills()
+        {
+            if (_playerCharacterDto.Skills is null)
+            {
+                _playerCharacterDto.Skills = new List<SkillDto> {
+                    { new SkillDto().FromSkill(_skillService.GetSkillById(1)) }
+            };
+            }
+        }
     }
 }

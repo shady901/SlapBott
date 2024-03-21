@@ -31,7 +31,7 @@ namespace SlapBott.Commands
             {
                 if (_registrationService.CheckIfPlayerExists(Context.User.Id))
                 {
-                    await Context.Interaction.RespondAsync(embed: BuilderReplies.ChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent());
+                    await Context.Interaction.RespondAsync(embed: BuilderReplies.ChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent(), ephemeral:true);
 
                 }
                 else 
