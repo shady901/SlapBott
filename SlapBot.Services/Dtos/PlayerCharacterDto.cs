@@ -1,6 +1,7 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
+using SlapBott.Services.Implmentations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace SlapBott.Services.Dtos
         public CharacterClassDto? CharacterClass { get; set; }
         public SubClassDto? SubClass { get; set; }
         //equipement inventory starts at id of 
-        public InventoryDto Inventory { get; set; }
+        public InventoryDto? Inventory { get; set; }
         public string? Name { get; set; } 
         public string? Description { get; set; }
       //  public int CharId { get; private set; }
@@ -41,13 +42,7 @@ namespace SlapBott.Services.Dtos
                 Console.WriteLine($"From CharacterMeth DId:{playercharacter.DiscordId} CharId:{playercharacter.CharacterId} char is null");
                 
             }
-
-
-            var LearnedSkills = new List<SkillDto> { };
-            foreach (var item in playercharacter.Character.LearnedSkill)
-            {
-                LearnedSkills.Add(new SkillDto().FromSkill(item));
-            }
+         
 
             return new PlayerCharacterDto
             {
@@ -60,7 +55,7 @@ namespace SlapBott.Services.Dtos
                 Description = playercharacter.Character.Description ?? "Temp",
                 DiscordId = playercharacter.DiscordId,
                 Id = playercharacter.Id,
-                Skills = LearnedSkills,
+                Skills = playercharacter.Character.LearnedSkillIds?? new(),
 
 
                 SelectedRace = playercharacter.Character.RaceId is null ? Races.None : (Races)playercharacter.Character.RaceId,
@@ -86,8 +81,9 @@ namespace SlapBott.Services.Dtos
             playerCharacter.IsTemp = IsTemp;
             playerCharacter.Character.RaceId = (int)SelectedRace;
             playerCharacter.Character.ClassId = SelectedClass == Classes.None ? null : (int)SelectedClass;
-           //playerCharacter.Character.SelectedCharacterClass = SelectedClass;
+            playerCharacter.Character.LearnedSkillIds = Skills;
           
+           
             return playerCharacter;
         }
 
@@ -98,9 +94,9 @@ namespace SlapBott.Services.Dtos
             {
                 return null;
             }
-            SkillDto? TargetSkill = Skills?.FirstOrDefault(x => x.Name.ToLower().Contains(skill.ToLower()));
+            //SkillDto? TargetSkill = Skills?.FirstOrDefault(x => x.Name.ToLower().Contains(skill.ToLower()));
 
-            return TargetSkill;
+            return null;
 
         }
         public Equipment GetEquipmentBySlot(EquipType d)

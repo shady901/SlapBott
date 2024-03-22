@@ -87,7 +87,11 @@ namespace SlapBott.Services.Implmentations
             return GetUserByDiscordId(discordUserID).PlayerCharacters.First(x=>x.IsTemp)?.Id;
             
         }
-
+        public bool CharacterLimitReachedByDiscordId(ulong DiscordId)
+        { 
+           int MyCount =  GetUserByDiscordId(DiscordId).PlayerCharacters.Where(x=>!x.IsTemp).Count();
+           return MyCount >= 5;
+        }
 
 
     }

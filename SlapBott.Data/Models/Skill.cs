@@ -11,8 +11,7 @@ namespace SlapBott.Data.Models
 {
     public class Skill
     {
-        public int Id { get; set; }
-        public virtual Character Character { get; set; }
+        public int Id { get; set; }        
         public string? Name { get; set; }
         public string? Description { get; set; }
         public ElementalType ElementalType { get; set; }

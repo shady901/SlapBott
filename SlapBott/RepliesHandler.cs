@@ -200,12 +200,7 @@ namespace SlapBott
         }
         private void SetStartingSkills()
         {
-            if (_playerCharacterDto.Skills is null)
-            {
-                _playerCharacterDto.Skills = new List<SkillDto> {
-                    { new SkillDto().FromSkill(_skillService.GetSkillById(1)) }
-            };
-            }
+            _playerCharacterDto.Skills.Add(1);
         }
     }
 }

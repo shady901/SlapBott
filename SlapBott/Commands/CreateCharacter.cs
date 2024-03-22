@@ -24,12 +24,19 @@ namespace SlapBott.Commands
 
 
         [SlashCommand("createnewcharacter", description: "Creates a New Character", ignoreGroupNames: false, runMode: RunMode.Async)]
-        public async Task JoinBotAsync()
+        public async Task CreateNewCharacterAysnc()
         {
-
+            var UserId = Context.User.Id;
             try
             {
-                if (_registrationService.CheckIfPlayerExists(Context.User.Id))
+                if (_registrationService.CharacterLimitReachedByDiscordId(UserId))
+                {
+
+                    await Context.Interaction.RespondAsync("You have Reached The Limit Of Characters You Cannot Create Anymore",ephemeral:true);
+                    return;
+                }
+            
+                if (_registrationService.CheckIfPlayerExists(UserId))
                 {
                     await Context.Interaction.RespondAsync(embed: BuilderReplies.ChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent(), ephemeral:true);
 
@@ -44,7 +51,7 @@ namespace SlapBott.Commands
                 Console.WriteLine(ex);
             }
         }
-       
+      
 
 
     }

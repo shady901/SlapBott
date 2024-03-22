@@ -1,5 +1,6 @@
 ﻿using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
+using SlapBott.Services.Implmentations;
 
 namespace SlapBott.Services.Dtos
 {

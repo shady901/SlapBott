@@ -52,5 +52,11 @@ namespace SlapBott.Services.Dtos
                 StatTypeRatio = mySkill.StatTypeRatio,
             };
         }
+        public int CalculateDamage()
+        {
+
+            return 0;
+        
+        }
     }
 }

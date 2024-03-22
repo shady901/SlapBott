@@ -1,4 +1,5 @@
 ﻿using SlapBott.Data.Enums;
+using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
 using System;
@@ -8,13 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace SlapBott.Data.Models
+namespace SlapBott.Services.Implmentations
 {
     public class Target : ITarget
     {
         public int Id { get; set; }
         public Stats? Stats { get; set; }
-        public List<SkillDto>? Skills { get; set; }
+        public List<int> Skills { get; set; } = new List<int>();
 
         const double ResMax = .75;
 
