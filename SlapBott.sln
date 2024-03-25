@@ -4,16 +4,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott", "SlapBott\SlapBott.csproj", "{D6A9A777-BE0C-4BCC-9303-8F1BD528346C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{106271A8-2235-415A-B5FE-41C629BB65C8} = {106271A8-2235-415A-B5FE-41C629BB65C8}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBottTests", "SlapBottTests\SlapBottTests.csproj", "{E0161E57-CE0F-4BB7-A2F1-D0429D046B22}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.Data", "SlapBott.Data\SlapBott.Data.csproj", "{4F2C742D-41AD-48D0-94B8-57D92DA758DE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.Services", "SlapBot.Services\SlapBott.Services.csproj", "{50A9E1A7-29CB-4C40-8FAC-9FFF6F1BA8C8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{106271A8-2235-415A-B5FE-41C629BB65C8} = {106271A8-2235-415A-B5FE-41C629BB65C8}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mechanics-Ideas", "Mechanics-Ideas", "{0A6C271C-0D8E-4A50-BA3C-2C85EC2D5835}"
 	ProjectSection(SolutionItems) = preProject
 		Design = Design
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlapBott.ItemProject", "SlapBott.ItemProject\SlapBott.ItemProject.csproj", "{106271A8-2235-415A-B5FE-41C629BB65C8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4F2C742D-41AD-48D0-94B8-57D92DA758DE} = {4F2C742D-41AD-48D0-94B8-57D92DA758DE}
 	EndProjectSection
 EndProject
 Global
@@ -38,6 +49,10 @@ Global
 		{50A9E1A7-29CB-4C40-8FAC-9FFF6F1BA8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50A9E1A7-29CB-4C40-8FAC-9FFF6F1BA8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50A9E1A7-29CB-4C40-8FAC-9FFF6F1BA8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{106271A8-2235-415A-B5FE-41C629BB65C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{106271A8-2235-415A-B5FE-41C629BB65C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{106271A8-2235-415A-B5FE-41C629BB65C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{106271A8-2235-415A-B5FE-41C629BB65C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240321223918_Adding more Skillsnull")]
-    partial class AddingmoreSkillsnull
+    [Migration("20240322223611_adding init")]
+    partial class addinginit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
