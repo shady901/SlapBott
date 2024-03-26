@@ -18,13 +18,9 @@ namespace SlapBott.ItemProject
         private int _seed;
         public ItemComputation()
         {
-            foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
-            {
-                if (type.IsSubclassOf(typeof(Item)))
-                {
-                    _itemTypes.Add(type);
-                }
-            }
+            Item item = new Item(_seedRandom,1);
+            var witem = item.IsWeapon ? item.Cast<Weapon>() : item.Cast<Armor>();
+
         }
 
        

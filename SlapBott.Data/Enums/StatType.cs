@@ -16,14 +16,11 @@ namespace SlapBott.Data.Enums
 
 
 
-
         FireResistance,
         FrostResistance,
         LightningResistance,
         PhysicalResistance,
         ChaosResistance,
-
-
         //%Modifiers
         SpellPower,
         Speed,
@@ -32,4 +29,6 @@ namespace SlapBott.Data.Enums
         ChaosDamage,
         
     }
+    
+
 }

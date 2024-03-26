@@ -8,5 +8,6 @@ namespace SlapBott.ItemProject.Items
 {
     public class Armor: Item
     {
+
     }
 }

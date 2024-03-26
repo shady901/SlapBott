@@ -13,9 +13,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.Data", "SlapBott.Data\SlapBott.Data.csproj", "{4F2C742D-41AD-48D0-94B8-57D92DA758DE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.Services", "SlapBot.Services\SlapBott.Services.csproj", "{50A9E1A7-29CB-4C40-8FAC-9FFF6F1BA8C8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{106271A8-2235-415A-B5FE-41C629BB65C8} = {106271A8-2235-415A-B5FE-41C629BB65C8}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mechanics-Ideas", "Mechanics-Ideas", "{0A6C271C-0D8E-4A50-BA3C-2C85EC2D5835}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,9 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mechanics-Ideas", "Mechanic
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlapBott.ItemProject", "SlapBott.ItemProject\SlapBott.ItemProject.csproj", "{106271A8-2235-415A-B5FE-41C629BB65C8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4F2C742D-41AD-48D0-94B8-57D92DA758DE} = {4F2C742D-41AD-48D0-94B8-57D92DA758DE}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

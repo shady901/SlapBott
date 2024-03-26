@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Items\Weapons\" />
+    <Compile Remove="Items\Weapons\**" />
+    <EmbeddedResource Remove="Items\Weapons\**" />
+    <None Remove="Items\Weapons\**" />
   </ItemGroup>
 
   <ItemGroup>
