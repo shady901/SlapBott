@@ -27,12 +27,13 @@ namespace SlapBott.Data.Config
         public Skill[] SeedingSkills()
         {
             return
-            [new Skill() 
-                {
-                    Id =1,
-                    Name = "Strike",
-                    Description = "You use All your force to create a Powerfull Strike",
-                    ElementalType = ElementalType.Physical,
+            [new Skill()
+            {
+                Id = 1,
+                Name = "Strike",
+                Description = "You use All your force to create a Powerfull Strike",
+                ElementalType = ElementalType.Physical,
+                RequiredWeaponType = null,
                     StatTypeRatio = new Dictionary<StatType, double> 
                     {
                         {StatType.Strength, 0.4 },

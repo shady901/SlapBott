@@ -18,35 +18,38 @@ namespace SlapBott.ItemProject
         private int _seed;
         public ItemComputation()
         {
-            Item item = new Item(_seedRandom,1);
-            var witem = item.IsWeapon ? item.Cast<Weapon>() : item.Cast<Armor>();
 
         }
 
        
 
-        public Item GenerateItem(int? seed, int? ItemLevel)
+        public T GenerateItem<T>(int? seed, int? ItemLevel) where T : Item
         {
             
             SetSeededRandom(seed);
+            Item item = new(_seedRandom, ItemLevel ?? 0);
+
+            return SetupItem(item);
+        }
+        protected T SetupItem<T>(Item Item) where T : Item
+        {
+            var d = CastItem(Item);
+            return d;
+        }
+
+        private T CastItem<T>(Item item) where T : Item
+        {
           
-            return SetupItem(SetItemType<Item>());
+            // if is main hand or off hand then it is a weapon
+            if(item.EquipType == Data.Enums.EquipType.MainHand || item.EquipType == Data.Enums.EquipType.MainHand)
+            {
+                //this is a weapon
+                return (T)(object) (item as Weapon);
+            }
+            return (T)(object)(item as Armor);
+        
         }
-        protected T SetupItem<T>(T Item) where T : Item
-        {
-            Item.seed = _seed;
-            
 
-
-            return Item;
-        }
-
-        private T SetItemType<T>() where T : Item
-        {
-
-            Type randomItemType = _itemTypes[_seedRandom.Next(_itemTypes.Count)];
-            return (T)Activator.CreateInstance(randomItemType);
-        }
         private void SetSeededRandom(int? seed)
         {
             _seed = (int)(seed ?? GenerateNewSeed());

@@ -1,11 +1,6 @@
 ﻿using SlapBott.Data.Enums;
-using SlapBott.Data.Models;
 using SlapBott.ItemProject.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 
 namespace SlapBott.ItemProject.Items
@@ -19,7 +14,10 @@ namespace SlapBott.ItemProject.Items
         public bool IsWeapon => (EquipType == EquipType.MainHand || EquipType == EquipType.OffHand);
         public  ItemRarety itemRarety { get; set; }
         public List<ItemAffix> itemAffixes { get; set; } = new();
+
        
+
+
         private Random _seededRandom;
         private Dictionary<ItemRarety, double> _rarityProbabilities = new Dictionary<ItemRarety, double>
           {
@@ -39,29 +37,31 @@ namespace SlapBott.ItemProject.Items
           };
         public Item(Random random, int itemLevel)
         { 
+            
             Itemlevel = itemLevel;
             _seededRandom = random;
             itemRarety = GenerateItemRarety();
             GenerateEquipType();
             GenerateItemAffixes();
-            ModifyItemBasedOnLevel();
+            
+           // ModifyItemBasedOnLevel();
         }
 
 
-        public T Cast<T>() where T : Item
+        public T Cast<T>() where T : IItem
         {
             return (T)this;
         }
-        
+
         private void GenerateEquipType()
         {
             EquipType = (EquipType)_seededRandom.Next(1, 7);
         }
 
-        private void ModifyItemBasedOnLevel()
-        {
-            throw new NotImplementedException();
-        }
+        //private void ModifyItemBasedOnLevel()
+        //{
+        //    throw new NotImplementedException();
+        //}
         private void GenerateItemAffixes()
         {
             int totalAffixes = GetAffixAmountBasedOnRarety();
@@ -69,7 +69,7 @@ namespace SlapBott.ItemProject.Items
             int suffixCount = totalAffixes - prefixCount;
 
             for (int i = 0; i < prefixCount; i++) { itemAffixes.Add(new ItemAffix(itemRarety,IsWeapon,_seededRandom,AffixType.Prefix).GenerateItemAffix()); }
-            for (int i = 0; i < prefixCount; i++) { itemAffixes.Add(new ItemAffix(itemRarety, IsWeapon, _seededRandom, AffixType.Suffix).GenerateItemAffix()); }
+            for (int i = 0; i < suffixCount; i++) { itemAffixes.Add(new ItemAffix(itemRarety, IsWeapon, _seededRandom, AffixType.Suffix).GenerateItemAffix()); }
 
 
         }
