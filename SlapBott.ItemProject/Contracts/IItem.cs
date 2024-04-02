@@ -11,7 +11,6 @@ namespace SlapBott.ItemProject.Contracts
         ItemRarety itemRarety { get; set; }
         List<ItemAffix> itemAffixes { get; set; }
 
-        T Cast<T>() where T : IItem;
 
 
 

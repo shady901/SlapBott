@@ -10,16 +10,16 @@ namespace SlapBott.Services.Implmentations
 {
     public class ItemService
     {
-        private ItemComputation _itemGenerator = new();
+        private ItemComputation _itemComputation;
         public ItemService() 
         {
             
         
         }
 
-        public Item GetItemBySeed(int? Seed = null, int? ItemLevel = null)
-        {
-            return _itemGenerator.GenerateItem(Seed, ItemLevel);        
+        public object GetItemObjectBySeed(int? Seed = null, int? droppedLevel = null)
+        {   
+           return _itemComputation.GenerateItem(Seed,droppedLevel);
         }
 
         

@@ -1,4 +1,5 @@
-﻿using SlapBott.ItemProject.Contracts;
+﻿using SlapBott.Data.Enums;
+using SlapBott.ItemProject.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace SlapBott.ItemProject.Items
 {
     public class Armor : Item
     {
-        public Armor(Random random, int itemLevel) : base(random, itemLevel)
+        public Armor(Random random, int itemLevel, EquipType equipType) : base(random, itemLevel, equipType)
         {
         }
     }

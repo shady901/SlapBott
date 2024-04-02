@@ -1,5 +1,6 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.ItemProject.Contracts;
+using System;
 
 
 
@@ -8,16 +9,16 @@ namespace SlapBott.ItemProject.Items
     public class Item : IItem
     {
         public  int seed { get; set; }
-        public int Itemlevel { get; set; }
+        public int ItemLevel { get; set; }
         public  string? name { get; set; }
         public  EquipType EquipType { get; set; }
         public bool IsWeapon => (EquipType == EquipType.MainHand || EquipType == EquipType.OffHand);
         public  ItemRarety itemRarety { get; set; }
         public List<ItemAffix> itemAffixes { get; set; } = new();
 
-       
 
-
+        public double IlevelRatio = 0.01;
+        private int _DroppedLevel;
         private Random _seededRandom;
         private Dictionary<ItemRarety, double> _rarityProbabilities = new Dictionary<ItemRarety, double>
           {
@@ -35,33 +36,39 @@ namespace SlapBott.ItemProject.Items
            { ItemRarety.Epic, 5 },     
            { ItemRarety.Legendary, 6 } 
           };
-        public Item(Random random, int itemLevel)
-        { 
+        private Random random;
+
+        public Item(Random random, int DroppedLevel, EquipType equipType)
+        {
+            _DroppedLevel = DroppedLevel;
+            EquipType = equipType;
             
-            Itemlevel = itemLevel;
             _seededRandom = random;
             itemRarety = GenerateItemRarety();
-            GenerateEquipType();
+            ItemLevel = CalculateItemLevelOfDroppedLevel();
             GenerateItemAffixes();
+            ModifyItemBasedOnLevel();   
+          
+        }
+
+        private int CalculateItemLevelOfDroppedLevel()
+        {
+            if (_DroppedLevel > 1)
+            {
+                return random.Next(_DroppedLevel - 1, _DroppedLevel + 2) * 5;
+            }
+            return random.Next(1, 3) * 5;
+        }
+
+        internal virtual void ModifyItemBasedOnLevel()
+        {
             
-           // ModifyItemBasedOnLevel();
+            double percentageIncrease = (ItemLevel / 5) * IlevelRatio;            
+            foreach (var item in itemAffixes)
+            {
+                item.StatValue = (int)(item.StatValue * (1 + percentageIncrease));
+            }
         }
-
-
-        public T Cast<T>() where T : IItem
-        {
-            return (T)this;
-        }
-
-        private void GenerateEquipType()
-        {
-            EquipType = (EquipType)_seededRandom.Next(1, 7);
-        }
-
-        //private void ModifyItemBasedOnLevel()
-        //{
-        //    throw new NotImplementedException();
-        //}
         private void GenerateItemAffixes()
         {
             int totalAffixes = GetAffixAmountBasedOnRarety();
