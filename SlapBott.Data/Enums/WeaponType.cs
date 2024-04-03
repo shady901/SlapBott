@@ -23,6 +23,7 @@ namespace SlapBott.Data.Enums
     }
     public enum WeaponType
     {
+        None = 0,
 
         [WeaponType(Handed.OneHanded,1,1,1)]
         Dagger,

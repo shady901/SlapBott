@@ -46,11 +46,12 @@
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<SkillService>()
                 .AddSingleton<SkillRepo>()
+                .AddSingleton<ItemService>()
                 .AddSingleton<RegistrationRepositry>()
                 .AddSingleton<PlayerCharacterRepositry>()
                 .AddSingleton<PlayerCharacterService>()
                 .AddSingleton<IRaidService, RaidService>();
-
+                
 
             _services.AddDbContext<SlapbottDbContext>(options => options.UseSqlite(Properties.Resources.DbConnection));
 

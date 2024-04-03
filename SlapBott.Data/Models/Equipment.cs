@@ -10,7 +10,6 @@ namespace SlapBott.Data.Models
         public ulong Seed { get; set; }
         public EquipType Type { get; set; }
         public int ItemLevel { get; set; }
-        public int SlotID { get; set; }
         public int Count { get; set; }
        // public virtual ICollection<Crafted> Crafts { get; set; }
     }

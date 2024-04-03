@@ -1,4 +1,5 @@
-﻿using SlapBott.ItemProject;
+﻿using SlapBott.Data.Enums;
+using SlapBott.ItemProject;
 using SlapBott.ItemProject.Items;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,15 @@ namespace SlapBott.Services.Implmentations
         
         }
 
-        public object GetItemObjectBySeed(int? Seed = null, int? droppedLevel = null)
+        public object GetItemObjectBySeed(int? Seed = null, int? droppedLevel = null,WeaponType WeaponType = WeaponType.None,ArmorType ArmorType= ArmorType.None)
         {   
-           return _itemComputation.GenerateItem(Seed,droppedLevel);
+           return _itemComputation
+               .GenerateItem(
+               seed:Seed,
+               DroppedLevel:droppedLevel,
+               weaponType: WeaponType,
+               armorType:ArmorType
+               );
         }
 
         

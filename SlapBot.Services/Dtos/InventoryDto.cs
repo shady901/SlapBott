@@ -5,11 +5,14 @@ namespace SlapBott.Services.Dtos
 {
     public class InventoryDto
     {
-        public Dictionary<StatType, Equipment> Equiped { get; set; }
+        public Dictionary<EquipType, Equipment> Equiped { get; set; }
         public List<Equipment> Bag { get; set; }
         public List<Equipment> Bank { get; set; }
 
 
+
+
+       
 
 
 

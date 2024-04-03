@@ -10,7 +10,7 @@ namespace SlapBott.ItemProject.Items
     {
         public  int seed { get; set; }
         public int ItemLevel { get; set; }
-        public  string? name { get; set; }
+        public string? name { get; set; } = "NotSetup";
         public  EquipType EquipType { get; set; }
         public bool IsWeapon => (EquipType == EquipType.MainHand || EquipType == EquipType.OffHand);
         public  ItemRarety itemRarety { get; set; }
@@ -37,7 +37,7 @@ namespace SlapBott.ItemProject.Items
            { ItemRarety.Legendary, 6 } 
           };
         private Random random;
-
+        protected double ILevelModifier { get; set; }
         public Item(Random random, int DroppedLevel, EquipType equipType)
         {
             _DroppedLevel = DroppedLevel;
@@ -47,6 +47,7 @@ namespace SlapBott.ItemProject.Items
             itemRarety = GenerateItemRarety();
             ItemLevel = CalculateItemLevelOfDroppedLevel();
             GenerateItemAffixes();
+            ILevelModifier = (1 + ((ItemLevel / 5) * IlevelRatio));
             ModifyItemBasedOnLevel();   
           
         }
@@ -60,13 +61,11 @@ namespace SlapBott.ItemProject.Items
             return random.Next(1, 3) * 5;
         }
 
-        internal virtual void ModifyItemBasedOnLevel()
-        {
-            
-            double percentageIncrease = (ItemLevel / 5) * IlevelRatio;            
+        protected void ModifyItemBasedOnLevel()
+        {           
             foreach (var item in itemAffixes)
             {
-                item.StatValue = (int)(item.StatValue * (1 + percentageIncrease));
+                item.StatValue = (int)(item.StatValue * ILevelModifier);
             }
         }
         private void GenerateItemAffixes()

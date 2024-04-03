@@ -1,5 +1,6 @@
 ﻿using Discord;
 using SlapBott.Data.Enums;
+using SlapBott.ItemProject.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +95,17 @@ namespace SlapBott
             "rusic high elf with dark blue eyes and long green hair")
              .Build();
           return builder;
+        }
+
+        public static Embed DisplayWeapon(Weapon weapon)
+        {
+
+            Embed embed = new EmbedBuilder()
+               .WithTitle($"{weapon.name}")
+               .WithDescription($"{weapon.Damage}/{weapon.EquipType}/{weapon.ItemLevel}/{weapon.Accuracy}/{weapon.AttackSpeed}/{weapon.itemAffixes}/{weapon.itemRarety}")
+               .WithFooter(weapon.seed.ToString())
+               .Build();
+            return embed;
         }
     }
 }

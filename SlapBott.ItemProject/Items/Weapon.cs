@@ -21,17 +21,21 @@ namespace SlapBott.ItemProject.Items
         public Handed Handed { get; set; }
         private Random _seededRandom;
         
-        public Weapon(Random random, int DroppedLevel, EquipType equipType) : base(random, DroppedLevel, equipType)
+        public Weapon(Random random, int DroppedLevel, EquipType equipType, WeaponType weaponType = WeaponType.None) : base(random, DroppedLevel, equipType)
         {
             _seededRandom = random;
-
+            if (weaponType != WeaponType.None)
+            {
+                WeaponType = weaponType;
+            }           
             GetRandomWeaponTypeBasedOnEquipType();
 
 
 
             ModifyItemBasedOnLevel();
+            ModifyWeaponBasedOnLevel();
         }
-
+        
         private void GetRandomWeaponTypeBasedOnEquipType()
         {
             switch (EquipType)
@@ -48,36 +52,34 @@ namespace SlapBott.ItemProject.Items
         }
         private void AssignWeaponTypeByHandedAndPopulateFields(Handed handed)
         {
-            bool Found = false;
-            WeaponType[] HandedTypes = handed.GetWeaponTypes();
-            while (!Found)
+            if (WeaponType == WeaponType.None)
             {
-                int index = _seededRandom.Next(1,201);
-                if (index  <= HandedTypes.Length)
-                {
-                    WeaponType = HandedTypes[index];
-                    Found = true;
-                }
-                
+                WeaponType[] HandedTypes = handed.GetWeaponTypes();
+                int index = _seededRandom.Next(0, HandedTypes.Length);               
+                WeaponType = HandedTypes[index];
             }
+            
+                
+            
           
             PopulateWeaponTypeFields(WeaponType);
         }
 
         private void PopulateWeaponTypeFields(WeaponType weaponType)
         {
+            Handed = weaponType.GetHandedAttribute();
             Accuracy = weaponType.GetAccuracyAttribute();
             Damage = weaponType.GetDamageAttribute();
             AttackSpeed = weaponType.GetWeaponAttackSpeedAttribute();
         }
 
-        internal override void ModifyItemBasedOnLevel()
+        private void ModifyWeaponBasedOnLevel()
         {
-            double Modifier = (1 + ((ItemLevel / 5) * IlevelRatio));
-            base.ModifyItemBasedOnLevel();
-            Damage = (int)(Damage * Modifier);
-            Accuracy = (int)(Accuracy * Modifier);
+          
+            Damage = (int)(Damage * ILevelModifier);
+            Accuracy = (int)(Accuracy * ILevelModifier);
         }
+        
         
 
      
