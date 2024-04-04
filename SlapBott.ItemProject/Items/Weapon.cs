@@ -21,7 +21,7 @@ namespace SlapBott.ItemProject.Items
         public Handed Handed { get; set; }
         private Random _seededRandom;
         
-        public Weapon(Random random, int DroppedLevel, EquipType equipType, WeaponType weaponType = WeaponType.None) : base(random, DroppedLevel, equipType)
+        public Weapon(Random random, int DroppedLevel, EquipType equipType, WeaponType weaponType = WeaponType.None, int? Seed = null) : base(random, DroppedLevel, equipType,Seed)
         {
             _seededRandom = random;
             if (weaponType != WeaponType.None)

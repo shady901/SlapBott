@@ -26,7 +26,7 @@ namespace SlapBott.Data
         public DbSet<Stats> PlayersStats { get; set; }
         public DbSet<Race> Races { get; set; }
         public DbSet<CharacterClass> CharacterClasses { get; set; }
-        public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
+         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
 
         }
@@ -46,8 +46,7 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<Race>(new RacesConfiguration());
             modelBuilder.ApplyConfiguration<CharacterClass>(new CharacterClassConfiguration());
             modelBuilder.ApplyConfiguration<Character>(new CharacterConfiguration());
-
-
+                
 
 
         }

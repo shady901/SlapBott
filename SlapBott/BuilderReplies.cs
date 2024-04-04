@@ -99,11 +99,31 @@ namespace SlapBott
 
         public static Embed DisplayWeapon(Weapon weapon)
         {
+            string Affixes= string.Empty;
+            foreach (var affix in weapon.itemAffixes)
+            {
+                Affixes += $"{Enum.GetName(affix.StatType)}: {affix.StatValue}\n";
+            }
 
             Embed embed = new EmbedBuilder()
                .WithTitle($"{weapon.name}")
-               .WithDescription($"{weapon.Damage}/{weapon.EquipType}/{weapon.ItemLevel}/{weapon.Accuracy}/{weapon.AttackSpeed}/{weapon.itemAffixes}/{weapon.itemRarety}")
-               .WithFooter(weapon.seed.ToString())
+               .WithDescription($"Damage: {weapon.Damage}({weapon.itemAffixes.First(x=>x.StatType == StatType.AttackDamage)}) \nSlotType: {weapon.EquipType}\nILevel:{weapon.ItemLevel}\nAccuracy: {weapon.Accuracy}\nAttackSpeed:{weapon.AttackSpeed}\nAffixes:\n{Affixes}\nRarety: {weapon.itemRarety}")
+                 .WithFooter("Seed:" + weapon.Seed)
+               .Build();
+            return embed;
+        }
+        public static Embed DisplayArmor(Armor armor)
+        {
+            string Affixes = string.Empty;
+            foreach (var affix in armor.itemAffixes)
+            {
+                Affixes += $"{Enum.GetName(affix.StatType)}: {affix.StatValue}\n";
+            }
+           
+            Embed embed = new EmbedBuilder()
+               .WithTitle($"{armor.name}")
+               .WithDescription($"Armor: {armor.ArmorStat}\nEvasion: {armor.EvasonStat}\nAttackSpeedModifier: {armor.WeaponAttackSpeedModifer} \nSlotType: {armor.EquipType}\nClass: {armor.Weight}\nILevel: {armor.ItemLevel}\nAffixes:\n{Affixes}\nRarety: {armor.itemRarety}")
+               .WithFooter("Seed:"+armor.Seed)
                .Build();
             return embed;
         }

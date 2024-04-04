@@ -8,7 +8,7 @@ namespace SlapBott.ItemProject.Items
 {
     public class Item : IItem
     {
-        public  int seed { get; set; }
+        public  int Seed { get; set; }
         public int ItemLevel { get; set; }
         public string? name { get; set; } = "NotSetup";
         public  EquipType EquipType { get; set; }
@@ -36,14 +36,14 @@ namespace SlapBott.ItemProject.Items
            { ItemRarety.Epic, 5 },     
            { ItemRarety.Legendary, 6 } 
           };
-        private Random random;
+        
         protected double ILevelModifier { get; set; }
-        public Item(Random random, int DroppedLevel, EquipType equipType)
+        public Item(Random random, int DroppedLevel, EquipType equipType, int? seed= null)
         {
             _DroppedLevel = DroppedLevel;
-            EquipType = equipType;
-            
+            EquipType = equipType;            
             _seededRandom = random;
+            Seed = (int)seed;
             itemRarety = GenerateItemRarety();
             ItemLevel = CalculateItemLevelOfDroppedLevel();
             GenerateItemAffixes();
@@ -56,9 +56,9 @@ namespace SlapBott.ItemProject.Items
         {
             if (_DroppedLevel > 1)
             {
-                return random.Next(_DroppedLevel - 1, _DroppedLevel + 2) * 5;
+                return _seededRandom.Next(_DroppedLevel - 1, _DroppedLevel + 2) * 5;
             }
-            return random.Next(1, 3) * 5;
+            return _seededRandom.Next(1, 3) * 5;
         }
 
         protected void ModifyItemBasedOnLevel()

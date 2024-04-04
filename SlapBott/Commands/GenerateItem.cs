@@ -31,10 +31,14 @@ namespace SlapBott.Commands
             var itemObject = _itemService.GetItemObjectBySeed();
             try
             {
-                if (itemObject is Weapon item)
+                if (itemObject is Weapon weapon)
                 {
-                    await Context.Interaction.RespondAsync(embed:BuilderReplies.DisplayWeapon(item));
+                    await Context.Interaction.RespondAsync(embed:BuilderReplies.DisplayWeapon(weapon));
                    
+                }
+                if (itemObject is Armor armor)
+                {
+                    await Context.Interaction.RespondAsync(embed: BuilderReplies.DisplayArmor(armor));
                 }
             }
             catch (Exception ex)

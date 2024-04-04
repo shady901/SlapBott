@@ -34,9 +34,9 @@ namespace SlapBott.ItemProject
             Type ItemType = GetTypeFromEquipType(equipedType);
             if (ItemType ==typeof(Weapon))
             {
-                return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, weaponType);
+                return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, weaponType,seed);
             }
-            return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, armorType);
+            return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, armorType,seed);
         }
         
 
@@ -55,7 +55,7 @@ namespace SlapBott.ItemProject
         }
         private void SetSeededRandom(int? seed)
         {
-           int _seed = (int)(seed ?? GenerateNewSeed());
+            int _seed = seed ?? GenerateNewSeed();
             _seedRandom = new Random(_seed);
             
         }

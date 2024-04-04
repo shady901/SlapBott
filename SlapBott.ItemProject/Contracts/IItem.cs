@@ -4,7 +4,7 @@ namespace SlapBott.ItemProject.Contracts
 {
     public interface IItem
     {
-        int seed { get; set; }
+        int Seed { get; set; }
 
         string? name { get; set; }
         EquipType EquipType { get; set; }

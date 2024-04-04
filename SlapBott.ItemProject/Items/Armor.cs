@@ -19,7 +19,7 @@ namespace SlapBott.ItemProject.Items
         public int EvasonStat { get; set; }
         public double WeaponAttackSpeedModifer { get; set; }
         private Random _seededRandom;
-        public Armor(Random random, int itemLevel, EquipType equipType, ArmorType armorType = ArmorType.None) : base(random, itemLevel, equipType)
+        public Armor(Random random, int itemLevel, EquipType equipType, ArmorType armorType = ArmorType.None,int? seed = null) : base(random, itemLevel, equipType,seed)
         {
             _seededRandom = random;
             if (armorType != ArmorType.None)

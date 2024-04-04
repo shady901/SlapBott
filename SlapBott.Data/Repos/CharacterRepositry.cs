@@ -21,6 +21,7 @@ namespace SlapBott.Data.Repos
                 .Include(pc => pc.Character.Stats)
                 .Include(pc => pc.Character.Race)
                 .Include(pc => pc.Character.CharacterClass)
+                .Include (pc => pc.Character.Inventory)
                 .FirstOrDefault();
 
             return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new()} }, DiscordId = id, RegistrationId = regId};

@@ -42,7 +42,7 @@ namespace SlapBott.Services.Dtos
                 Console.WriteLine($"From CharacterMeth DId:{playercharacter.DiscordId} CharId:{playercharacter.CharacterId} char is null");
                 
             }
-         
+
 
             return new PlayerCharacterDto
             {
@@ -55,7 +55,7 @@ namespace SlapBott.Services.Dtos
                 Description = playercharacter.Character.Description ?? "Temp",
                 DiscordId = playercharacter.DiscordId,
                 Id = playercharacter.Id,
-                Skills = playercharacter.Character.LearnedSkillIds?? new(),
+                Skills = playercharacter.Character.LearnedSkillIds ?? new(),
 
 
                 SelectedRace = playercharacter.Character.RaceId is null ? Races.None : (Races)playercharacter.Character.RaceId,
@@ -64,8 +64,7 @@ namespace SlapBott.Services.Dtos
 
                 SelectedClass = playercharacter.Character.ClassId is null ? Classes.None : (Classes)playercharacter.Character.ClassId,
                 CharacterClass = playercharacter.Character.CharacterClass is null ? new CharacterClassDto() : new CharacterClassDto().FromClass(playercharacter.Character.CharacterClass),
-                //SelectedClass = character.Character.SelectedCharacterClass,
-
+                Inventory = new InventoryDto().FromInventory(playercharacter.Character.Inventory),
             };
             
                
@@ -82,7 +81,7 @@ namespace SlapBott.Services.Dtos
             playerCharacter.Character.RaceId = (int)SelectedRace;
             playerCharacter.Character.ClassId = SelectedClass == Classes.None ? null : (int)SelectedClass;
             playerCharacter.Character.LearnedSkillIds = Skills;
-          
+            playerCharacter.Character.Inventory = Inventory.ToInventory();
            
             return playerCharacter;
         }
@@ -121,38 +120,7 @@ namespace SlapBott.Services.Dtos
             HasLeveled = oldlevel != level;
         }
 
-        public int GetCombinedStat(StatType statType)
-        {
-
-            //return Stats.Dexterity + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-            //var itemStat = Inventory.GetAllEquipedItemsStatsByStatType(statType);
-            if (Inventory.Equiped.Count >= 0)
-            {
-                switch (statType)
-                {
-                    case StatType.Dexterity:
-                        return Stats.Dexterity + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.Strength:
-                        return Stats.Strength + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.Intelligence:
-                        return Stats.Intelligence + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.AttackDamage:
-                        return Stats.AttackDamage + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.CritChance:
-                        return Stats.CritChance + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.SpellPower:
-                        return Stats.SpellPower + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.Health:
-                        return Stats.Health + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    case StatType.MaxHealth:
-                        return Stats.MaxHealth + Inventory.GetAllEquipedItemsStatsByStatType(statType);
-                    default:
-                        return 0;
-                }
-            }
-            return 0;
-        }
-
+       
 
         public int CalculateBaseStatDamageFor(Skill skill)
         {

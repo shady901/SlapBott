@@ -70,7 +70,7 @@ namespace SlapBott.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NjcwNDUwMzA0NDk5NzEyMDMy.Gqff10.xM1out2uiYIzuHUICSJIR_C1VdAIcoPEIukmvo.
+        ///   Looks up a localized string similar to NjcwNDUwMzA0NDk5NzEyMDMy.G7x1QG.dFWssvAsJX2jYj4qXtY_UEMG2p9cj2vFKwaLoA.
         /// </summary>
         internal static string Token {
             get {

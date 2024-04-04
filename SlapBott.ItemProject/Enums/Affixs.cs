@@ -19,7 +19,7 @@ namespace SlapBott.ItemProject.Enums
         }
     }
     public enum WeaponPrefix
-    {
+    {        
         [AffixRange(0,1)]
         ArmorRating,
         [AffixRange(0, 1)]

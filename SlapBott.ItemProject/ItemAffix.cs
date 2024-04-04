@@ -23,6 +23,7 @@ namespace SlapBott.ItemProject
         public AffixType AffixType {  get; set; } 
         public int StatValue { get; set; }
         public Enum StatEnum { get; set; }
+        public StatType StatType { get; set; }
         private Dictionary<ItemRarety, int> _raretyModifier = new Dictionary<ItemRarety, int>
           {
            { ItemRarety.Normal, 0 },   
@@ -44,7 +45,7 @@ namespace SlapBott.ItemProject
         {   
             GetRange();
             RandomStatValueBasedOfRange();
-         
+            AssignStatypeBasedOnEnumSelection();
             return this;
         }
 
@@ -83,7 +84,10 @@ namespace SlapBott.ItemProject
         {
            StatValue =  _seededRandom.Next(_statRange.Min + _raretyModifier[_rarety] , _statRange.Max + _raretyModifier[_rarety] + 1);
         }
-       
 
+        private void AssignStatypeBasedOnEnumSelection()
+        {
+          StatType = (StatType)Enum.Parse(typeof(StatType), StatEnum.ToString());
+        }
     }
 }
