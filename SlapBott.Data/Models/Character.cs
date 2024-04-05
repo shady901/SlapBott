@@ -24,7 +24,7 @@ namespace SlapBott.Data.Models
         [ForeignKey("InventoryId")]
         public Inventory? Inventory { get; set; }
 
-
+        public int CombatStateID { get; set; } = 0;
         public int? RaceId { get; set; }
         [ForeignKey("RaceId")]
         public virtual Race? Race { get; set; }

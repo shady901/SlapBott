@@ -5,13 +5,14 @@ using SlapBott.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 
 namespace SlapBott.Services.Implmentations
 {
-    public class Target : ITarget
+    public abstract class Target : ITarget
     {
         public int Id { get; set; }
         public Stats? Stats { get; set; }
@@ -33,5 +34,6 @@ namespace SlapBott.Services.Implmentations
 
            
         }
+
     }
 }

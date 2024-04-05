@@ -1,5 +1,8 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Models;
 using SlapBott.Services.Combat.Models;
+using System.Text.RegularExpressions;
 
 namespace SlapBott.Data.Repos
 {
@@ -14,8 +17,13 @@ namespace SlapBott.Data.Repos
         }
         public CombatState GetCombatStateByID(int Id)
         {
+            CombatState State = _dbContext.CombatStates
+               .Include(x => x.Characters)
+               .Include(x=>x.Enemies)
+               .Include(x=>x.Turns)
+               .FirstOrDefault(pc => pc.Id == Id);
 
-            CombatState State = null; // _dbContext.CombatStates.First(State => State.Id == Id);
+
 
             return State;
         }
@@ -33,15 +41,15 @@ namespace SlapBott.Data.Repos
         }
         public void AddOrUpdateState(CombatState state)
         {
-            //var meth = _dbContext.CombatStates.Update;
+            var meth = _dbContext.CombatStates.Update;
 
 
-            //if (state.Id <= 0) // not in the database
-            //{
-            //    meth = _dbContext.CombatStates.Add;
-            //}
+            if (state.Id <= 0) // not in the database
+            {
+                meth = _dbContext.CombatStates.Add;
+            }
 
-            //meth(state);
+            meth(state);
 
         }
     }

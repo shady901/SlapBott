@@ -21,7 +21,7 @@ namespace SlapBott.Services.Implmentations
         }
         public void GetStateById(int id)
         {
-            if (id <= 0) 
+            if (id > 0) 
             {
                 _state = _combatStateService.GetCombatStateByID(id);
             }
@@ -30,7 +30,7 @@ namespace SlapBott.Services.Implmentations
         }
         public void GetStateByChannelId(ulong id)
         {
-            if (id <= 0)
+            if (id > 0)
             {
                 _state =_combatStateService.GetCombatStateByChannelID(id);
             }
@@ -50,27 +50,27 @@ namespace SlapBott.Services.Implmentations
 
             return _enemyService.GetEnemyByID(ID);
         }
-        public void Turn(PlayerCharacterDto character, Skill skill, string Target)
+        public void Turn(int StateID,int TargetId,SkillDto skillDto, PlayerCharacterDto? characterDto = null, EnemyDto? enemyDto = null)
         {
-            EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
+            GetStateById(StateID);
+            //SelectTarget - Player or Enemy Object
+            //GetSkillData
+            //GetAttackerData
+            //GetTargetData
+            //Do Damage - calculate off both player data
+            //ApplyEffects
+            //SaveTarget
+            //SaveTurn
 
-            // buffs and afflictions not implemented in turns  //apply any retaliation(thorns, or debufs) to player
 
 
 
-
-
-
-            //ApplyDamage(GetStatTypeByElementalType(skill.ElementalType),CalculateDamageOfSkill(character, skill), myTarget);
            
-            
-           
-           // _enemyService.SaveEnemy(myTarget);
             //end turn 
             // if its not a raid boss begin enemy turn 
 
 
-
+            SaveState();
         }
         
         //public int CalculateDamageOfSkill(PlayerCharacterDto character, Skill skill ) 

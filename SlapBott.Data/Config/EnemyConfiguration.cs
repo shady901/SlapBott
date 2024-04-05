@@ -8,7 +8,7 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<Enemy> builder)
         {
-            builder.ToTable<Enemy>("Enemies");
+            builder.ToTable("Enemies");
             
         }
     }

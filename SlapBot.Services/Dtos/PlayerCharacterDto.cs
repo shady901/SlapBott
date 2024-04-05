@@ -34,6 +34,7 @@ namespace SlapBott.Services.Dtos
         public string? Description { get; set; }
       //  public int CharId { get; private set; }
         public int statsId { get; set; }
+        public int CombatStateId { get; set; } = 0;
        
         public PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
@@ -61,7 +62,7 @@ namespace SlapBott.Services.Dtos
                 SelectedRace = playercharacter.Character.RaceId is null ? Races.None : (Races)playercharacter.Character.RaceId,
                 Race = playercharacter.Character.Race is null ? new RaceDto() : new RaceDto().FromRace(playercharacter.Character.Race),
 
-
+                CombatStateId = playercharacter.Character.CombatStateID,
                 SelectedClass = playercharacter.Character.ClassId is null ? Classes.None : (Classes)playercharacter.Character.ClassId,
                 CharacterClass = playercharacter.Character.CharacterClass is null ? new CharacterClassDto() : new CharacterClassDto().FromClass(playercharacter.Character.CharacterClass),
                 Inventory = new InventoryDto().FromInventory(playercharacter.Character.Inventory),
