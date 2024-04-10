@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace SlapBott.Data.Repos
             _dbContext = dBContext;
 
         }
-       
+
         public EnemyTemplate GetTemplate(Classes? classes = null, Races? race = null)
         {
             IQueryable<EnemyTemplate> query = _dbContext.EnemyTemplates;
@@ -27,20 +28,22 @@ namespace SlapBott.Data.Repos
                 int classId = (int)classes;
                 query = query.Where(x => x.ClassId == classId);
             }
-
             if (race != null)
             {
                 int raceId = (int)race;
                 query = query.Where(x => x.RaceId == raceId);
-            }
+            }          
+            List<EnemyTemplate> templates = query.ToList();
 
-            if (classes == null && race == null)
+            int totalCount = templates.Count;
+            if (totalCount == 0)
             {
-                int totalCount = query.Count();
-                int randomIndex = new Random().Next(totalCount);
-                query = query.OrderBy(x => Guid.NewGuid()).Skip(randomIndex);
+                return null; 
             }
-            return query.FirstOrDefault();
+            int randomIndex = new Random().Next(totalCount);
+            EnemyTemplate randomTemplate = templates[randomIndex];
+
+            return randomTemplate;
         }
     }
 }

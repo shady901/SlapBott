@@ -55,7 +55,7 @@ namespace SlapBott.Services.Implmentations
         {
 
             RaidBossDto raidBoss = new RaidBossDto();
-            raidBoss.AssignTemplateToBoss(_enemyTemplateRepositry.GetTemplate());
+            raidBoss.AssignTemplateToBoss(_enemyTemplateRepositry.GetTemplate(classes:classes, race:races));
             
 
 
