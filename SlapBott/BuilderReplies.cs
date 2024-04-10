@@ -127,5 +127,22 @@ namespace SlapBott
                .Build();
             return embed;
         }
+        public static MessageComponent DropDownSelectRaidBoss()
+        {
+            var em = new SelectMenuBuilder()
+            .WithPlaceholder("Select An option")
+            .WithCustomId("createcharacter_selectclass")
+            .WithMinValues(1)
+            .WithMaxValues(1)
+            .AddOption("Warrior", Classes.Warrior.ToString(), "Bonus Attacks in Melee + 1 Str Per level")
+            .AddOption("Mage", Classes.Mage.ToString(), "Bonuses Elemental Damage + 1 Int Per level");
+            var builder = new ComponentBuilder()
+             .WithSelectMenu(em)
+             .Build();
+
+            return builder;
+        }
+
+
     }
 }

@@ -45,11 +45,11 @@ namespace SlapBott.Services.Implmentations
             var d = _state.EnemyIds.ToList();
             return d[Convert.ToInt32(target)]; 
         }
-        public EnemyDto GetEnemyById(int ID)
-        {
+        //public EnemyDto GetEnemyById(int ID)
+        //{
 
-            return _enemyService.GetEnemyByID(ID);
-        }
+        //    return _enemyService.GetEnemyByID(ID);
+        //}
         public void Turn(int StateID,int TargetId,SkillDto skillDto, PlayerCharacterDto? characterDto = null, EnemyDto? enemyDto = null)
         {
             GetStateById(StateID);

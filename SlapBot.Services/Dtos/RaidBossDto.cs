@@ -50,5 +50,14 @@ namespace SlapBott.Services.Dtos
 
             return raidBoss;
         }
+
+        public void AssignTemplateToBoss(EnemyTemplate enemyTemplate)
+        {
+
+
+
+        }
+
+        
     }
 }

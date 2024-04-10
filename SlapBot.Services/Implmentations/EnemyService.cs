@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Models;
+﻿using SlapBott.Data.Enums;
+using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
 using SlapBott.Services.Dtos;
 using System;
@@ -12,8 +13,10 @@ namespace SlapBott.Services.Implmentations
     public class EnemyService
     {
         private EnemyRepositry? _enemyRepositry { get; set; }
-        public EnemyService(EnemyRepositry repo)
+        private EnemyTemplateRepo? _enemyTemplateRepositry { get; set; }
+        public EnemyService(EnemyRepositry repo, EnemyTemplateRepo enemyTemplateRepo)
         {
+            _enemyTemplateRepositry = enemyTemplateRepo;
             _enemyRepositry = repo;
             //_mediator = mediator;
         }
@@ -27,41 +30,33 @@ namespace SlapBott.Services.Implmentations
             _enemyRepositry.SaveEnemy(raidBoss.ToRaidBoss());
         }
 
-        private Tout Get<Tout, TIn>(int Id) where Tout : Target where TIn : Enemy
+        private Tout GetEnemyAs<Tout, TIn>(int id) where Tout : Target where TIn : Enemy
         {
-            TIn enemy = GetEnemyByID<TIn>(Id);
+            TIn enemy = GetEnemyByID<TIn>(id);
             if (enemy != null)
             {
-                return (Tout)(object)Tout.FromRecord(enemy);
+                var fromRecordMethod = typeof(Tout).GetMethod("FromRecord");
+                return fromRecordMethod.Invoke(null, new object[] { enemy }) as Tout;
             }
             return default;
         }
 
-        public EnemyDto GetEnemyByID(int EnemyID)
+    
+        public T GetEnemyTargetByID<T>(int EnemyID) where T : Target
         {
-            return Get<EnemyDto, Enemy>(EnemyID);
+            return GetEnemyAs<T, Enemy>(EnemyID); ;
         }
-        public RaidBossDto GetRaidBossByID(int EnemyID)
-        {
-            return RaidBossDto.FromRecord(GetEnemyByID<RaidBoss>(EnemyID));
-            //return new RaidBossDto().FromRaidBoss(_enemyRepositry.GetEnemyByID<RaidBoss>(EnemyID));
-        }
-
         private T GetEnemyByID<T>(int EnemyID) where T : Enemy 
         {
             return _enemyRepositry.GetEnemyByID<T>(EnemyID);
         }
 
-        private void GenerateRaidBoss()
+        private void GenerateRaidBoss(Classes? classes = null,Races? races = null )
         {
 
-            //Create an Instance of a raidboss
-            //GetTemplate
-            //assign properties (stats,name ,ect)
-
-            //assign class (get class changes and passives)
-            //assign Skills (template or Random)
-
+            RaidBossDto raidBoss = new RaidBossDto();
+            raidBoss.AssignTemplateToBoss(_enemyTemplateRepositry.GetTemplate());
+            
 
 
 

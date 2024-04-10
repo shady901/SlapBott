@@ -25,8 +25,9 @@ namespace SlapBott.Data
        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Stats> PlayersStats { get; set; }
         public DbSet<Race> Races { get; set; }
-        public DbSet<CharacterClass> CharacterClasses { get; set; }
-         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
+       public DbSet<CharacterClass> CharacterClasses { get; set; }
+        public DbSet<EnemyTemplate> EnemyTemplates { get; set; }
+        public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
 
         }
@@ -40,12 +41,12 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<PlayerCharacter>(new PlayCharacterConfiguration());
             modelBuilder.ApplyConfiguration<Enemy>(new EnemyConfiguration());
             modelBuilder.ApplyConfiguration<Boss>(new BossConfiguration());
-            modelBuilder.ApplyConfiguration<RaidBoss>(new RaidBossConfiguration());
             modelBuilder.ApplyConfiguration<Inventory>(new InventoryConfiguration());
             modelBuilder.ApplyConfiguration<Stats>(new PlayerStatsConfiguration());
             modelBuilder.ApplyConfiguration<Race>(new RacesConfiguration());
             modelBuilder.ApplyConfiguration<CharacterClass>(new CharacterClassConfiguration());
             modelBuilder.ApplyConfiguration<Character>(new CharacterConfiguration());
+            modelBuilder.ApplyConfiguration<EnemyTemplate>(new EnemyTemplateConfiguration());
                 
 
 
