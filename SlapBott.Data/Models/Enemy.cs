@@ -14,6 +14,9 @@ namespace SlapBott.Data.Models
         public int Id { get; set; }
         public int CharacterId { get; set; }
 
+        public int RegionId { get; set; }
+        [ForeignKey("RegionId")]
+        public virtual Region Region { get; set; }
         [ForeignKey("CharacterId")]
         public virtual Character Character { get; set; }
 

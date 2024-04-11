@@ -1,7 +1,11 @@
-﻿using SlapBott.Data.Models;
+﻿using SlapBott.Data.Enums;
+using SlapBott.Data.Models;
+using SlapBott.Data.Repos;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
+using System.Security.Cryptography;
 using System.Threading.Channels;
+
 /*
            Get all Characters Participating
            foreach add exp to characters
@@ -12,8 +16,12 @@ namespace SlapBott.Services.Implmentations
     public class RaidService : IRaidService
     {
         private CombatManager _combatManager;
-        public RaidService(CombatManager combatManager)
-        {
+        private RegionService _regionService;
+        private EnemyService _enemyService;
+        public RaidService(CombatManager combatManager, RegionService regionService, EnemyService enemyService)
+        {   
+            _enemyService = enemyService;
+            _regionService = regionService;
             _combatManager = combatManager;
         }
 
@@ -25,16 +33,16 @@ namespace SlapBott.Services.Implmentations
 
             return "You have joined the raid";
         }
-        public bool IsValidTarget(string target) 
+        public bool IsValidTarget(string target)
         {
-            
-           
+
+
             if (Convert.ToInt32(target) >= _combatManager.GetEnemyIDs().Count())
             {
-            return true;
+                return true;
             }
-        
-            return false; 
+
+            return false;
         }
         public void SetupState(ulong channelID)
         {
@@ -42,12 +50,12 @@ namespace SlapBott.Services.Implmentations
         }
 
 
-        public string AttackRaid(PlayerCharacterDto characterDto, SkillDto skill,int Target)
+        public string AttackRaid(PlayerCharacterDto characterDto, SkillDto skill, int Target)
         {
-           //EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
-           // _combatManager.PlayerTurn(characterDto, skill, myTarget);
-           // _combatManager.SaveState();
-            
+            //EnemyDto myTarget = _enemyService.GetEnemyByID(GetEnemyIDByTarget(Target));
+            // _combatManager.PlayerTurn(characterDto, skill, myTarget);
+            // _combatManager.SaveState();
+
 
 
             return "this is my raid results";
@@ -57,8 +65,8 @@ namespace SlapBott.Services.Implmentations
         }
         public void BossAttack()
         {
-            
-          
+
+
 
         }
 
@@ -68,9 +76,35 @@ namespace SlapBott.Services.Implmentations
             return _combatManager.GetEnemyIDByTarget(target);
         }
 
-      
+        public void RaidCheck(object? state)
+        {
+            Dictionary<Regions,RegionDto> regionDic = _regionService.GetAllRegionsAsDictionary();
+            RegionDto? pendingRegion = regionDic.First(x => x.Value.isBossPending).Value ?? null;
+            if (_regionService.GetRegionWithRaidBoss()!= null)
+            {
+                GenerateRaidBoss();
+            }
+            if (pendingRegion != null)
+            {
+                pendingRegion.isBossPending = false;
+                //apply playercount of raid to the boss
+                //PostRaid (WithAttackButton/Withdraw)
+                //(reminder) Manage Buttons
+            }
+            //Check if one is about to happen else do nothing       
+          
+        }
 
+        private void GenerateRaidBoss()
+        {
+            Random rnd = new Random();
+            RegionDto region = _regionService.GetRegionByRegionEnum((Regions) rnd.Next(1,Enum.GetValues(typeof(Regions)).Length + 1));
+            RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();   
+            region.isBossPending = true;
+            _enemyService.SaveRaidBoss(raidBoss,region);
+          
+        }
 
-
+        
     }
 }

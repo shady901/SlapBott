@@ -16,6 +16,14 @@ namespace SlapBott.Data.Models
 
         public Dictionary<StatType, int> stats { get; set; }
 
+        public HashSet<StatType> resistanceTypes = new HashSet<StatType>
+            {
+                StatType.FireResistance,
+                StatType.ChaosResistance,
+                StatType.FrostResistance,
+                StatType.LightningResistance,
+                StatType.PhysicalResistance
+            };
         [NotMapped]
         public int Health
         {
@@ -139,6 +147,24 @@ namespace SlapBott.Data.Models
 
             };
 
+        }
+
+        public Stats InitialiseRaidBossStats()
+        {
+            
+            Dictionary<StatType, int> Temp = new();
+            foreach (var stat in stats)
+            {
+                int modifiedValue = stat.Value * 10;
+                if (resistanceTypes.Contains(stat.Key))
+                {
+                    modifiedValue = 75;
+                }
+                Temp.Add(stat.Key,modifiedValue);
+            } 
+
+
+            return this;
         }
         
     }

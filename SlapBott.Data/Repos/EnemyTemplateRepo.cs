@@ -38,7 +38,7 @@ namespace SlapBott.Data.Repos
             int totalCount = templates.Count;
             if (totalCount == 0)
             {
-                return null; 
+                return new(); 
             }
             int randomIndex = new Random().Next(totalCount);
             EnemyTemplate randomTemplate = templates[randomIndex];

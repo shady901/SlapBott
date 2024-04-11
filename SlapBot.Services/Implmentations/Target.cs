@@ -16,6 +16,10 @@ namespace SlapBott.Services.Implmentations
     {
         public int Id { get; set; }
         public Stats? Stats { get; set; }
+        public int RaceID { get; set; }
+        public int ClassID { get; set; }
+        public RaceDto Race { get; set; }
+        public CharacterClassDto CharacterClassDto { get; set; }
         public List<int> Skills { get; set; } = new List<int>();
 
         const double ResMax = .75;
