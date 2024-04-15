@@ -12,9 +12,9 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
         public Regions RegionName { get; set; }
-        public int RaidBossId { get; set; } = 0;
+        public int? RaidBossId { get; set; }
         [ForeignKey("RaidBossId")]
-        public virtual RaidBoss RaidBoss { get; set; }
+        public virtual RaidBoss? RaidBoss { get; set; }
         public bool isBossPending { get; set; }
 
         //events

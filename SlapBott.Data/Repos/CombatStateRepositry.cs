@@ -18,9 +18,12 @@ namespace SlapBott.Data.Repos
         public CombatState GetCombatStateByID(int Id)
         {
             CombatState State = _dbContext.CombatStates
-               .Include(x => x.Characters)
+               .Include(x=>x.Characters)
+                  .ThenInclude(x=>x.Character)
                .Include(x=>x.Enemies)
+                  .ThenInclude(x => x.Enemy)
                .Include(x=>x.Turns)
+                .ThenInclude(x=>x.AttackRecords)
                .FirstOrDefault(pc => pc.Id == Id);
 
 

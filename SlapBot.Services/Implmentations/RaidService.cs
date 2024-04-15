@@ -19,7 +19,7 @@ namespace SlapBott.Services.Implmentations
         private RegionService _regionService;
         private EnemyService _enemyService;
         public RaidService(CombatManager combatManager, RegionService regionService, EnemyService enemyService)
-        {   
+        {
             _enemyService = enemyService;
             _regionService = regionService;
             _combatManager = combatManager;
@@ -76,33 +76,40 @@ namespace SlapBott.Services.Implmentations
             return _combatManager.GetEnemyIDByTarget(target);
         }
 
-        public void RaidCheck(object? state)
+        public RaidBossDto RaidCheck(object? state)
         {
-            Dictionary<Regions,RegionDto> regionDic = _regionService.GetAllRegionsAsDictionary();
-            RegionDto? pendingRegion = regionDic.First(x => x.Value.isBossPending).Value ?? null;
-            if (_regionService.GetRegionWithRaidBoss()!= null)
+            Dictionary<Regions, RegionDto> regionDic = _regionService.GetAllRegionsAsDictionary();
+            RegionDto? pendingRegion = regionDic.FirstOrDefault(x => x.Value.isBossPending).Value;
+            if (_regionService.GetRegionWithRaidBoss() != null)
             {
                 GenerateRaidBoss();
             }
-            if (pendingRegion != null)
+            if (pendingRegion != null&&pendingRegion.RaidBossId!=null)
             {
                 pendingRegion.isBossPending = false;
-                //apply playercount of raid to the boss
-                //PostRaid (WithAttackButton/Withdraw)
+                
+                RaidBossDto myraid =_enemyService.GetEnemyTargetByID<RaidBossDto>((int)pendingRegion.RaidBossId);
+                myraid.SetupPlayerCountStats(_combatManager.GetStateById(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
+                return myraid;
+                //PostRaid (WithAttackButton/Flee/UseItem)
                 //(reminder) Manage Buttons
             }
             //Check if one is about to happen else do nothing       
-          
+            return new RaidBossDto();
         }
 
         private void GenerateRaidBoss()
         {
             Random rnd = new Random();
-            RegionDto region = _regionService.GetRegionByRegionEnum((Regions) rnd.Next(1,Enum.GetValues(typeof(Regions)).Length + 1));
-            RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();   
+            RegionDto region = _regionService.GetRegionByRegionEnum((Regions)rnd.Next(1, Enum.GetValues(typeof(Regions)).Length + 1));
+            RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();
             region.isBossPending = true;
-            _enemyService.SaveRaidBoss(raidBoss,region);
-          
+            _enemyService.SaveRaidBoss(raidBoss, region);
+
+        }
+        private void ApplyPlayerCountStats()
+        { 
+            
         }
 
         

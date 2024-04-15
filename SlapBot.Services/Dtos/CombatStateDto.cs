@@ -1,4 +1,7 @@
-﻿using SlapBott.Services.Combat.Models;
+﻿using SlapBott.Data.Models;
+using SlapBott.Services.Combat.Models;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SlapBott.Services.Dtos
 {
@@ -6,46 +9,58 @@ namespace SlapBott.Services.Dtos
     {
 
         public int Id { get; set; }
-        public ulong ChannelID { get; set; }      
-        public bool IsPlayerTurn { get; set; }
-        public IEnumerable<PlayerCharacterDto> CharcterIds { get; set; }
-        public IEnumerable<int> EnemyIds { get; set; }
-        //public List<CharacterDto> Frontline => CharcterIds.Where(x => x.IsMelee).ToList();
-        //public List<CharacterDto> Backline => CharcterIds.Where(x => x.IsRanged).ToList();
+        public ulong ChannelID { get; set; }
+
+        public int CurrentTurnId { get; set; }
+
+        //Individual Player Turns 
+        public ICollection<TurnDto> Turns { get; set; }
+
+
+        public ICollection<PlayerCharacterCombatStateDto> Characters { get; set; } // this will have active and non active Characters in it
+
+
+        public ICollection<EnemyCombatStateDto> Enemies { get; set; } //this will have 1 or n number of enemy characters        
 
         public CombatStateDto()
         {
-            //CharcterIds = new List<int>();
-            //EnemyIds = new List<int>();
+            Turns = new List<TurnDto>();
+            Characters = new List<PlayerCharacterCombatStateDto>();
+            Enemies = new List<EnemyCombatStateDto>();
         }
-        public CombatStateDto(IEnumerable<int> playerCharacters, IEnumerable<int> enemyCharacters)
-        {
-            //CharcterIds = playerCharacters;
-            //EnemyIds = enemyCharacters;
-        }
+       
 
-
+    
 
         public CombatStateDto FromCombatState(CombatState state)
         {
-            return new CombatStateDto
-            {
-                Id = state.Id,
-                //IsPlayerTurn = state.IsPlayerTurn,
-               // CharcterIds = state.Charcters.Select(x => {
-               // return (new CharacterDto().FromCharacter(x.Character));
-               //})
-              
-               //EnemyIds = state.EnemyIds
-            };
+           
+            Id = state.Id;
+            CurrentTurnId = state.CurrentTurnId;           
+            DtoHelper.ConvertCollection(state.Turns, this.Turns, "FromTurn");
+            DtoHelper.ConvertCollection(state.Characters, this.Characters, "FromCharactersState");
+            DtoHelper.ConvertCollection(state.Enemies, this.Enemies, "FromEnemyState");
+            return this;
+
+
+            
+
+
+            
         }
+
+
+
+        //will convert dto to state, and will convert enemy states when it has been setup  which will be when turns are 0
         public CombatState ToCombatState(CombatState? combatState = null)
         {
-
-            combatState.Id = Id;
-            //combatState.IsPlayerTurn = IsPlayerTurn;
+            if (CurrentTurnId >= 0)
+            {   
+                DtoHelper.ConvertCollection(this.Turns, combatState.Enemies, "ToEnemyState");
+            }
+            combatState.CurrentTurnId = CurrentTurnId;           
             return combatState;
         }
-        //public List<Effects> effects { get; set; }
+       
     }
 }

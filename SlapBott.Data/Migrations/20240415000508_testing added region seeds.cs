@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SlapBott.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class testingaddedregion : Migration
+    public partial class testingaddedregionseeds : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,7 +26,7 @@ namespace SlapBott.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     RegionName = table.Column<int>(type: "INTEGER", nullable: false),
-                    RaidBossId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RaidBossId = table.Column<int>(type: "INTEGER", nullable: true),
                     isBossPending = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -34,8 +36,7 @@ namespace SlapBott.Data.Migrations
                         name: "FK_Regions_Enemies_RaidBossId",
                         column: x => x.RaidBossId,
                         principalTable: "Enemies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.UpdateData(
@@ -44,6 +45,19 @@ namespace SlapBott.Data.Migrations
                 keyValue: 1,
                 column: "Stats",
                 value: "{\"resistanceTypes\":[10,14,11,12,13],\"Id\":0,\"Character\":null,\"stats\":{\"Dexterity\":0,\"Strength\":0,\"Intelligence\":0,\"CritChance\":0,\"MaxHealth\":0,\"Health\":0,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0},\"Health\":0,\"MaxHealth\":0,\"Strength\":0,\"Dexterity\":0,\"Intelligence\":0,\"CritChance\":0,\"AttackDamage\":0,\"SpellPower\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"ArmorRating\":0,\"DodgeChance\":0}");
+
+            migrationBuilder.InsertData(
+                table: "Regions",
+                columns: new[] { "Id", "RaidBossId", "RegionName", "isBossPending" },
+                values: new object[,]
+                {
+                    { 1, null, 6, false },
+                    { 2, null, 5, false },
+                    { 3, null, 2, false },
+                    { 4, null, 4, false },
+                    { 5, null, 3, false },
+                    { 6, null, 1, false }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enemies_RegionId",

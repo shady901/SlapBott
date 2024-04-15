@@ -24,10 +24,10 @@ namespace SlapBott.Services.Implmentations
         {
             _enemyRepositry.SaveEnemy(enemy.ToEnemy());
         }
-        public void SaveRaidBoss(RaidBossDto raidBoss, RegionDto region)
+        public void SaveRaidBoss(RaidBossDto raidBoss, RegionDto region, RaidBoss? OriginalRb = null)
         {
 
-            _enemyRepositry.SaveEnemy(raidBoss.ToRaidBoss(region.ToRegion()));
+            _enemyRepositry.SaveEnemy(raidBoss.ToRaidBoss(region.ToRegion(),OriginalRb));
         }
 
         private Tout GetEnemyAs<Tout, TIn>(int id) where Tout : Target where TIn : Enemy
@@ -41,7 +41,7 @@ namespace SlapBott.Services.Implmentations
             return default;
         }
 
-    
+
         public T GetEnemyTargetByID<T>(int EnemyID) where T : Target
         {
             return GetEnemyAs<T, Enemy>(EnemyID); ;

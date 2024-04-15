@@ -10,13 +10,23 @@ namespace SlapBott.Services.Dtos
 
         public string Name { get; set; }
         public string Description { get; set; }
-       
+
 
         //public void ApplyDamage(int damage, StatType elementalType)
         //{
-            
-        //}
 
+        //}
+        public static EnemyDto FromRecord(Enemy enemy)
+        {
+            return new EnemyDto
+            {
+                Id = enemy.Id,
+                Name = enemy.Character.Name,
+                Description = enemy.Character.Description,
+                Stats = enemy.Character.Stats,
+
+            };
+        }
         public EnemyDto FromEnemy(Enemy enemy)
         {
             return new EnemyDto

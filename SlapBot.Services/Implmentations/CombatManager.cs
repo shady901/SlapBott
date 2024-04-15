@@ -1,8 +1,12 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
-
+using SlapBott.Services.Combat.Models;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Formats.Tar;
 namespace SlapBott.Services.Implmentations
 {
     public class CombatManager
@@ -19,7 +23,7 @@ namespace SlapBott.Services.Implmentations
         {
                 _combatStateService.SaveState(_state);
         }
-        public void GetStateById(int id)
+        public void SetStateById(int id)
         {
             if (id > 0) 
             {
@@ -27,6 +31,16 @@ namespace SlapBott.Services.Implmentations
             }
           
             
+        }
+        public CombatStateDto GetStateById(int id)
+        {
+           
+            if (id > 0)
+            {
+                return _combatStateService.GetCombatStateByID(id);
+            }
+            return null;
+
         }
         public void GetStateByChannelId(ulong id)
         {
@@ -37,22 +51,30 @@ namespace SlapBott.Services.Implmentations
         }
         public List<int> GetEnemyIDs()
         {
-            return _state.EnemyIds.ToList();
+            List<int> enemyIds = new List<int>();
+            foreach (var enemy in _state.Enemies)
+            {
+               enemyIds.Add(enemy.Id);
+            }
+            return enemyIds;
         }
         public int GetEnemyIDByTarget(string target)
         {
 
-            var d = _state.EnemyIds.ToList();
-            return d[Convert.ToInt32(target)]; 
+            
+            return GetEnemyIDs()[Convert.ToInt32(target)]; 
         }
         //public EnemyDto GetEnemyById(int ID)
         //{
 
         //    return _enemyService.GetEnemyByID(ID);
         //}
-        public void Turn(int StateID,int TargetId,SkillDto skillDto, PlayerCharacterDto? characterDto = null, EnemyDto? enemyDto = null)
+
+        // attackers turn
+        public void Turn<T>(int StateID, int TargetId, SkillDto skillDto, T? characterDto = null, T? enemyDto = null) where T : Target
         {
-            GetStateById(StateID);
+            GetStateById(StateID); // state for something not sure at this time
+
             //SelectTarget - Player or Enemy Object
             //GetSkillData
             //GetAttackerData
@@ -62,8 +84,7 @@ namespace SlapBott.Services.Implmentations
             //SaveTarget
             //SaveTurn
 
-
-
+           
 
            
             //end turn 
@@ -110,7 +131,21 @@ namespace SlapBott.Services.Implmentations
                     return StatType.none;
             }
         }
+        public void CreateNewCombatState(IEnumerable<int> enemyIds) 
+        {
 
+            _state = new() { Enemies = CreateNewEnemyCombatStateList(enemyIds) }; 
+            _combatStateService.SaveState(_state);
+        }
 
+        private List<EnemyCombatStateDto> CreateNewEnemyCombatStateList(IEnumerable<int> enemyIds)
+        {
+            List<EnemyCombatStateDto> myEnemys = new List<EnemyCombatStateDto>();
+            foreach (int enemyId in enemyIds)
+            {
+                myEnemys.Add(new EnemyCombatStateDto() { ParticipantId = enemyId });
+            }
+            return myEnemys;
+        }
     }
 }

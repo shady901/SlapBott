@@ -13,7 +13,7 @@ namespace SlapBott.Services.Dtos
     {
         public int Id { get; set; }
         public Regions RegionName { get; set; }
-        public int RaidBossId { get; set; }
+        public int? RaidBossId { get; set; }
         public bool isBossPending { get; set; } = false;
         public RegionDto FromRegion(Region region)
         {
@@ -27,7 +27,12 @@ namespace SlapBott.Services.Dtos
         }
         public Region ToRegion(Region? region =null)
         {
-            region.Id = Id;
+            if (region == null)
+            {
+                region = new Region();
+                region.Id = Id;
+            }
+          
             region.RegionName = RegionName;            
             region.RaidBossId = RaidBossId;
             region.isBossPending = isBossPending;

@@ -1,9 +1,11 @@
 ﻿using Discord;
 using SlapBott.Data.Enums;
 using SlapBott.ItemProject.Items;
+using SlapBott.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -141,6 +143,26 @@ namespace SlapBott
              .Build();
 
             return builder;
+        }
+
+
+        public static Embed DisplayRaidBoss(RaidBossDto Boss)
+        {
+            var embed = new EmbedBuilder()
+             .WithTitle($"{Boss.Name ?? "BossNameDisplayIssue"}")
+             .WithDescription("")
+             .WithFooter("");
+             
+            foreach (var item in Boss.Stats.stats)
+            {
+                var field = new EmbedFieldBuilder();
+                field.Name = item.Key.ToString();
+                field.Value = item.Value;
+                embed.Fields.Add(field);
+            }
+
+        
+            return embed.Build();
         }
 
 

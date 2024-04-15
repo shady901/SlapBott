@@ -46,12 +46,19 @@
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<SkillService>()
                 .AddSingleton<SkillRepo>()
-                .AddSingleton<ItemService>()
+                .AddSingleton<ItemService>()                
                 .AddSingleton<RegistrationRepositry>()
                 .AddSingleton<PlayerCharacterRepositry>()
                 .AddSingleton<PlayerCharacterService>()
                 .AddSingleton<RegionService>()
-                .AddSingleton<IRaidService, RaidService>();
+                .AddSingleton<EnemyService>()
+                .AddSingleton<CombatStateService>()
+                .AddSingleton<CombatManager>()
+                .AddSingleton<CombatStateRepositry>()
+                .AddSingleton<EnemyRepositry>()
+                .AddSingleton<EnemyTemplateRepo>()
+                .AddSingleton<RegionRepo>()
+                .AddSingleton<RaidService>();
                 
 
             _services.AddDbContext<SlapbottDbContext>(options => options.UseSqlite(Properties.Resources.DbConnection));
@@ -87,15 +94,15 @@
             await client.LoginAsync(TokenType.Bot, Properties.Resources.Token);
             await client.StartAsync();
 
-            TimerCallback callback = _servicesProvider.GetService<RaidService>().RaidCheck;
+           // TimerCallback callback = _servicesProvider.GetService<RaidService>().RaidCheck;
 
             // Create a timer that ticks every hour
             TimeSpan interval = TimeSpan.FromHours(1);
-            Timer timer = new Timer(callback, null, TimeSpan.Zero, interval);
+           // Timer timer = new Timer(callback, null, TimeSpan.Zero, interval);
 
             // Never quit the program until manually forced to.
             await Task.Delay(Timeout.Infinite);
-            timer.Dispose();
+         //   timer.Dispose();
         }
 
      

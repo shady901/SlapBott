@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace SlapBott.Data.Repos
 
         public Region? GetRegionWithBoss()
         {
-            return _dbContext.Regions.FirstOrDefault(x => x.RaidBossId > 0);
+            return _dbContext.Regions.FirstOrDefault(x => x.RaidBossId > 0)?? new Region();
         }
 
         public Region GetRegionWithPendingBoss()
@@ -54,6 +55,11 @@ namespace SlapBott.Data.Repos
 
             meth(Region);
 
+        }
+
+        public void SetRegionBossToPending(int id)
+        {
+          // _dbContext.Regions.Where(x=>x.Id==id).ExecuteUpdate()
         }
     }
 }

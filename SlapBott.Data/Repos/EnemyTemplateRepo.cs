@@ -40,7 +40,7 @@ namespace SlapBott.Data.Repos
             {
                 return new(); 
             }
-            int randomIndex = new Random().Next(totalCount);
+            int randomIndex = new Random().Next(totalCount-1);
             EnemyTemplate randomTemplate = templates[randomIndex];
 
             return randomTemplate;

@@ -1,29 +1,31 @@
 ﻿namespace SlapBott.Core.Commands
 {
     using Discord;
-    using Discord.Commands;
+  
+    using Discord.Interactions;
+    using InteractionFramework;
     using SlapBott.Services.Contracts;
+    using SlapBott.Services.Implmentations;
 
-    public class JoinRaid : ModuleBase<SocketCommandContext>  
+    public class JoinRaid : InteractionModuleBase<SocketInteractionContext>
     {
-        private readonly IRaidService _raidService;
+        private readonly RaidService _raidService;
+        private InteractionHandler _handler;
+        public InteractionService Commands { get; set; }
 
-
-        public JoinRaid(IRaidService raidService)
+        public JoinRaid(RaidService raidService)
         {
             _raidService = raidService;
         }
 
 
-        [Command("joinraid", RunMode = RunMode.Async)]
+        [SlashCommand("joinraid", description: "Joins the raid", ignoreGroupNames: false, runMode: RunMode.Async)]
         public async Task JoinRaidAsync()
         {
-            var userid = Context.User.Id;
-            var channelId = Context.Channel.Id;    
-            
-            string msg = _raidService.JoinRaid( userid, channelId );
-            
-            await ReplyAsync(msg, false) ;
+          
+            //  string msg = _raidService.JoinRaid( userid, channelId );
+           
+            await ReplyAsync(embed:BuilderReplies.DisplayRaidBoss(_raidService.RaidCheck(new object()))) ;
 
         }
     

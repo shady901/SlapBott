@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240411010535_testing added region")]
-    partial class testingaddedregion
+    [Migration("20240415000508_testing added region seeds")]
+    partial class testingaddedregionseeds
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -286,7 +286,7 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("RaidBossId")
+                    b.Property<int?>("RaidBossId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RegionName")
@@ -300,6 +300,44 @@ namespace SlapBott.Data.Migrations
                     b.HasIndex("RaidBossId");
 
                     b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RegionName = 6,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RegionName = 5,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RegionName = 2,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            RegionName = 4,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            RegionName = 3,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 6,
+                            RegionName = 1,
+                            isBossPending = false
+                        });
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
@@ -596,9 +634,7 @@ namespace SlapBott.Data.Migrations
                 {
                     b.HasOne("SlapBott.Data.Models.RaidBoss", "RaidBoss")
                         .WithMany()
-                        .HasForeignKey("RaidBossId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RaidBossId");
 
                     b.Navigation("RaidBoss");
                 });

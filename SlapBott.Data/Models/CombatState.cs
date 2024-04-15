@@ -18,6 +18,8 @@ namespace SlapBott.Services.Combat.Models
         public int ParticipantId { get; set; }
         public bool HadTurn { get; set; }
         public bool IsActive { get; set; }
+
+
         [ForeignKey("CombatStateId")]
         public virtual CombatState CombatState { get; set; }
 
@@ -51,8 +53,9 @@ namespace SlapBott.Services.Combat.Models
         public ulong ChannelID { get; set; }
 
         public int CurrentTurnId { get; set; }
-        
+
         //Individual Player Turns 
+        
         public ICollection<Turn> Turns { get; set; }
 
         [ForeignKey("Id")]

@@ -48,5 +48,10 @@ namespace SlapBott.Services.Implmentations
         {
             _regionRepo.SaveRegion(region.ToRegion());
         }
+        public void SetRegionBossToPending(int Id)
+        { 
+            _regionRepo.SetRegionBossToPending(Id);
+        
+        }
     }
 }
