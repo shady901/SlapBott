@@ -76,41 +76,57 @@ namespace SlapBott.Services.Implmentations
             return _combatManager.GetEnemyIDByTarget(target);
         }
 
-        public RaidBossDto RaidCheck(object? state)
+        public void RaidCheck()
         {
-            Dictionary<Regions, RegionDto> regionDic = _regionService.GetAllRegionsAsDictionary();
-            RegionDto? pendingRegion = regionDic.FirstOrDefault(x => x.Value.isBossPending).Value;
-            if (_regionService.GetRegionWithRaidBoss() != null)
+            Dictionary<Regions, RegionDto> regionDic = _regionService.GetAllRegionsWithRaidBoss();
+            RegionDto? pendingRegion = regionDic.FirstOrDefault(x => x.Value.isBossPending && x.Value.HasActiveBoss == false).Value;
+              
+            //getallregions without an active raid boss
+            //generate one, assign region as pending to give time to sign up to boss
+            if ( regionDic.Where(x=>x.Value.HasActiveBoss == false && x.Value.isBossPending==false) != null)
             {
                 GenerateRaidBoss();
             }
-            if (pendingRegion != null&&pendingRegion.RaidBossId!=null)
+
+            //then check if a region currently has pending, then display rb to server and set as not 
+
+
+
+
+
+
+
+
+
+
+            if (pendingRegion != null)
             {
+                RaidBoss temp = (RaidBoss)pendingRegion.Enemies.Where(x => !x.IsDead);
                 pendingRegion.isBossPending = false;
-                
-                RaidBossDto myraid =_enemyService.GetEnemyTargetByID<RaidBossDto>((int)pendingRegion.RaidBossId);
+                pendingRegion.HasActiveBoss = true;
+                RaidBossDto myraid = RaidBossDto.FromRecord(temp);
                 myraid.SetupPlayerCountStats(_combatManager.GetStateById(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
-                return myraid;
+                _enemyService.SaveRaidBoss(myraid,temp);
+                _regionService.SaveRegion(pendingRegion);
                 //PostRaid (WithAttackButton/Flee/UseItem)
                 //(reminder) Manage Buttons
             }
             //Check if one is about to happen else do nothing       
-            return new RaidBossDto();
+           
         }
 
-        private void GenerateRaidBoss()
+        private RaidBossDto GenerateRaidBoss()
         {
             Random rnd = new Random();
             RegionDto region = _regionService.GetRegionByRegionEnum((Regions)rnd.Next(1, Enum.GetValues(typeof(Regions)).Length + 1));
             RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();
-            region.isBossPending = true;
-            _enemyService.SaveRaidBoss(raidBoss, region);
-
+            _regionService.SaveAndSetRegionBossToPending(region.ToRegion());
+            raidBoss.RegionId = region.Id;
+            var raidboss = _enemyService.SaveRaidBoss(raidBoss);          
+       
+            return raidBoss;
         }
-        private void ApplyPlayerCountStats()
-        { 
-            
-        }
+       
 
         
     }

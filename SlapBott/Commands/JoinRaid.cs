@@ -5,6 +5,7 @@
     using Discord.Interactions;
     using InteractionFramework;
     using SlapBott.Services.Contracts;
+    using SlapBott.Services.Dtos;
     using SlapBott.Services.Implmentations;
 
     public class JoinRaid : InteractionModuleBase<SocketInteractionContext>
@@ -22,10 +23,10 @@
         [SlashCommand("joinraid", description: "Joins the raid", ignoreGroupNames: false, runMode: RunMode.Async)]
         public async Task JoinRaidAsync()
         {
-          
+
             //  string msg = _raidService.JoinRaid( userid, channelId );
-           
-            await ReplyAsync(embed:BuilderReplies.DisplayRaidBoss(_raidService.RaidCheck(new object()))) ;
+            RaidBossDto raidBoss = _raidService.RaidCheck();
+            await RespondAsync(embed:BuilderReplies.DisplayRaidBoss(raidBoss)) ;
 
         }
     

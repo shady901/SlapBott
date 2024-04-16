@@ -9,6 +9,10 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<Region> builder)
         {
+            builder.HasMany<Enemy>().WithOne(e => e.Region);
+
+
+
             builder.HasData(SeedingRegions());
         }
         private Region[] SeedingRegions()

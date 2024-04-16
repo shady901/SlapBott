@@ -12,11 +12,11 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
         public Regions RegionName { get; set; }
-        public int? RaidBossId { get; set; }
-        [ForeignKey("RaidBossId")]
-        public virtual RaidBoss? RaidBoss { get; set; }
+       
+        
+        public virtual ICollection<Enemy>? Enemies { get; set; }
         public bool isBossPending { get; set; }
-
+        public bool HasActiveBoss { get; set; }
         //events
     }
 }

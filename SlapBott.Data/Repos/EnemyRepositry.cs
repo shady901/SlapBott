@@ -20,10 +20,11 @@ namespace SlapBott.Data.Repos
             return enemy;
         }
         
-        public void SaveEnemy(Enemy enemy)
+        public Enemy SaveEnemy(Enemy enemy)
         {
             AddOrUpdateEnemy(enemy);
             _dbContext.SaveChanges();
+            return enemy;
         }
         public void AddOrUpdateEnemy(Enemy enemy)
         {

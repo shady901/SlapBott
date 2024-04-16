@@ -19,7 +19,7 @@ namespace SlapBott.Services.Dtos
                 Stats = boss.Character.Stats,
                 RaceID = (int)boss.Character.RaceId,
                 ClassID = (int)boss.Character.ClassId,
-                Region = boss.RegionId,
+                RegionId = boss.RegionId,
                 StateId = boss.Character.CombatStateID,
             };
         } 
@@ -37,21 +37,19 @@ namespace SlapBott.Services.Dtos
         //    };
         //}
     
-        public RaidBoss ToRaidBoss(Region? region = null, RaidBoss? raidBoss = null)
+        public RaidBoss ToRaidBoss(RaidBoss? raidBoss = null)
         {
             if (raidBoss == null)// if making new raid boss it will be null
             {
                 raidBoss = new RaidBoss(){Character= new Character() {Inventory = new Inventory() } };
                 raidBoss.Id = Id;
             }
-            
+            raidBoss.RegionId = RegionId;
             raidBoss.Character.Name = Name??string.Empty;
             raidBoss.Character.Description = Description??string.Empty;
             raidBoss.Character.Stats = Stats;
             raidBoss.Character.RaceId = RaceID;
             raidBoss.Character.ClassId = ClassID;
-            
-            
             return raidBoss;
         }
 

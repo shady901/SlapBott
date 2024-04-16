@@ -13,15 +13,17 @@ namespace SlapBott.Services.Dtos
     {
         public int Id { get; set; }
         public Regions RegionName { get; set; }
-        public int? RaidBossId { get; set; }
+        
         public bool isBossPending { get; set; } = false;
+        public bool HasActiveBoss { get; set; } = false;
+        public ICollection<Enemy>? Enemies { get; set; }
         public RegionDto FromRegion(Region region)
         {
             return new RegionDto()
             {
                 Id = region.Id,
                 RegionName = region.RegionName,
-                RaidBossId = region.RaidBossId,
+                Enemies = region.Enemies,
                 isBossPending = region.isBossPending
             };
         }
@@ -32,9 +34,8 @@ namespace SlapBott.Services.Dtos
                 region = new Region();
                 region.Id = Id;
             }
-          
-            region.RegionName = RegionName;            
-            region.RaidBossId = RaidBossId;
+            
+            region.RegionName = RegionName;  
             region.isBossPending = isBossPending;
             return region;
         }

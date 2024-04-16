@@ -17,7 +17,7 @@ namespace SlapBott.Services.Implmentations
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Region { get; set; }
+        public int? RegionId { get; set; }
         public Stats? Stats { get; set; }
         public int RaceID { get; set; }
         public int ClassID { get; set; }

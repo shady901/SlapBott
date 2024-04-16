@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlapBott.Data;
 
@@ -11,11 +10,9 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240403224037_Adding changed shit")]
-    partial class Addingchangedshit
+    partial class SlapbottDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -30,6 +27,9 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CombatStateID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -115,15 +115,67 @@ namespace SlapBott.Data.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("RegionId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
+
+                    b.HasIndex("RegionId")
+                        .IsUnique();
 
                     b.ToTable("Enemies", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Enemy");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.EnemyTemplate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LearnedSkillIds")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("RaceId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Stats")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("RaceId");
+
+                    b.ToTable("EnemyTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassId = 1,
+                            Description = "a Pile of bones that has formed a silhouette of a Humanoid",
+                            LearnedSkillIds = "[1]",
+                            Name = "Skeleton Warrior",
+                            RaceId = 5,
+                            Stats = "{\"resistanceTypes\":[10,14,11,12,13],\"Id\":0,\"Character\":null,\"stats\":{\"Dexterity\":0,\"Strength\":0,\"Intelligence\":0,\"CritChance\":0,\"MaxHealth\":0,\"Health\":0,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0},\"Health\":0,\"MaxHealth\":0,\"Strength\":0,\"Dexterity\":0,\"Intelligence\":0,\"CritChance\":0,\"AttackDamage\":0,\"SpellPower\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"ArmorRating\":0,\"DodgeChance\":0}"
+                        });
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
@@ -215,6 +267,73 @@ namespace SlapBott.Data.Migrations
                             BaseStats = "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}",
                             Name = 2,
                             PerLevelStats = "{\"MaxHealth\":20}"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BaseStats = "{\"Dexterity\":4,\"Strength\":4,\"Intelligence\":4,\"CritChance\":0,\"MaxHealth\":100,\"Health\":100,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":5,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0}",
+                            Name = 5,
+                            PerLevelStats = "{\"MaxHealth\":20}"
+                        });
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RaidBossId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RegionName")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("isBossPending")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RaidBossId");
+
+                    b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RegionName = 6,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RegionName = 5,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RegionName = 2,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            RegionName = 4,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            RegionName = 3,
+                            isBossPending = false
+                        },
+                        new
+                        {
+                            Id = 6,
+                            RegionName = 1,
+                            isBossPending = false
                         });
                 });
 
@@ -339,6 +458,12 @@ namespace SlapBott.Data.Migrations
                     b.Property<int>("CombatStateId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("HadTurn")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("ParticipantId")
                         .HasColumnType("INTEGER");
 
@@ -357,6 +482,12 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CombatStateId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HadTurn")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ParticipantId")
@@ -440,7 +571,28 @@ namespace SlapBott.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SlapBott.Data.Models.Region", "Region")
+                        .WithOne()
+                        .HasForeignKey("SlapBott.Data.Models.Enemy", "RegionId");
+
                     b.Navigation("Character");
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.EnemyTemplate", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.CharacterClass", "CharacterClass")
+                        .WithMany()
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("SlapBott.Data.Models.Race", "Race")
+                        .WithMany()
+                        .HasForeignKey("RaceId");
+
+                    b.Navigation("CharacterClass");
+
+                    b.Navigation("Race");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
@@ -471,6 +623,15 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Character");
 
                     b.Navigation("Registration");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Region", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.RaidBoss", "RaidBoss")
+                        .WithMany()
+                        .HasForeignKey("RaidBossId");
+
+                    b.Navigation("RaidBoss");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>

@@ -29,15 +29,38 @@ namespace SlapBott.Services.Implmentations
             }
             return RegionCollection;
         }
-
+        public Dictionary<Regions, RegionDto> GetAllRegionsWithEnemiesAsDictionary()
+        {
+            Dictionary<Regions, RegionDto> RegionCollection = new Dictionary<Regions, RegionDto>();
+            foreach (var region in _regionRepo.GetAllRegionsWithEnemies())
+            {
+                RegionCollection.Add(region.RegionName, new RegionDto().FromRegion(region));
+            }
+            return RegionCollection;
+        }
+        public Dictionary<Regions, RegionDto> GetAllRegionsWithActiveBoss()
+        {
+            Dictionary<Regions, RegionDto> RegionCollection = new Dictionary<Regions, RegionDto>();
+            foreach (var region in _regionRepo.GetAllRegionsWithAliveRaidboss())
+            {
+                RegionCollection.Add(region.RegionName, new RegionDto().FromRegion(region));
+            }
+            return RegionCollection;
+        }
+        public Dictionary<Regions, RegionDto> GetAllRegionsWithInactiveBoss()
+        {
+            Dictionary<Regions, RegionDto> RegionCollection = new Dictionary<Regions, RegionDto>();
+            foreach (var region in _regionRepo.GetAllRegionsWithDeadRaidboss())
+            {
+                RegionCollection.Add(region.RegionName, new RegionDto().FromRegion(region));
+            }
+            return RegionCollection;
+        }
         public RegionDto GetRegionByRegionEnum(Regions regions)
         {
            return new RegionDto().FromRegion(_regionRepo.GetRegionByEnumName(regions));
         }
-        public RegionDto GetRegionWithRaidBoss()
-        {
-            return new RegionDto().FromRegion(_regionRepo.GetRegionWithBoss());
-        }
+       
 
         public RegionDto GetRegionWithPendingRaidBoss()
         {
@@ -48,10 +71,20 @@ namespace SlapBott.Services.Implmentations
         {
             _regionRepo.SaveRegion(region.ToRegion());
         }
-        public void SetRegionBossToPending(int Id)
+        public void SaveAndSetRegionBossToPending(Region region)
         { 
-            _regionRepo.SetRegionBossToPending(Id);
+            _regionRepo.SaveAndSetRegionBossToPending(region);
         
+        }
+
+        public Dictionary<Regions, RegionDto> GetAllRegionsWithRaidBoss()
+        {
+            Dictionary<Regions, RegionDto> RegionCollection = new Dictionary<Regions, RegionDto>();
+            foreach (var region in _regionRepo.GetAllRegionsWithRaidboss())
+            {
+                RegionCollection.Add(region.RegionName, new RegionDto().FromRegion(region));
+            }
+            return RegionCollection;
         }
     }
 }

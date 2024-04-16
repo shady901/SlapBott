@@ -23,16 +23,22 @@ namespace SlapBott.Data.Repos
             return _dbContext.Regions.FirstOrDefault(x => x.RegionName == region);
         
         }
-        public List<Region> GetAllRegions()
+        public List<Region> GetAllRegionsWithAliveRaidboss()
         { 
+            return _dbContext.Regions.Include(x=>x.Enemies.OfType<RaidBoss>().Where(y=>!y.IsDead)).ToList();
+        }
+        public List<Region> GetAllRegionsWithDeadRaidboss()
+        {
+            return _dbContext.Regions.Include(x => x.Enemies.OfType<RaidBoss>().Where(y => y.IsDead)).ToList();
+        }
+        public List<Region> GetAllRegions()
+        {
             return _dbContext.Regions.ToList();
         }
-
-        public Region? GetRegionWithBoss()
+        public List<Region> GetAllRegionsWithEnemies()
         {
-            return _dbContext.Regions.FirstOrDefault(x => x.RaidBossId > 0)?? new Region();
+            return _dbContext.Regions.Include(x=>x.Enemies).ToList();
         }
-
         public Region GetRegionWithPendingBoss()
         {
             return _dbContext.Regions.FirstOrDefault(x => x.isBossPending == true);
@@ -57,9 +63,17 @@ namespace SlapBott.Data.Repos
 
         }
 
-        public void SetRegionBossToPending(int id)
+        public void SaveAndSetRegionBossToPending(Region region)
         {
-          // _dbContext.Regions.Where(x=>x.Id==id).ExecuteUpdate()
+            region.isBossPending = true;
+            AddOrUpdateRegion(region);
+            _dbContext.SaveChanges();
+        
+        }
+
+        public List<Region> GetAllRegionsWithRaidboss()
+        {
+            return _dbContext.Regions.Include(x => x.Enemies.OfType<RaidBoss>()).ToList();
         }
     }
 }
