@@ -9,15 +9,10 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Repos
 {
-    public class RegionRepo
+    public class RegionRepo: Repo<Region>
     {
-        private SlapbottDbContext _dbContext { get; set; }
-
-        public RegionRepo(SlapbottDbContext dBContext)
-        {
-            _dbContext = dBContext;
-
-        }
+        public RegionRepo(SlapbottDbContext dBContext):base(dBContext) { }
+       
         public Region? GetRegionByEnumName(Regions region)
         {
             return _dbContext.Regions.FirstOrDefault(x => x.RegionName == region);
@@ -37,6 +32,8 @@ namespace SlapBott.Data.Repos
         }
         public List<Region> GetAllRegionsWithEnemies()
         {
+            var d = _dbContext.Regions.Include(x => x.Enemies);
+            Console.Write(d.ToQueryString());
             return _dbContext.Regions.Include(x=>x.Enemies).ToList();
         }
         public Region GetRegionWithPendingBoss()
@@ -46,34 +43,25 @@ namespace SlapBott.Data.Repos
 
         public void SaveRegion(Region Region)
         {
-            AddOrUpdateRegion(Region);
-            _dbContext.SaveChanges();
+            AddOrUpdateEntity(Region);
         }
-        public void AddOrUpdateRegion(Region Region)
-        {
-            var meth = _dbContext.Regions.Update;
 
-
-            if (Region.Id <= 0) // not in the database
-            {
-                meth = _dbContext.Regions.Add;
-            }
-
-            meth(Region);
-
-        }
 
         public void SaveAndSetRegionBossToPending(Region region)
         {
             region.isBossPending = true;
-            AddOrUpdateRegion(region);
-            _dbContext.SaveChanges();
+            AddOrUpdateEntity(region);
         
         }
 
-        public List<Region> GetAllRegionsWithRaidboss()
+        public Region GetRegionByIdOrNew(int id)
         {
-            return _dbContext.Regions.Include(x => x.Enemies.OfType<RaidBoss>()).ToList();
+           return GetByIdOrNew(id);
         }
+
+        //public List<Region> GetAllRegionsWithRaidboss()
+        //{
+        //    //return _dbContext.Regions.Include(x => x.Enemies).ToList().SelectMany(x=>x.Enemies of);
+        //}
     }
 }

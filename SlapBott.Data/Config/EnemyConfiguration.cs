@@ -10,10 +10,7 @@ namespace SlapBott.Data.Config
         public void Configure(EntityTypeBuilder<Enemy> builder)
         {
             builder.ToTable("Enemies");
-            builder
-             .HasOne(e => e.Region)
-             .WithOne()
-             .HasForeignKey<Enemy>(e => e.RegionId);
+    
         }
     }
 }

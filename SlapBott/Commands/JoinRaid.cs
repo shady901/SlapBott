@@ -25,8 +25,8 @@
         {
 
             //  string msg = _raidService.JoinRaid( userid, channelId );
-            RaidBossDto raidBoss = _raidService.RaidCheck();
-            await RespondAsync(embed:BuilderReplies.DisplayRaidBoss(raidBoss)) ;
+            _raidService.RaidCheck();
+            await RespondAsync("RaidCheck") ;
 
         }
     

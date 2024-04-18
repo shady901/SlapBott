@@ -67,12 +67,17 @@ namespace SlapBott.Services.Implmentations
             return new RegionDto().FromRegion(_regionRepo.GetRegionWithPendingBoss());
         }
 
-        public void SaveRegion(RegionDto region)
+        public void SaveRegion(RegionDto regionDto)
         {
-            _regionRepo.SaveRegion(region.ToRegion());
+
+            Region region = _regionRepo.GetRegionByIdOrNew(regionDto.Id);
+            
+            _regionRepo.SaveRegion(regionDto.ToRegion(region));
         }
-        public void SaveAndSetRegionBossToPending(Region region)
-        { 
+        public void SaveAndSetRegionBossToPending(RegionDto regionDto)
+        {
+            Region region = _regionRepo.GetRegionByIdOrNew(regionDto.Id);
+
             _regionRepo.SaveAndSetRegionBossToPending(region);
         
         }
@@ -80,7 +85,7 @@ namespace SlapBott.Services.Implmentations
         public Dictionary<Regions, RegionDto> GetAllRegionsWithRaidBoss()
         {
             Dictionary<Regions, RegionDto> RegionCollection = new Dictionary<Regions, RegionDto>();
-            foreach (var region in _regionRepo.GetAllRegionsWithRaidboss())
+            foreach (var region in _regionRepo.GetAllRegionsWithEnemies())
             {
                 RegionCollection.Add(region.RegionName, new RegionDto().FromRegion(region));
             }

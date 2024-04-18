@@ -16,7 +16,7 @@ namespace SlapBott.Data.Models
         public bool IsDead { get; set; } = false;
         public int? RegionId { get; set; }
         [ForeignKey("RegionId")]
-        public virtual Region Region { get; set; }
+        public virtual Region? Region { get; set; }
         [ForeignKey("CharacterId")]
         public virtual Character Character { get; set; }
 

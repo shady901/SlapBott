@@ -78,12 +78,12 @@ namespace SlapBott.Services.Implmentations
 
         public void RaidCheck()
         {
-            Dictionary<Regions, RegionDto> regionDic = _regionService.GetAllRegionsWithRaidBoss();
+            Dictionary<Regions, RegionDto> regionDic = _regionService.GetAllRegionsWithEnemiesAsDictionary();
             RegionDto? pendingRegion = regionDic.FirstOrDefault(x => x.Value.isBossPending && x.Value.HasActiveBoss == false).Value;
-              
+                        
             //getallregions without an active raid boss
             //generate one, assign region as pending to give time to sign up to boss
-            if ( regionDic.Where(x=>x.Value.HasActiveBoss == false && x.Value.isBossPending==false) != null)
+            if ( regionDic.Where(x=>x.Value.HasActiveBoss == false && x.Value.isBossPending == false) != null)
             {
                 GenerateRaidBoss();
             }
@@ -101,7 +101,7 @@ namespace SlapBott.Services.Implmentations
 
             if (pendingRegion != null)
             {
-                RaidBoss temp = (RaidBoss)pendingRegion.Enemies.Where(x => !x.IsDead);
+                RaidBoss temp = (RaidBoss)pendingRegion.Enemies.First(x => !x.IsDead && x.GetType().Equals(typeof( RaidBoss)));
                 pendingRegion.isBossPending = false;
                 pendingRegion.HasActiveBoss = true;
                 RaidBossDto myraid = RaidBossDto.FromRecord(temp);
@@ -120,7 +120,7 @@ namespace SlapBott.Services.Implmentations
             Random rnd = new Random();
             RegionDto region = _regionService.GetRegionByRegionEnum((Regions)rnd.Next(1, Enum.GetValues(typeof(Regions)).Length + 1));
             RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();
-            _regionService.SaveAndSetRegionBossToPending(region.ToRegion());
+            _regionService.SaveAndSetRegionBossToPending(region);
             raidBoss.RegionId = region.Id;
             var raidboss = _enemyService.SaveRaidBoss(raidBoss);          
        

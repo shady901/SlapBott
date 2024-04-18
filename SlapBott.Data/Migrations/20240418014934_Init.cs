@@ -71,6 +71,21 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Regions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RegionName = table.Column<int>(type: "INTEGER", nullable: false),
+                    isBossPending = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HasActiveBoss = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Regions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Skills",
                 columns: table => new
                 {
@@ -153,6 +168,39 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Enemies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsDead = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RegionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    RegionId1 = table.Column<int>(type: "INTEGER", nullable: true),
+                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enemies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Enemies_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Enemies_Regions_RegionId",
+                        column: x => x.RegionId,
+                        principalTable: "Regions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Enemies_Regions_RegionId1",
+                        column: x => x.RegionId1,
+                        principalTable: "Regions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Inventories",
                 columns: table => new
                 {
@@ -201,53 +249,6 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TurnAttackRecord",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    SkillId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TurnId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TurnAttackRecord", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TurnAttackRecord_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TurnAttackRecord_Turns_TurnId",
-                        column: x => x.TurnId,
-                        principalTable: "Turns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Enemies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RegionId = table.Column<int>(type: "INTEGER", nullable: true),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enemies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Enemies_Characters_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EnemyCombatState",
                 columns: table => new
                 {
@@ -281,23 +282,29 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Regions",
+                name: "TurnAttackRecord",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RegionName = table.Column<int>(type: "INTEGER", nullable: false),
-                    RaidBossId = table.Column<int>(type: "INTEGER", nullable: true),
-                    isBossPending = table.Column<bool>(type: "INTEGER", nullable: false)
+                    SkillId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TurnId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Regions", x => x.Id);
+                    table.PrimaryKey("PK_TurnAttackRecord", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Regions_Enemies_RaidBossId",
-                        column: x => x.RaidBossId,
-                        principalTable: "Enemies",
-                        principalColumn: "Id");
+                        name: "FK_TurnAttackRecord_Skills_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "Skills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TurnAttackRecord_Turns_TurnId",
+                        column: x => x.TurnId,
+                        principalTable: "Turns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -397,15 +404,15 @@ namespace SlapBott.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Regions",
-                columns: new[] { "Id", "RaidBossId", "RegionName", "isBossPending" },
+                columns: new[] { "Id", "HasActiveBoss", "RegionName", "isBossPending" },
                 values: new object[,]
                 {
-                    { 1, null, 6, false },
-                    { 2, null, 5, false },
-                    { 3, null, 2, false },
-                    { 4, null, 4, false },
-                    { 5, null, 3, false },
-                    { 6, null, 1, false }
+                    { 1, false, 6, false },
+                    { 2, false, 5, false },
+                    { 3, false, 2, false },
+                    { 4, false, 4, false },
+                    { 5, false, 3, false },
+                    { 6, false, 1, false }
                 });
 
             migrationBuilder.InsertData(
@@ -442,8 +449,12 @@ namespace SlapBott.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Enemies_RegionId",
                 table: "Enemies",
-                column: "RegionId",
-                unique: true);
+                column: "RegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enemies_RegionId1",
+                table: "Enemies",
+                column: "RegionId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EnemyCombatState_CombatStateId",
@@ -493,11 +504,6 @@ namespace SlapBott.Data.Migrations
                 column: "ParticipantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Regions_RaidBossId",
-                table: "Regions",
-                column: "RaidBossId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Registration_ActiveCharacterId",
                 table: "Registration",
                 column: "ActiveCharacterId");
@@ -521,13 +527,6 @@ namespace SlapBott.Data.Migrations
                 name: "IX_Turns_TurnId_CombatStateId",
                 table: "Turns",
                 columns: new[] { "TurnId", "CombatStateId" });
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Enemies_Regions_RegionId",
-                table: "Enemies",
-                column: "RegionId",
-                principalTable: "Regions",
-                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_PlayerCharacter_Registration_RegistrationId",
@@ -554,16 +553,8 @@ namespace SlapBott.Data.Migrations
                 table: "Characters");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Enemies_Characters_CharacterId",
-                table: "Enemies");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_PlayerCharacter_Characters_CharacterId",
                 table: "PlayerCharacter");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Enemies_Regions_RegionId",
-                table: "Enemies");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_PlayerCharacter_Registration_RegistrationId",
@@ -585,10 +576,16 @@ namespace SlapBott.Data.Migrations
                 name: "TurnAttackRecord");
 
             migrationBuilder.DropTable(
+                name: "Enemies");
+
+            migrationBuilder.DropTable(
                 name: "Skills");
 
             migrationBuilder.DropTable(
                 name: "Turns");
+
+            migrationBuilder.DropTable(
+                name: "Regions");
 
             migrationBuilder.DropTable(
                 name: "CombatStates");
@@ -604,12 +601,6 @@ namespace SlapBott.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Characters");
-
-            migrationBuilder.DropTable(
-                name: "Regions");
-
-            migrationBuilder.DropTable(
-                name: "Enemies");
 
             migrationBuilder.DropTable(
                 name: "Registration");

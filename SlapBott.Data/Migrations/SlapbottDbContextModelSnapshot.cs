@@ -115,15 +115,22 @@ namespace SlapBott.Data.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDead")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("RegionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RegionId1")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
 
-                    b.HasIndex("RegionId")
-                        .IsUnique();
+                    b.HasIndex("RegionId");
+
+                    b.HasIndex("RegionId1");
 
                     b.ToTable("Enemies", (string)null);
 
@@ -283,7 +290,7 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RaidBossId")
+                    b.Property<bool>("HasActiveBoss")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RegionName")
@@ -294,44 +301,48 @@ namespace SlapBott.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RaidBossId");
-
                     b.ToTable("Regions");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            HasActiveBoss = false,
                             RegionName = 6,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 2,
+                            HasActiveBoss = false,
                             RegionName = 5,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 3,
+                            HasActiveBoss = false,
                             RegionName = 2,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 4,
+                            HasActiveBoss = false,
                             RegionName = 4,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 5,
+                            HasActiveBoss = false,
                             RegionName = 3,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 6,
+                            HasActiveBoss = false,
                             RegionName = 1,
                             isBossPending = false
                         });
@@ -571,9 +582,13 @@ namespace SlapBott.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SlapBott.Data.Models.Region", null)
+                        .WithMany()
+                        .HasForeignKey("RegionId");
+
                     b.HasOne("SlapBott.Data.Models.Region", "Region")
-                        .WithOne()
-                        .HasForeignKey("SlapBott.Data.Models.Enemy", "RegionId");
+                        .WithMany("Enemies")
+                        .HasForeignKey("RegionId1");
 
                     b.Navigation("Character");
 
@@ -623,15 +638,6 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Character");
 
                     b.Navigation("Registration");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.Region", b =>
-                {
-                    b.HasOne("SlapBott.Data.Models.RaidBoss", "RaidBoss")
-                        .WithMany()
-                        .HasForeignKey("RaidBossId");
-
-                    b.Navigation("RaidBoss");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
@@ -745,6 +751,11 @@ namespace SlapBott.Data.Migrations
             modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
                 {
                     b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Region", b =>
+                {
+                    b.Navigation("Enemies");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>

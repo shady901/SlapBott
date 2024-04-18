@@ -27,13 +27,8 @@ namespace SlapBott.Services.Dtos
                 isBossPending = region.isBossPending
             };
         }
-        public Region ToRegion(Region? region =null)
+        public Region ToRegion(Region region)
         {
-            if (region == null)
-            {
-                region = new Region();
-                region.Id = Id;
-            }
             
             region.RegionName = RegionName;  
             region.isBossPending = isBossPending;
