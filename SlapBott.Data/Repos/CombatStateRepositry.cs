@@ -6,15 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace SlapBott.Data.Repos
 {
-    public class CombatStateRepositry
+    public class CombatStateRepositry: Repo<CombatState>
     {
-        private SlapbottDbContext _dbContext { get; set; }
-
-        public CombatStateRepositry(SlapbottDbContext dBContext)
-        {
-            _dbContext = dBContext;
-
-        }
+        public CombatStateRepositry(SlapbottDbContext dBContext) : base(dBContext) { }
         public CombatState GetCombatStateByID(int Id)
         {
             CombatState State = _dbContext.CombatStates
@@ -37,10 +31,11 @@ namespace SlapBott.Data.Repos
 
             return State;
         }
-        public void SaveCombatState(CombatState state)
+        public CombatState SaveCombatState(CombatState state)
         {
             AddOrUpdateState(state);
             _dbContext.SaveChanges();
+            return state;
         }
         public void AddOrUpdateState(CombatState state)
         {

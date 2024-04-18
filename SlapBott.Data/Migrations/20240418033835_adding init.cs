@@ -7,7 +7,7 @@
 namespace SlapBott.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class addinginit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -176,7 +176,6 @@ namespace SlapBott.Data.Migrations
                     CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
                     IsDead = table.Column<bool>(type: "INTEGER", nullable: false),
                     RegionId = table.Column<int>(type: "INTEGER", nullable: true),
-                    RegionId1 = table.Column<int>(type: "INTEGER", nullable: true),
                     Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false)
                 },
                 constraints: table =>
@@ -191,11 +190,6 @@ namespace SlapBott.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Enemies_Regions_RegionId",
                         column: x => x.RegionId,
-                        principalTable: "Regions",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Enemies_Regions_RegionId1",
-                        column: x => x.RegionId1,
                         principalTable: "Regions",
                         principalColumn: "Id");
                 });
@@ -450,11 +444,6 @@ namespace SlapBott.Data.Migrations
                 name: "IX_Enemies_RegionId",
                 table: "Enemies",
                 column: "RegionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Enemies_RegionId1",
-                table: "Enemies",
-                column: "RegionId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EnemyCombatState_CombatStateId",

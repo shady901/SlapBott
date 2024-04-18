@@ -19,61 +19,14 @@ namespace SlapBott.Services.Implmentations
             _combatStateService = combatStateService;
             _enemyService = enemyService;
         }
-        public void SaveState()
-        {
-                _combatStateService.SaveState(_state);
-        }
-        public void SetStateById(int id)
-        {
-            if (id > 0) 
-            {
-                _state = _combatStateService.GetCombatStateByID(id);
-            }
-          
-            
-        }
-        public CombatStateDto GetStateById(int id)
-        {
-           
-            if (id > 0)
-            {
-                return _combatStateService.GetCombatStateByID(id);
-            }
-            return null;
-
-        }
-        public void GetStateByChannelId(ulong id)
-        {
-            if (id > 0)
-            {
-                _state =_combatStateService.GetCombatStateByChannelID(id);
-            }
-        }
-        public List<int> GetEnemyIDs()
-        {
-            List<int> enemyIds = new List<int>();
-            foreach (var enemy in _state.Enemies)
-            {
-               enemyIds.Add(enemy.Id);
-            }
-            return enemyIds;
-        }
-        public int GetEnemyIDByTarget(string target)
-        {
-
-            
-            return GetEnemyIDs()[Convert.ToInt32(target)]; 
-        }
-        //public EnemyDto GetEnemyById(int ID)
-        //{
-
-        //    return _enemyService.GetEnemyByID(ID);
-        //}
-
-        // attackers turn
+       
+        
+        
+       
+      
         public void Turn<T>(int StateID, int TargetId, SkillDto skillDto, T? characterDto = null, T? enemyDto = null) where T : Target
         {
-            GetStateById(StateID); // state for something not sure at this time
+          //  GetStateById(StateID); // state for something not sure at this time
 
             //SelectTarget - Player or Enemy Object
             //GetSkillData
@@ -91,7 +44,7 @@ namespace SlapBott.Services.Implmentations
             // if its not a raid boss begin enemy turn 
 
 
-            SaveState();
+           // SaveState();
         }
         
         //public int CalculateDamageOfSkill(PlayerCharacterDto character, Skill skill ) 
@@ -131,21 +84,6 @@ namespace SlapBott.Services.Implmentations
                     return StatType.none;
             }
         }
-        public void CreateNewCombatState(IEnumerable<int> enemyIds) 
-        {
-
-            _state = new() { Enemies = CreateNewEnemyCombatStateList(enemyIds) }; 
-            _combatStateService.SaveState(_state);
-        }
-
-        private List<EnemyCombatStateDto> CreateNewEnemyCombatStateList(IEnumerable<int> enemyIds)
-        {
-            List<EnemyCombatStateDto> myEnemys = new List<EnemyCombatStateDto>();
-            foreach (int enemyId in enemyIds)
-            {
-                myEnemys.Add(new EnemyCombatStateDto() { ParticipantId = enemyId });
-            }
-            return myEnemys;
-        }
+       
     }
 }

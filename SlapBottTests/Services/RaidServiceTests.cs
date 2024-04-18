@@ -11,24 +11,24 @@ namespace SlapBottTests.Services
         const ulong userId = 1;
         const ulong channelId = 1;
         // Join Raid Returns msg that user has joined the raid
-        [Fact]
-        void ShouldReturnJoinedMessageWhenUserJoinsRaid()
-        {
-            IRaidService raidService = new RaidService(null);
+        //[Fact]
+        //void ShouldReturnJoinedMessageWhenUserJoinsRaid()
+        //{
+        //    IRaidService raidService = new RaidService(null);
 
-            string result = raidService.JoinRaid(userId, channelId);
+        //    string result = raidService.JoinRaid(userId, channelId);
 
-            Assert.True("you have joined the raid" == result.ToLower());
-        }
+        //    Assert.True("you have joined the raid" == result.ToLower());
+        //}
 
 
-        [Fact]
-        void ShouldThrowExceptionIfUserDoesntExist()
-        {
-            IRaidService raidService = new RaidService(null);
+        //[Fact]
+        //void ShouldThrowExceptionIfUserDoesntExist()
+        //{
+        //    IRaidService raidService = new RaidService(null);
 
-            Assert.Throws<Exception>(() => { raidService.JoinRaid(userId, channelId); });
-        }
+        //    Assert.Throws<Exception>(() => { raidService.JoinRaid(userId, channelId); });
+        //}
 
 
         

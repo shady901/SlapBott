@@ -30,34 +30,34 @@ namespace SlapBott.Services.Implmentations
 
 
         // this assigns an attack type based on player input being "/Attack Raid" "/Attack" if not specified we need to store current target
-        public string AssignAttack(PlayerCharacterDto userActiveChar, ulong channelID,string? playerInput = null)
-        {
-            string msg = "Somthing Went Wrong";
-            var (raid, skill, Target) = ParameterManager(playerInput);
-            //if skill is not null get the skill from player and if it does exists return
+        //public string AssignAttack(PlayerCharacterDto userActiveChar, ulong channelID,string? playerInput = null)
+        //{
+        //    string msg = "Somthing Went Wrong";
+        //    var (raid, skill, Target) = ParameterManager(playerInput);
+        //    //if skill is not null get the skill from player and if it does exists return
            
-            if (userActiveChar.GetBySkill(skill) is null)
-            {
-                if (skill == string.Empty)
-                {
-                    return "Please Specify the Skill you want to Use";
-                }
-                return $"You do not Have {skill} Skill";
-            }
-            //if raid do method and return a string replying attacking raid, when raid attack has completed reply to player with results using the hidden message feature 
-            if (VerifyAttackOptions.Raid.ToString().ToLower() == raid)
-            {
-                _raidService.SetupState(channelID);
-                if (!_raidService.IsValidTarget(Target))
-                {
-                    return "This is not a suitible target";
-                }
-                var d = userActiveChar.GetBySkill(skill);
-                return _raidService.AttackRaid(userActiveChar, d, _raidService.GetEnemyIdByTarget(Target));
-            }
-            return msg;
+        //    if (userActiveChar.GetBySkill(skill) is null)
+        //    {
+        //        if (skill == string.Empty)
+        //        {
+        //            return "Please Specify the Skill you want to Use";
+        //        }
+        //        return $"You do not Have {skill} Skill";
+        //    }
+        //    //if raid do method and return a string replying attacking raid, when raid attack has completed reply to player with results using the hidden message feature 
+        //    if (VerifyAttackOptions.Raid.ToString().ToLower() == raid)
+        //    {
+        //        _raidService.SetupState(channelID);
+        //        if (!_raidService.IsValidTarget(Target))
+        //        {
+        //            return "This is not a suitible target";
+        //        }
+        //        var d = userActiveChar.GetBySkill(skill);
+        //        return _raidService.AttackRaid(userActiveChar, d, _raidService.GetEnemyIdByTarget(Target));
+        //    }
+        //    return msg;
 
-        }
+        //}
 
 
         // /attack :fireball

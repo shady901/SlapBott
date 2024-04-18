@@ -1,45 +1,68 @@
 ﻿using SlapBott.Services.Dtos;
 using SlapBott.Data.Repos;
+using SlapBott.Services.Combat.Models;
+using SlapBott.Data.Models;
 
 namespace SlapBott.Services.Implmentations
 {
     public class CombatStateService
     {
         private CombatStateRepositry? _stateRepo;
-
-        public CombatStateService(CombatStateRepositry combatStateRepositry)
+        private EnemyStateRepo? _enemyStateRepo;
+        private PlayerStateRepo? _playerStateRepo;
+        public CombatStateService(CombatStateRepositry combatStateRepositry,EnemyStateRepo enemyStateRepo,PlayerStateRepo playerStateRepo)
         {
+            _enemyStateRepo=enemyStateRepo;
+            _playerStateRepo=playerStateRepo;
             _stateRepo = combatStateRepositry;
 
 
         }
 
-        public void SaveState(CombatStateDto state)
+        public CombatState SaveState(CombatStateDto stateDto)
         {
-            _stateRepo.SaveCombatState(state.ToCombatState());
+            CombatState state = _stateRepo.GetByIdOrNew(stateDto.Id);
+           return _stateRepo.SaveCombatState(stateDto.ToCombatState(state));
         }
 
-
-        public CombatStateDto GetCombatStateByID(int stateID)
+      
+        public CombatStateDto GetCombatStateByIdOrNew(int stateID)
         {
-            return new CombatStateDto().FromCombatState(_stateRepo.GetCombatStateByID(stateID));
+            return new CombatStateDto().FromCombatState(_stateRepo.GetByIdOrNew(stateID));
         }
-        public CombatStateDto GetCombatStateByChannelID(ulong channel)
+
+        public CombatStateDto AssignEnemyToState(CombatStateDto state,IEnumerable<int> enemyIds)
         {
-            return new CombatStateDto().FromCombatState(_stateRepo.GetCombatStateByChannelID(channel));
+
+            state = new() { Enemies = CreateNewEnemyCombatStateList(enemyIds) };
+            return state;
         }
-        public bool CheckIfCombatStateExists(int stateID)
+       
+        public EnemyCombatState SaveEnemyCombatState(EnemyCombatStateDto stateDto) 
         {
+            EnemyCombatState state = _enemyStateRepo.GetByIdOrNew(stateDto.Id);
+            return _enemyStateRepo.SaveState(stateDto.ToEnemyState(state));
 
-            var state = GetCombatStateByID(stateID);
+        }
+        public PlayerCharacterCombatState SavePlayerCombatState(PlayerCharacterCombatStateDto stateDto)
+        {
+            PlayerCharacterCombatState state = _playerStateRepo.GetByIdOrNew(stateDto.Id);
+            return _playerStateRepo.SaveState(stateDto.ToCharactersState(state));
 
-            if (state == null)
+        }
+        private List<EnemyCombatStateDto> CreateNewEnemyCombatStateList(IEnumerable<int> enemyIds)
+        {
+            List<EnemyCombatStateDto> myEnemys = new List<EnemyCombatStateDto>();
+            foreach (int enemyId in enemyIds)
             {
-                return false;
+                myEnemys.Add(new EnemyCombatStateDto() { ParticipantId = enemyId });
             }
-
-            return true;
+            return myEnemys;
         }
 
+        public EnemyCombatStateDto GetEnemyStateByIdOrNew(int stateID)
+        {
+            return new EnemyCombatStateDto().FromEnemyState(_enemyStateRepo.GetByIdOrNew(stateID));
+        }
     }
 }

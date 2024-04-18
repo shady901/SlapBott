@@ -58,6 +58,8 @@
                 .AddSingleton<EnemyRepositry>()
                 .AddSingleton<EnemyTemplateRepo>()
                 .AddSingleton<RegionRepo>()
+                .AddSingleton<EnemyStateRepo>()
+                .AddSingleton<PlayerStateRepo>()
                 .AddSingleton<RaidService>();
                 
 

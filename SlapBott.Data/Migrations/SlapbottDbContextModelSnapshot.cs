@@ -121,16 +121,11 @@ namespace SlapBott.Data.Migrations
                     b.Property<int?>("RegionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RegionId1")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
 
                     b.HasIndex("RegionId");
-
-                    b.HasIndex("RegionId1");
 
                     b.ToTable("Enemies", (string)null);
 
@@ -582,13 +577,9 @@ namespace SlapBott.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SlapBott.Data.Models.Region", null)
-                        .WithMany()
-                        .HasForeignKey("RegionId");
-
                     b.HasOne("SlapBott.Data.Models.Region", "Region")
                         .WithMany("Enemies")
-                        .HasForeignKey("RegionId1");
+                        .HasForeignKey("RegionId");
 
                     b.Navigation("Character");
 

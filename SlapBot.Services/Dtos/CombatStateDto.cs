@@ -34,12 +34,12 @@ namespace SlapBott.Services.Dtos
 
         public CombatStateDto FromCombatState(CombatState state)
         {
-           
+            
             Id = state.Id;
             CurrentTurnId = state.CurrentTurnId;           
-            DtoHelper.ConvertCollection(state.Turns, this.Turns, "FromTurn");
-            DtoHelper.ConvertCollection(state.Characters, this.Characters, "FromCharactersState");
-            DtoHelper.ConvertCollection(state.Enemies, this.Enemies, "FromEnemyState");
+            DtoHelper.ConvertCollection(state.Turns?? new List<Turn>(), this.Turns, "FromTurn");
+            DtoHelper.ConvertCollection(state.Characters?? new List<PlayerCharacterCombatState>(), this.Characters, "FromCharactersState");
+            DtoHelper.ConvertCollection(state.Enemies?? new List<EnemyCombatState>(), this.Enemies, "FromEnemyState");
             return this;
 
 
@@ -54,10 +54,13 @@ namespace SlapBott.Services.Dtos
         //will convert dto to state, and will convert enemy states when it has been setup  which will be when turns are 0
         public CombatState ToCombatState(CombatState? combatState = null)
         {
-            if (CurrentTurnId >= 0)
+            if (CurrentTurnId > 0)
             {   
                 DtoHelper.ConvertCollection(this.Turns, combatState.Enemies, "ToEnemyState");
+                
             }
+            DtoHelper.ConvertCollection(this.Characters ?? new List<PlayerCharacterCombatStateDto>(),combatState.Characters, "FromCharactersState");
+            DtoHelper.ConvertCollection(this.Enemies ?? new List<EnemyCombatStateDto>(), combatState.Enemies, "FromEnemyState");
             combatState.CurrentTurnId = CurrentTurnId;           
             return combatState;
         }

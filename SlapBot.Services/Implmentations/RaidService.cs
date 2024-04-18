@@ -18,11 +18,13 @@ namespace SlapBott.Services.Implmentations
         private CombatManager _combatManager;
         private RegionService _regionService;
         private EnemyService _enemyService;
-        public RaidService(CombatManager combatManager, RegionService regionService, EnemyService enemyService)
+        private CombatStateService _combatStateService;
+        public RaidService(CombatManager combatManager, RegionService regionService, EnemyService enemyService, CombatStateService combatStateService)
         {
             _enemyService = enemyService;
             _regionService = regionService;
             _combatManager = combatManager;
+            _combatStateService = combatStateService;
         }
 
 
@@ -33,21 +35,8 @@ namespace SlapBott.Services.Implmentations
 
             return "You have joined the raid";
         }
-        public bool IsValidTarget(string target)
-        {
-
-
-            if (Convert.ToInt32(target) >= _combatManager.GetEnemyIDs().Count())
-            {
-                return true;
-            }
-
-            return false;
-        }
-        public void SetupState(ulong channelID)
-        {
-            _combatManager.GetStateByChannelId(channelID);
-        }
+      
+        
 
 
         public string AttackRaid(PlayerCharacterDto characterDto, SkillDto skill, int Target)
@@ -70,22 +59,20 @@ namespace SlapBott.Services.Implmentations
 
         }
 
-        public int GetEnemyIdByTarget(string target)
-        {
-
-            return _combatManager.GetEnemyIDByTarget(target);
-        }
+       
 
         public void RaidCheck()
         {
+
+
             Dictionary<Regions, RegionDto> regionDic = _regionService.GetAllRegionsWithEnemiesAsDictionary();
             RegionDto? pendingRegion = regionDic.FirstOrDefault(x => x.Value.isBossPending && x.Value.HasActiveBoss == false).Value;
-                        
+            var a = regionDic.Where(x => x.Value.HasActiveBoss == false && x.Value.isBossPending == false).FirstOrDefault().Value;
             //getallregions without an active raid boss
             //generate one, assign region as pending to give time to sign up to boss
-            if ( regionDic.Where(x=>x.Value.HasActiveBoss == false && x.Value.isBossPending == false) != null)
+            if (a != null)
             {
-                GenerateRaidBoss();
+                GenerateRaidBoss(a.RegionName);
             }
 
             //then check if a region currently has pending, then display rb to server and set as not 
@@ -105,7 +92,7 @@ namespace SlapBott.Services.Implmentations
                 pendingRegion.isBossPending = false;
                 pendingRegion.HasActiveBoss = true;
                 RaidBossDto myraid = RaidBossDto.FromRecord(temp);
-                myraid.SetupPlayerCountStats(_combatManager.GetStateById(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
+                myraid.SetupPlayerCountStats(_combatStateService.GetCombatStateByIdOrNew(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
                 _enemyService.SaveRaidBoss(myraid,temp);
                 _regionService.SaveRegion(pendingRegion);
                 //PostRaid (WithAttackButton/Flee/UseItem)
@@ -115,19 +102,32 @@ namespace SlapBott.Services.Implmentations
            
         }
 
-        private RaidBossDto GenerateRaidBoss()
+        private RaidBossDto GenerateRaidBoss(Regions regionName)
         {
             Random rnd = new Random();
-            RegionDto region = _regionService.GetRegionByRegionEnum((Regions)rnd.Next(1, Enum.GetValues(typeof(Regions)).Length + 1));
+            RegionDto region = _regionService.GetRegionByRegionEnum(regionName);
             RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();
+            var state = _combatStateService.GetCombatStateByIdOrNew(0);
+            var stateId = _combatStateService.SaveState(state).Id;
             _regionService.SaveAndSetRegionBossToPending(region);
             raidBoss.RegionId = region.Id;
-            var raidboss = _enemyService.SaveRaidBoss(raidBoss);          
-       
+            raidBoss.StateId = stateId;
+            var raidBossId = _enemyService.SaveRaidBoss(raidBoss).Id;
+            EnemyCombatStateAssignAndSave(stateId,raidBossId);
             return raidBoss;
         }
-       
+        private void EnemyCombatStateAssignAndSave(int stateId,int EnemyId)
+        {
 
+            EnemyCombatStateDto state = _combatStateService.GetEnemyStateByIdOrNew(0);
+            state.IsActive = true;
+            state.CombatStateId = stateId;
+            state.ParticipantId = EnemyId;
+            state.HadTurn = false;
+            _combatStateService.SaveEnemyCombatState(state);
+
+        }
         
+     
     }
 }

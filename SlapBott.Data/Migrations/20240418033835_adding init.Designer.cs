@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240418014934_Init")]
-    partial class Init
+    [Migration("20240418033835_adding init")]
+    partial class addinginit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,16 +124,11 @@ namespace SlapBott.Data.Migrations
                     b.Property<int?>("RegionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("RegionId1")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
 
                     b.HasIndex("RegionId");
-
-                    b.HasIndex("RegionId1");
 
                     b.ToTable("Enemies", (string)null);
 
@@ -585,13 +580,9 @@ namespace SlapBott.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SlapBott.Data.Models.Region", null)
-                        .WithMany()
-                        .HasForeignKey("RegionId");
-
                     b.HasOne("SlapBott.Data.Models.Region", "Region")
                         .WithMany("Enemies")
-                        .HasForeignKey("RegionId1");
+                        .HasForeignKey("RegionId");
 
                     b.Navigation("Character");
 

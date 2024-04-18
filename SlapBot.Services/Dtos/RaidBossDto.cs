@@ -50,6 +50,7 @@ namespace SlapBott.Services.Dtos
             raidBoss.Character.Stats = Stats;
             raidBoss.Character.RaceId = RaceID;
             raidBoss.Character.ClassId = ClassID;
+            raidBoss.Character.CombatStateID = StateId;
             return raidBoss;
         }
 
