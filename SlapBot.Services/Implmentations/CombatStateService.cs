@@ -62,7 +62,10 @@ namespace SlapBott.Services.Implmentations
 
         public EnemyCombatStateDto GetEnemyStateByIdOrNew(int stateID)
         {
-            return new EnemyCombatStateDto().FromEnemyState(_enemyStateRepo.GetByIdOrNew(stateID));
+
+            var d = (stateID == 0) ? _enemyStateRepo.New() : _enemyStateRepo.GetByIdOrNew(stateID);
+
+            return new EnemyCombatStateDto().FromEnemyState(d);
         }
     }
 }

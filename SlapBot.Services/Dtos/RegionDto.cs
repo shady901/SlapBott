@@ -24,12 +24,13 @@ namespace SlapBott.Services.Dtos
                 Id = region.Id,
                 RegionName = region.RegionName,
                 Enemies = region.Enemies,
-                isBossPending = region.isBossPending
+                isBossPending = region.isBossPending,
+                HasActiveBoss = region.HasActiveBoss,
             };
         }
         public Region ToRegion(Region region)
         {
-            
+            region.HasActiveBoss = HasActiveBoss;
             region.RegionName = RegionName;  
             region.isBossPending = isBossPending;
             return region;

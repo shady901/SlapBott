@@ -120,6 +120,9 @@
   <data name="DbConnection" xml:space="preserve">
     <value>Data Source=slapbott.db</value>
   </data>
+  <data name="RaidTimer" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="Token" xml:space="preserve">
     <value>NjcwNDUwMzA0NDk5NzEyMDMy.G7x1QG.dFWssvAsJX2jYj4qXtY_UEMG2p9cj2vFKwaLoA</value>
   </data>

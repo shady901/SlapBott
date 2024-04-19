@@ -56,13 +56,11 @@ namespace SlapBott.Services.Combat.Models
 
         //Individual Player Turns 
         
-        public ICollection<Turn> Turns { get; set; }
+        public virtual ICollection<Turn> Turns { get; set; }
 
-        [ForeignKey("Id")]
-        public ICollection<PlayerCharacterCombatState> Characters { get; set; } // this will have active and non active Characters in it
+        public virtual ICollection<PlayerCharacterCombatState> Characters { get; set; } // this will have active and non active Characters in it
 
-        [ForeignKey("Id")]
-        public ICollection<EnemyCombatState> Enemies { get; set;} //this will have 1 or n number of enemy characters        
+        public virtual ICollection<EnemyCombatState> Enemies { get; set;} //this will have 1 or n number of enemy characters        
         public CombatState()
         {
 

@@ -161,8 +161,8 @@ namespace SlapBott.Data.Models
                     modifiedValue = 75;
                 }
                 Temp.Add(stat.Key,modifiedValue);
-            } 
-
+            }
+            stats = Temp;
 
             return this;
         }

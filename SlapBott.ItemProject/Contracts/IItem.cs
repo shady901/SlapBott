@@ -6,7 +6,8 @@ namespace SlapBott.ItemProject.Contracts
     {
         int Seed { get; set; }
 
-        string? name { get; set; }
+        string Name { get; set; }
+        string Description { get; set; }
         EquipType EquipType { get; set; }
         ItemRarety itemRarety { get; set; }
         List<ItemAffix> itemAffixes { get; set; }

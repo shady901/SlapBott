@@ -32,7 +32,8 @@ namespace SlapBott.Services.Implmentations
         public Dictionary<Regions, RegionDto> GetAllRegionsWithEnemiesAsDictionary()
         {
             Dictionary<Regions, RegionDto> RegionCollection = new Dictionary<Regions, RegionDto>();
-            foreach (var region in _regionRepo.GetAllRegionsWithEnemies())
+           var a= _regionRepo.GetAllRegionsWithEnemies();
+            foreach (var region in a)
             {
                 RegionCollection.Add(region.RegionName, new RegionDto().FromRegion(region));
             }

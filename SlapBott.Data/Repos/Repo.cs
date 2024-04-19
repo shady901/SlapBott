@@ -74,7 +74,7 @@ namespace SlapBott.Data.Repos
             _dbContext.SaveChanges();
             return Entity;
         }
-        private T New()
+        public T New()
         {
             return Activator.CreateInstance<T>();
 

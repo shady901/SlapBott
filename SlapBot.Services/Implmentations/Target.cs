@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Implmentations
 {
-    public abstract class Target : ITarget
+    public abstract class Target: ITarget
     {
         public int Id { get; set; }
         public string Name { get; set; }

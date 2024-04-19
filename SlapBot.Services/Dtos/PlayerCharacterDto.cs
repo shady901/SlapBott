@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {
-    public class PlayerCharacterDto : Target, ITarget
+    public class PlayerCharacterDto : Target,IDisplayAble, ITarget
     {
       
         public bool IsTemp { get; set; }

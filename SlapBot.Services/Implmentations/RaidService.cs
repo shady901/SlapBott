@@ -61,7 +61,7 @@ namespace SlapBott.Services.Implmentations
 
        
 
-        public void RaidCheck()
+        public void RaidCheck(object? state)
         {
 
 
@@ -78,14 +78,6 @@ namespace SlapBott.Services.Implmentations
             //then check if a region currently has pending, then display rb to server and set as not 
 
 
-
-
-
-
-
-
-
-
             if (pendingRegion != null)
             {
                 RaidBoss temp = (RaidBoss)pendingRegion.Enemies.First(x => !x.IsDead && x.GetType().Equals(typeof( RaidBoss)));
@@ -95,6 +87,9 @@ namespace SlapBott.Services.Implmentations
                 myraid.SetupPlayerCountStats(_combatStateService.GetCombatStateByIdOrNew(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
                 _enemyService.SaveRaidBoss(myraid,temp);
                 _regionService.SaveRegion(pendingRegion);
+
+
+                
                 //PostRaid (WithAttackButton/Flee/UseItem)
                 //(reminder) Manage Buttons
             }
@@ -127,7 +122,7 @@ namespace SlapBott.Services.Implmentations
             _combatStateService.SaveEnemyCombatState(state);
 
         }
-        
-     
+
+       
     }
 }

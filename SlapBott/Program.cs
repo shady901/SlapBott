@@ -73,70 +73,77 @@
 
             });
 
-                ConfigureServices(_services);
+            Startup.ConfigureServices(_services, Properties.Resources.DbConnection);
 
-                _servicesProvider = _services.BuildServiceProvider();
+            _servicesProvider = _services.BuildServiceProvider();
 
-            
-            
-            
-            var client = _servicesProvider.GetRequiredService<DiscordSocketClient>();
-           _handler = new RepliesHandler(_servicesProvider.GetService<PlayerCharacterService>(), _servicesProvider.GetService<RegistrationService>(),_servicesProvider.GetService<SkillService>());
+            await _servicesProvider
+                    .GetRequiredService<InteractionHandler>()
+                    .InitializeAsync();
 
-            client.Log += LogAsync;
-            client.SlashCommandExecuted += Client_SlashCommandExecuted;
-            client.SelectMenuExecuted += Client_SelectMenuExecuted;
-            client.ModalSubmitted += Client_ModalSubmitted;
-          
-                // Here we can initialize the service that will register and execute our commands
-                await _servicesProvider.GetRequiredService<InteractionHandler>()
-                .InitializeAsync();
 
-            // Bot token can be provided from the Configuration object we set up earlier
-            await client.LoginAsync(TokenType.Bot, Properties.Resources.Token);
-            await client.StartAsync();
+            var discordclient = await SlapBottDiscordClient.StartAsync(_servicesProvider);
 
-           // TimerCallback callback = _servicesProvider.GetService<RaidService>().RaidCheck;
-
-            // Create a timer that ticks every hour
-            TimeSpan interval = TimeSpan.FromHours(1);
-           // Timer timer = new Timer(callback, null, TimeSpan.Zero, interval);
-
-            // Never quit the program until manually forced to.
             await Task.Delay(Timeout.Infinite);
-         //   timer.Dispose();
+
+
+            // var client = _servicesProvider.GetRequiredService<DiscordSocketClient>();
+            //_handler = new RepliesHandler(_servicesProvider.GetService<PlayerCharacterService>(), _servicesProvider.GetService<RegistrationService>(),_servicesProvider.GetService<SkillService>());
+
+            // client.Log += LogAsync;
+            // client.SlashCommandExecuted += Client_SlashCommandExecuted;
+            // client.SelectMenuExecuted += Client_SelectMenuExecuted;
+            // client.ModalSubmitted += Client_ModalSubmitted;
+
+            //     // Here we can initialize the service that will register and execute our commands
+            //     await _servicesProvider.GetRequiredService<InteractionHandler>()
+            //     .InitializeAsync();
+
+            // // Bot token can be provided from the Configuration object we set up earlier
+            // await client.LoginAsync(TokenType.Bot, Properties.Resources.Token);
+            // await client.StartAsync();
+
+            // TimerCallback callback = _servicesProvider.GetService<RaidService>().RaidCheck;
+
+            // // Create a timer that ticks every hour
+            // TimeSpan interval = TimeSpan.FromHours(1);
+            // Timer timer = new Timer(callback, null, TimeSpan.Zero, interval);
+
+            // // Never quit the program until manually forced to.
+            // await Task.Delay(Timeout.Infinite);
+            // timer.Dispose();
         }
 
-     
-        private static Task Client_SelectMenuExecuted(SocketMessageComponent arg)
-        {
-            Console.WriteLine(arg.Data.CustomId);
-            _handler.HandleSubmittedSelectMenu(arg);
-            return Task.CompletedTask;
-        }
 
-        private static Task Client_ModalSubmitted(SocketModal modal)
-        {
-            Console.WriteLine(modal.Data.CustomId);
-            _handler.HandleSubmittedModal(modal);
-             return Task.CompletedTask;
+        //private static Task Client_SelectMenuExecuted(SocketMessageComponent arg)
+        //{
+        //    Console.WriteLine(arg.Data.CustomId);
+        //    _handler.HandleSubmittedSelectMenu(arg);
+        //    return Task.CompletedTask;
+        //}
 
-        }
+        //private static Task Client_ModalSubmitted(SocketModal modal)
+        //{
+        //    Console.WriteLine(modal.Data.CustomId);
+        //    _handler.HandleSubmittedModal(modal);
+        //     return Task.CompletedTask;
 
-        private static Task Client_SlashCommandExecuted(SocketSlashCommand arg)
-        {
-            Console.WriteLine(arg.Data.Name);
-            return Task.CompletedTask;
-        }
+        //}
 
-        private static async Task LogAsync(LogMessage message)
-            => Console.WriteLine(message.ToString());
+        //private static Task Client_SlashCommandExecuted(SocketSlashCommand arg)
+        //{
+        //    Console.WriteLine(arg.Data.Name);
+        //    return Task.CompletedTask;
+        //}
 
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            // Configure services from DAL project
-            Startup.ConfigureServices(services, Properties.Resources.DbConnection);
-        }
+        //private static async Task LogAsync(LogMessage message)
+        //    => Console.WriteLine(message.ToString());
+
+        //private static void ConfigureServices(IServiceCollection services)
+        //{
+        //    // Configure services from DAL project
+        //    Startup.ConfigureServices(services, Properties.Resources.DbConnection);
+        //}
 
     }
 

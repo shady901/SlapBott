@@ -32,9 +32,9 @@ namespace SlapBott.Data.Repos
         }
         public List<Region> GetAllRegionsWithEnemies()
         {
-            //var d = _dbContext.Regions.Include(x => x.Enemies);
-            //Console.Write(d.ToQueryString());
-            return _dbContext.Regions.Include(x=>x.Enemies).ThenInclude(x=>x.Character).ToList();
+            var d = _dbContext.Regions.Include(x => x.Enemies);
+            Console.Write(d.ToQueryString());
+            return _dbContext.Regions.Include(x=>x.Enemies).ThenInclude(x=>x.Character).ThenInclude(x=>x.Stats).ToList();
         }
         public Region GetRegionWithPendingBoss()
         {

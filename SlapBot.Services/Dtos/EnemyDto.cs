@@ -4,13 +4,11 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.Services.Dtos
 {
-    public class EnemyDto: Target ,ITarget
+    public class EnemyDto: Target , IDisplayAble ,ITarget
     {
 
 
-        public string Name { get; set; }
-        public string Description { get; set; }
-
+     
 
         //public void ApplyDamage(int damage, StatType elementalType)
         //{

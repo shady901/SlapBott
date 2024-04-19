@@ -10,7 +10,8 @@ namespace SlapBott.ItemProject.Items
     {
         public  int Seed { get; set; }
         public int ItemLevel { get; set; }
-        public string? name { get; set; } = "NotSetup";
+        public required string Name { get; set; } = "NotSetup";
+        public string Description { get; set; }
         public  EquipType EquipType { get; set; }
         public bool IsWeapon => (EquipType == EquipType.MainHand || EquipType == EquipType.OffHand);
         public  ItemRarety itemRarety { get; set; }

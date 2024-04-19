@@ -41,7 +41,7 @@ namespace SlapBott.Services.Dtos
         {
             if (raidBoss == null)// if making new raid boss it will be null
             {
-                raidBoss = new RaidBoss(){Character= new Character() {Inventory = new Inventory() } };
+                raidBoss = new RaidBoss(){Character= new Character() {Inventory = new Inventory()} };
                 raidBoss.Id = Id;
             }
             raidBoss.RegionId = RegionId;
@@ -67,6 +67,7 @@ namespace SlapBott.Services.Dtos
         }
         public void SetupPlayerCountStats(int PlayerCount)
         {
+           
             Stats.stats[StatType.MaxHealth] = Stats.stats[StatType.MaxHealth] * PlayerCount;
             Stats.stats[StatType.Health] = Stats.stats[StatType.MaxHealth];
            

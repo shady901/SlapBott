@@ -25,7 +25,7 @@
         {
 
             //  string msg = _raidService.JoinRaid( userid, channelId );
-            _raidService.RaidCheck();
+            _raidService.RaidCheck(null);
             await RespondAsync("RaidCheck") ;
 
         }

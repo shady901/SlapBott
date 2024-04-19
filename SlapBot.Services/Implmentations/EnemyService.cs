@@ -54,7 +54,7 @@ namespace SlapBott.Services.Implmentations
         public RaidBossDto GenerateNewRaidBoss(Classes? classes = null,Races? races = null )
         {
 
-            RaidBossDto raidBoss = new RaidBossDto();
+            RaidBossDto raidBoss = new RaidBossDto() { };
             raidBoss.AssignTemplateToBoss(_enemyTemplateRepositry.GetTemplate(classes:classes, race:races));
             raidBoss.Stats.InitialiseRaidBossStats();            
             return raidBoss;

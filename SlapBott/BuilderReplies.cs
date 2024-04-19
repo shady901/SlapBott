@@ -1,6 +1,7 @@
 ﻿using Discord;
 using SlapBott.Data.Enums;
 using SlapBott.ItemProject.Items;
+using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
 using System;
 using System.Collections.Generic;
@@ -108,7 +109,7 @@ namespace SlapBott
             }
 
             Embed embed = new EmbedBuilder()
-               .WithTitle($"{weapon.name}")
+               .WithTitle($"{weapon.Name}")
                .WithDescription($"Damage: {weapon.Damage}({weapon.itemAffixes.First(x=>x.StatType == StatType.AttackDamage)}) \nSlotType: {weapon.EquipType}\nILevel:{weapon.ItemLevel}\nAccuracy: {weapon.Accuracy}\nAttackSpeed:{weapon.AttackSpeed}\nAffixes:\n{Affixes}\nRarety: {weapon.itemRarety}")
                  .WithFooter("Seed:" + weapon.Seed)
                .Build();
@@ -123,48 +124,43 @@ namespace SlapBott
             }
            
             Embed embed = new EmbedBuilder()
-               .WithTitle($"{armor.name}")
+               .WithTitle($"{armor.Name}")
                .WithDescription($"Armor: {armor.ArmorStat}\nEvasion: {armor.EvasonStat}\nAttackSpeedModifier: {armor.WeaponAttackSpeedModifer} \nSlotType: {armor.EquipType}\nClass: {armor.Weight}\nILevel: {armor.ItemLevel}\nAffixes:\n{Affixes}\nRarety: {armor.itemRarety}")
                .WithFooter("Seed:"+armor.Seed)
                .Build();
             return embed;
         }
-        public static MessageComponent DropDownSelectRaidBoss()
-        {
-            var em = new SelectMenuBuilder()
-            .WithPlaceholder("Select An option")
-            .WithCustomId("createcharacter_selectclass")
-            .WithMinValues(1)
-            .WithMaxValues(1)
-            .AddOption("Warrior", Classes.Warrior.ToString(), "Bonus Attacks in Melee + 1 Str Per level")
-            .AddOption("Mage", Classes.Mage.ToString(), "Bonuses Elemental Damage + 1 Int Per level");
-            var builder = new ComponentBuilder()
-             .WithSelectMenu(em)
-             .Build();
-
-            return builder;
-        }
-
-
-        public static Embed DisplayRaidBoss(RaidBossDto Boss)
+       
+        public static Embed DisplayCharacterObject<T>(T DisplayObject) where T : IDisplayAble
         {
             var embed = new EmbedBuilder()
-             .WithTitle($"{Boss.Name ?? "BossNameDisplayIssue"}")
+             .WithTitle($"{DisplayObject.Name ?? "BossNameDisplayIssue"}")
              .WithDescription("")
              .WithFooter("");
-             
-            foreach (var item in Boss.Stats.stats)
-            {
-                var field = new EmbedFieldBuilder();
-                field.Name = item.Key.ToString();
-                field.Value = item.Value;
-                embed.Fields.Add(field);
-            }
-
-        
+                      
+           
             return embed.Build();
         }
+        public static Embed EmbedObject(DisplayDto DisplayObject) 
+        {
+            var embed = new EmbedBuilder()
+             .WithTitle($"{DisplayObject.Name ?? "BossNameDisplayIssue"}")
+             .WithDescription($"{DisplayObject.Description}")
+             .WithFooter("");
 
+
+            return embed.Build();
+        }
+        public static Embed DisplayCharacterObjectSheet<T>(T DisplayObject) where T : IDisplayAble
+        {
+            var embed = new EmbedBuilder()
+             .WithTitle($"{DisplayObject.Name ?? "BossNameDisplayIssue"}")
+             .WithDescription("")
+             .WithFooter("");
+
+
+            return embed.Build();
+        }
 
     }
 }

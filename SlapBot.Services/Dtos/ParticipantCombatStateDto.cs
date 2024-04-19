@@ -72,7 +72,7 @@ namespace SlapBott.Services.Dtos
         public EnemyCombatState ToEnemyState(EnemyCombatState? EnemyState = null)
         {
 
-            EnemyState.CombatState = CombatState;
+            
             EnemyState.CombatStateId = CombatStateId;
             EnemyState.ParticipantId = ParticipantId;
             EnemyState.HadTurn = HadTurn;
