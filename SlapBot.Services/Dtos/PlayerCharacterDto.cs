@@ -36,7 +36,7 @@ namespace SlapBott.Services.Dtos
         public int statsId { get; set; }
         public int CombatStateId { get; set; } = 0;
        
-        public PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
+        public static PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
             if (playercharacter.Character == null)
             {

@@ -40,8 +40,8 @@
             IServiceCollection _services = new ServiceCollection()
             //    .AddSingleton(_configuration)
                 .AddSingleton(_socketConfig)
-                .AddSingleton<DiscordSocketClient>()
-                .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
+                .AddSingleton<SlapbottDiscordSocketClient>()
+                .AddSingleton(x => new InteractionService(x.GetRequiredService<SlapbottDiscordSocketClient>()))
                 .AddSingleton<InteractionHandler>()                
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<SkillService>()
@@ -82,7 +82,11 @@
                     .InitializeAsync();
 
 
-            var discordclient = await SlapBottDiscordClient.StartAsync(_servicesProvider);
+            var discord_client = _servicesProvider.GetRequiredService<SlapbottDiscordSocketClient>();
+
+            await discord_client.StartAsync(TokenType.Bot, Properties.Resources.Token);
+
+            //var discordclient = await SlapBottDiscordClient.StartAsync(_servicesProvider);
 
             await Task.Delay(Timeout.Infinite);
 

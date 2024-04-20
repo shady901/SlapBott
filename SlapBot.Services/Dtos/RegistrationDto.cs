@@ -13,6 +13,7 @@ namespace SlapBott.Services.Dtos
     public class RegistrationDto
     {
 
+        public int? Id { get; set; }
         public required ulong discordUserID { get; set; }
 
 
@@ -24,8 +25,8 @@ namespace SlapBott.Services.Dtos
         {
             return new RegistrationDto
             {
+                Id = user.Id,
                 discordUserID = user.DiscordId,
-             
 
             };
             
