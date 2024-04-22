@@ -9,7 +9,7 @@ using SlapBott.Services.Dtos;
 
 namespace SlapBott.Handlers
 {
-    internal class ModelSubmittedHandler(IMediator mediator) : INotificationHandler<ModelSubmitted>
+    internal class ModelSubmittedHandler(IMediator mediator): INotificationHandler<ModelSubmitted>
     {
         private readonly IMediator _mediator = mediator;
 
@@ -36,10 +36,10 @@ namespace SlapBott.Handlers
 
             switch (customId)
             {
-                case ModelSubmittedCommands.createcharacter_namedescription:
+                case SubmittedCommands.createcharacter_namedescription:
                     //AssignCharacterNameDescription(modal);
                     await _mediator.Send(new UpdateNameAndDescriptionPlayerCharacter(playercharacter, modal.Data.Components), cancellationToken);
-                    await _mediator.Send(new RespondWithPlayerCharacter(playercharacter, modal.RespondAsync), cancellationToken);
+                    //await _mediator.Send(new RespondWithPlayerCharacter(playercharacter, modal.RespondAsync), cancellationToken);
 
                     //modal.RespondAsync(embed: BuilderReplies.ReplyCreatedCompleteEmbed(
                     //    _playerCharacterDto.Name,

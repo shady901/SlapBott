@@ -1,5 +1,6 @@
 ﻿using Discord;
 using SlapBott.Data.Enums;
+using SlapBott.Enums;
 using SlapBott.ItemProject.Items;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
@@ -58,7 +59,7 @@ namespace SlapBott
         {
             var em = new SelectMenuBuilder()
             .WithPlaceholder("Select An option")
-            .WithCustomId("createcharacter_selectrace")
+            .WithCustomId(SelectMenuCommands.AssigningRace.ToString())
             .WithMinValues(1)
             .WithMaxValues(1)
             .AddOption("Elf", Races.Elf.ToString(), "Bonus Dex")
@@ -74,7 +75,7 @@ namespace SlapBott
         {
             var em = new SelectMenuBuilder()
             .WithPlaceholder("Select An option")
-            .WithCustomId("createcharacter_selectclass")
+            .WithCustomId(SelectMenuCommands.AssignClass.ToString())
             .WithMinValues(1)
             .WithMaxValues(1)
             .AddOption("Warrior", Classes.Warrior.ToString(), "Bonus Attacks in Melee + 1 Str Per level")

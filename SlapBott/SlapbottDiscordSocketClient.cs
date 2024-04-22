@@ -80,7 +80,7 @@ namespace SlapBott
        
         public void Dispose()
         {
-            timer.Dispose();
+           // timer.Dispose();
         }
 
 

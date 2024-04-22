@@ -51,6 +51,21 @@ namespace SlapBott
             }
         }
         
+        private void SelectMenuCreateCharacter(string condition, SocketMessageComponent arg)
+        {
+            SetupBaseCharacterDto(arg.User.Id);
+            switch (condition)
+            {
+                case "selectrace":
+                    AssigningRace(arg);
+                    break;
+                case "selectclass":
+                    AssigningClass(arg);
+                    break;
+                default:
+                    break;
+            }
+        }
         public void HandleSubmittedModal(SocketModal modal)
         {
             SetTheRegistrationfromDiscordId(modal.User.Id);
@@ -59,7 +74,7 @@ namespace SlapBott
             {
                 modal.RespondAsync("you have not joined the bot");
             }
-            else 
+            else
             {
                 if (modal.Data.CustomId != null)
                 {
@@ -81,21 +96,6 @@ namespace SlapBott
                 }
             }
 
-        }
-        private void SelectMenuCreateCharacter(string condition, SocketMessageComponent arg)
-        {
-            SetupBaseCharacterDto(arg.User.Id);
-            switch (condition)
-            {
-                case "selectrace":
-                    AssigningRace(arg);
-                    break;
-                case "selectclass":
-                    AssigningClass(arg);
-                    break;
-                default:
-                    break;
-            }
         }
         private void AssignCharacterNameDescription(SocketModal modal)
         {
@@ -147,7 +147,7 @@ namespace SlapBott
             _playerCharacterDto = new();
             _playerCharacter = new();
             _playerCharacter = _playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(argId, _registration.Id);
-            _playerCharacterDto = new PlayerCharacterDto()
+            _playerCharacterDto = PlayerCharacterDto
                   .FromCharacter(_playerCharacter);
         }
         private void SaveCharacter()

@@ -6,7 +6,7 @@ namespace SlapBott.Notifications
 {
     internal class SelectMenuExecuted(SocketMessageComponent component) : INotification
     {
-        private readonly SocketMessageComponent _component = component;
+        public readonly SocketMessageComponent Component = component;
 
 
     }

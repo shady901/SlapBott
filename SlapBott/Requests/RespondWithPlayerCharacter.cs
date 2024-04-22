@@ -6,7 +6,7 @@ namespace SlapBott.Requests
 {
     internal class RespondWithPlayerCharacter(
         PlayerCharacterDto playercharacter,
-        Func<string, Embed[], bool, bool, AllowedMentions, MessageComponent, Embed, RequestOptions, Task> respondAsync)
+        Func<string, Embed[], bool, bool, AllowedMentions, MessageComponent, Embed, RequestOptions> respondAsync)
         : IRequest<bool>
     {
         public PlayerCharacterDto Playercharacter { get; } = playercharacter;
