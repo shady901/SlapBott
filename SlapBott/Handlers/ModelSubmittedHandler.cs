@@ -9,7 +9,7 @@ using SlapBott.Services.Dtos;
 
 namespace SlapBott.Handlers
 {
-    internal class ModelSubmittedHandler(IMediator mediator): INotificationHandler<ModelSubmitted>
+    public class ModelSubmittedHandler(IMediator mediator): INotificationHandler<ModelSubmitted>
     {
         private readonly IMediator _mediator = mediator;
 
@@ -18,7 +18,11 @@ namespace SlapBott.Handlers
 
             var modal = notification.Modal;
             var userId = modal.User.Id;
-            string customId = modal.Data.CustomId;
+          
+          
+            ModalSubmittedCommands condition;
+            Enum.TryParse(modal.Data.CustomId, out condition);
+
 
             var registration = await _mediator.Send(new GetRegistration(userId));
             if (registration == null)
@@ -27,28 +31,20 @@ namespace SlapBott.Handlers
                 return;
             }
 
-            var playercharacter = await _mediator.Send(new CreatePlayerCharacter(userId, (int)registration.Id), cancellationToken);
+            PlayerCharacterDto? playercharacter = await _mediator.Send(new RequestGetExistingCharacterOrNew(userId), cancellationToken);
 
             if (modal.Data.CustomId == null)
             {
                 await modal.RespondAsync("ERROR: ModalHandler CustomId Is NUll");
             }
 
-            switch (customId)
+            switch (condition)
             {
-                case SubmittedCommands.createcharacter_namedescription:
-                    //AssignCharacterNameDescription(modal);
-                    await _mediator.Send(new UpdateNameAndDescriptionPlayerCharacter(playercharacter, modal.Data.Components), cancellationToken);
-                    //await _mediator.Send(new RespondWithPlayerCharacter(playercharacter, modal.RespondAsync), cancellationToken);
+                case ModalSubmittedCommands.NameAndDescription:
 
-                    //modal.RespondAsync(embed: BuilderReplies.ReplyCreatedCompleteEmbed(
-                    //    _playerCharacterDto.Name,
-                    //    _playerCharacterDto.Description,
-                    //    _playerCharacterDto.SelectedRace.ToString(),
-                    //    _playerCharacterDto.SelectedClass.ToString()
-                    //    ), ephemeral: true);
-                    //SaveAndCompleteCreation();
-
+                    playercharacter = await _mediator.Send(new UpdateNameAndDescriptionPlayerCharacter(playercharacter, modal.Data.Components), cancellationToken);
+                    await _mediator.Send(new RequestSavePlayerCharacterDto(playercharacter));
+                    await modal.RespondAsync(embed:BuilderReplies.ReplyCreatedCompleteEmbed(playercharacter.Name,playercharacter.Description,playercharacter.SelectedRace.ToString(),playercharacter.SelectedClass.ToString()));
                     break;
                 default:
                     await modal.RespondAsync("ERROR: ModalHandler couldnt find customID");
@@ -57,6 +53,7 @@ namespace SlapBott.Handlers
 
 
         }
+           
     }
 
 

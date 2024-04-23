@@ -142,17 +142,17 @@ namespace SlapBott
  
         }
 
-        private void SetupBaseCharacterDto(ulong argId)
+        private async void SetupBaseCharacterDto(ulong argId)
         {
             _playerCharacterDto = new();
             _playerCharacter = new();
-            _playerCharacter = _playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(argId, _registration.Id);
+            _playerCharacter = await _playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(argId, _registration.Id);
             _playerCharacterDto = PlayerCharacterDto
                   .FromCharacter(_playerCharacter);
         }
         private void SaveCharacter()
         {
-             _playerCharacterService.SaveCharacter(_playerCharacterDto.ToCharacter(_playerCharacter));
+             _playerCharacterService.SaveCharacter(_playerCharacterDto);
         }
         private void SetTheRegistrationfromDiscordId(ulong DiscordId)
         {

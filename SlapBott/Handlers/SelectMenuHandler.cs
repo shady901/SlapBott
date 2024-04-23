@@ -13,7 +13,7 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.Handlers
 {
-    internal class SelectMenuSubmittedHandler(IMediator mediator, RegistrationService r) 
+    public class SelectMenuSubmittedHandler(IMediator mediator, RegistrationService r) 
         : BaseNotificationHandler(r) 
         , INotificationHandler<SelectMenuExecuted>
     {
@@ -21,14 +21,14 @@ namespace SlapBott.Handlers
 
         public async Task Handle(SelectMenuExecuted notification, CancellationToken cancellationToken)
         {
-            var a = notification.Component;
+            var component = notification.Component;
             SelectMenuCommands condition;
-            Enum.TryParse(a.Data.CustomId, out condition);
+            Enum.TryParse(component.Data.CustomId, out condition);
          
 
-            if (!await CheckRegistation(a.User.Id))
+            if (!await CheckRegistation(component.User.Id))
             {
-                await a.RespondAsync("you have not joined the bot");
+                await component.RespondAsync("You have not joined the bot");
                 return;
             };
 
@@ -40,11 +40,11 @@ namespace SlapBott.Handlers
             switch (condition)
             {
                 case SelectMenuCommands.AssigningRace:
-                    _mediator.Publish(new AssigningRace(a));
+                  await _mediator.Publish(new AssignRaceNotification(component));
                     
                     break;
                 case SelectMenuCommands.AssignClass:
-                    //AssigningClass(arg);
+                    await _mediator.Publish(new AssignClassNotification(component));
                     break;
                 default:
                     break;

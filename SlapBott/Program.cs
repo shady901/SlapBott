@@ -42,7 +42,13 @@
                 .AddSingleton(_socketConfig)
                 .AddSingleton<SlapbottDiscordSocketClient>()
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<SlapbottDiscordSocketClient>()))
-                .AddSingleton<InteractionHandler>()                
+                .AddSingleton( (x) =>{ 
+                    return new InteractionHandler(
+                        x.GetRequiredService<SlapbottDiscordSocketClient>(),
+                        x.GetRequiredService<InteractionService>(),
+                        x
+                    ); 
+                })                
                 .AddSingleton<RegistrationService>()
                 .AddSingleton<SkillService>()
                 .AddSingleton<SkillRepo>()
@@ -69,7 +75,7 @@
             {
                 // Configure MediatR options here
                 // For example, you can specify service lifetime, behavior, etc.
-                options.RegisterServicesFromAssembly(typeof(FailedReply).Assembly);
+                options.RegisterServicesFromAssembly(typeof(Program).Assembly);
 
             });
 

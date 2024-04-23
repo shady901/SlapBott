@@ -66,8 +66,7 @@ namespace SlapBott
 
         private Task Client_SlashCommandExecuted(SocketSlashCommand command)
         {
-            Console.WriteLine("Client_SlashCommandExecuted");
-            _mediator.Publish(new SlashCommandExecuted(command));
+            Console.WriteLine(command.CommandName);           
             return Task.CompletedTask;
         }
 

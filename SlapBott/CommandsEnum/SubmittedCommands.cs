@@ -1,10 +1,10 @@
 ﻿
 namespace SlapBott.Enums
 {
-    internal static class ModalSubmittedCommands
+    internal enum ModalSubmittedCommands
     {
 
-        public const string createcharacter_namedescription = "createcharacter_namedescription";
+       NameAndDescription 
 
 
     }

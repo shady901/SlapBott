@@ -3,7 +3,7 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.Notifications
 {
-    internal abstract class BaseNotificationHandler(RegistrationService registeredServices)
+    public abstract class BaseNotificationHandler(RegistrationService registeredServices)
     {
         protected Registration registration { get; set; }
         protected Task<bool> CheckRegistation(ulong UserId)

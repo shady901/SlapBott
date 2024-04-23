@@ -82,7 +82,7 @@ namespace SlapBott.Services.Dtos
             playerCharacter.Character.RaceId = (int)SelectedRace;
             playerCharacter.Character.ClassId = SelectedClass == Classes.None ? null : (int)SelectedClass;
             playerCharacter.Character.LearnedSkillIds = Skills;
-            playerCharacter.Character.Inventory = Inventory.ToInventory();
+            playerCharacter.Character.Inventory = Inventory?.ToInventory();
            
             return playerCharacter;
         }

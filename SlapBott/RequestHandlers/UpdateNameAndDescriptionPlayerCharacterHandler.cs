@@ -5,7 +5,7 @@ using SlapBott.Services.Dtos;
 
 namespace SlapBott.RequestHandlers
 {
-    internal class UpdateNameAndDescriptionPlayerCharacterHandler : IRequestHandler<UpdateNameAndDescriptionPlayerCharacter, PlayerCharacterDto?>
+    public class UpdateNameAndDescriptionPlayerCharacterHandler : IRequestHandler<UpdateNameAndDescriptionPlayerCharacter, PlayerCharacterDto?>
     {
 
         const string character_name = "character_name";

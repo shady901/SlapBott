@@ -13,18 +13,25 @@ namespace SlapBott.Data.Repos
             _dbContext = dBContext;
 
         }
-        public PlayerCharacter GetTempPlayerCharacterByDiscordID(ulong id, int regId)
+        public async Task<PlayerCharacter> GetTempPlayerCharacterByDiscordID(ulong id, int regId)
         {
+            PlayerCharacter? playerCharacter = null;
+            try
+            {
+                 playerCharacter = await _dbContext.PlayerCharacter
+                    .Where(pc => pc.DiscordId == id && pc.IsTemp && pc.RegistrationId == regId)
+                    //.Include(pc => pc.Character.Stats)
+                    //.Include(pc => pc.Character.Race)
+                    //.Include(pc => pc.Character.CharacterClass)
+                    //.Include (pc => pc.Character.Inventory)
+                    //.ThenInclude(pc=>pc.Bag)
+                    .FirstOrDefaultAsync();
+            }catch( Exception ex )
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            PlayerCharacter playerCharacter = _dbContext.PlayerCharacter
-                .Where(pc => pc.DiscordId == id && pc.IsTemp && pc.RegistrationId == regId)
-                .Include(pc => pc.Character.Stats)
-                .Include(pc => pc.Character.Race)
-                .Include(pc => pc.Character.CharacterClass)
-                .Include (pc => pc.Character.Inventory)
-                .FirstOrDefault();
-
-            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new()} }, DiscordId = id, RegistrationId = regId};
+            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new(),Bag = new()} }, DiscordId = id, RegistrationId = regId};
         }
         public PlayerCharacter GetPlayerCharacterByDiscordID(ulong id, int regId)
         {

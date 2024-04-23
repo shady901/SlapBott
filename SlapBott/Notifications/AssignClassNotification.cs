@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Notifications
 {
-    public class AssignRaceNotification(SocketMessageComponent component) : INotification
+    public class AssignClassNotification(SocketMessageComponent component) : INotification
     {
       public SocketMessageComponent Component = component;
 

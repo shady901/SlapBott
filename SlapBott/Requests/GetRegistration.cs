@@ -3,7 +3,7 @@ using SlapBott.Services.Dtos;
 
 namespace SlapBott.Requests
 {
-    internal class GetRegistration(ulong userId) : IRequest<RegistrationDto>
+    public class GetRegistration(ulong userId) : IRequest<RegistrationDto>
     {
         public ulong UserId { get; } = userId;
     }

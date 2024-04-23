@@ -5,7 +5,7 @@ using SlapBott.Services.Dtos;
 
 namespace SlapBott.RequestHandlers
 {
-    internal class RespondWithPlayerCharacterHandler : IRequestHandler<RespondWithPlayerCharacter, bool>
+    public class RespondWithPlayerCharacterHandler : IRequestHandler<RespondWithPlayerCharacter, bool>
     {
         public Task<bool> Handle(RespondWithPlayerCharacter request, CancellationToken cancellationToken)
         {

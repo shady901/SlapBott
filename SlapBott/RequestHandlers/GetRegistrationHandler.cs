@@ -6,7 +6,7 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.RequestHandlers
 {
-    internal class GetRegistrationHandler(RegistrationService registeredServices) : IRequestHandler<GetRegistration, RegistrationDto>
+    public class GetRegistrationHandler(RegistrationService registeredServices) : IRequestHandler<GetRegistration, RegistrationDto>
     {
         private readonly RegistrationService _registrationService = registeredServices;
                 
