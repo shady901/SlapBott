@@ -20,7 +20,7 @@ namespace SlapBott.RequestHandlers
         {
             try
             {
-                _playerCharacterService.SaveCharacter(request.CharacterDto);
+               await _playerCharacterService.SaveCharacter(request.CharacterDto);
 
             }
             catch (Exception ex)

@@ -20,7 +20,7 @@
         }
 
 
-        [SlashCommand("joinraid", description: "Joins the raid", ignoreGroupNames: false, runMode: RunMode.Async)]
+        [SlashCommand("raidcheck", description: "temp command to simulate raidcheck process", ignoreGroupNames: false, runMode: RunMode.Async)]
         public async Task JoinRaidAsync()
         {
 

@@ -20,11 +20,10 @@ namespace SlapBott.Data.Repos
             {
                  playerCharacter = await _dbContext.PlayerCharacter
                     .Where(pc => pc.DiscordId == id && pc.IsTemp && pc.RegistrationId == regId)
-                    //.Include(pc => pc.Character.Stats)
-                    //.Include(pc => pc.Character.Race)
-                    //.Include(pc => pc.Character.CharacterClass)
-                    //.Include (pc => pc.Character.Inventory)
-                    //.ThenInclude(pc=>pc.Bag)
+                    .Include(pc => pc.Character.Stats)
+                    .Include(pc => pc.Character.Race)
+                    .Include(pc => pc.Character.CharacterClass)
+                    .Include(pc => pc.Character.Inventory)                   
                     .FirstOrDefaultAsync();
             }catch( Exception ex )
             {
@@ -33,12 +32,18 @@ namespace SlapBott.Data.Repos
 
             return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new(),Bag = new()} }, DiscordId = id, RegistrationId = regId};
         }
-        public PlayerCharacter GetPlayerCharacterByDiscordID(ulong id, int regId)
+        public async Task<PlayerCharacter> GetPlayerCharacterByDiscordID(ulong id, int regId)
         {
 
-            PlayerCharacter Character = _dbContext.PlayerCharacter.FirstOrDefault(PCharacter => PCharacter.DiscordId == id && PCharacter.RegistrationId == regId);
+            PlayerCharacter? Character = await _dbContext.PlayerCharacter
+                    .Where(pc => pc.DiscordId == id && pc.RegistrationId == regId)
+                    .Include(pc => pc.Character.Stats)
+                    .Include(pc => pc.Character.Race)
+                    .Include(pc => pc.Character.CharacterClass)
+                    .Include(pc => pc.Character.Inventory)
+                    .FirstOrDefaultAsync();
 
-            return Character ?? new PlayerCharacter() { Character = new(), DiscordId = id };
+            return Character ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new(), Bag = new() } }, DiscordId = id, RegistrationId = regId };
         }
         public void SaveCharacter(PlayerCharacter playerCharacter)
         {

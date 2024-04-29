@@ -19,7 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mechanics-Ideas", "Mechanic
 		Design = Design
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlapBott.ItemProject", "SlapBott.ItemProject\SlapBott.ItemProject.csproj", "{106271A8-2235-415A-B5FE-41C629BB65C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.ItemProject", "SlapBott.ItemProject\SlapBott.ItemProject.csproj", "{106271A8-2235-415A-B5FE-41C629BB65C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlapBott.RaidSpawnTimer", "SlapBott.RaidSpawnTimer\SlapBott.RaidSpawnTimer.csproj", "{E6DC3CF6-CA50-4295-98EC-6CCF7AD0BFF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D6A9A777-BE0C-4BCC-9303-8F1BD528346C} = {D6A9A777-BE0C-4BCC-9303-8F1BD528346C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +52,10 @@ Global
 		{106271A8-2235-415A-B5FE-41C629BB65C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{106271A8-2235-415A-B5FE-41C629BB65C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{106271A8-2235-415A-B5FE-41C629BB65C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6DC3CF6-CA50-4295-98EC-6CCF7AD0BFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6DC3CF6-CA50-4295-98EC-6CCF7AD0BFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6DC3CF6-CA50-4295-98EC-6CCF7AD0BFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6DC3CF6-CA50-4295-98EC-6CCF7AD0BFF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

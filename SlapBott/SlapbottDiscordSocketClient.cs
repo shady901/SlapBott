@@ -2,7 +2,7 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Slapbott.Data;
+using SlapBott.Data;
 using Discord.Interactions;
 using InteractionFramework;
 using SlapBott.Data.Repos;
@@ -25,15 +25,16 @@ namespace SlapBott
 {
     internal class SlapbottDiscordSocketClient : DiscordSocketClient, IDisposable
     {
-
+        private readonly IServiceProvider serviceProvider;
         private readonly IMediator _mediator;
-
+        private Timer _timer ;
         public SlapbottDiscordSocketClient(IServiceProvider serviceProvider, IMediator mediator)
         {
             Log += LogAsync;
             SlashCommandExecuted += Client_SlashCommandExecuted;
             SelectMenuExecuted += Client_SelectMenuExecuted;
             ModalSubmitted += Client_ModalSubmitted;
+            this.serviceProvider = serviceProvider;
             _mediator = mediator;
         }
 
@@ -42,16 +43,30 @@ namespace SlapBott
 
             
             await LoginAsync(token, client_token);
-            await StartAsync();            
+            await StartAsync();
 
+            await RaidChecker();
             
             return this;
 
         }
 
+        private Task RaidChecker()
+        {
+
+            TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
+
+            // Create a timer that ticks every hour
+            TimeSpan interval = TimeSpan.FromHours(1);
+            _timer = new Timer(callback, null, TimeSpan.Zero, interval);
+
+            return Task.CompletedTask;
+
+        }
+
         private Task Client_ModalSubmitted(SocketModal modal)
         {
-            Console.WriteLine("Client_ModalSubmitted");
+            Console.WriteLine($"Client_ModalSubmitted: {modal.Data.CustomId}");
             //mediator.RepliesHandler
             _mediator.Publish(new ModelSubmitted(modal));
             return Task.CompletedTask;
@@ -59,7 +74,7 @@ namespace SlapBott
 
         private Task Client_SelectMenuExecuted(SocketMessageComponent component)
         {
-            Console.WriteLine("Client_SelectMenuExecuted");
+            Console.WriteLine($"Client_SelectMenuExecuted: {component.Data.CustomId}");
             _mediator.Publish(new SelectMenuExecuted(component));
             return Task.CompletedTask;
         }
@@ -79,7 +94,7 @@ namespace SlapBott
        
         public void Dispose()
         {
-           // timer.Dispose();
+           _timer.Dispose();
         }
 
 

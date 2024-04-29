@@ -2,24 +2,19 @@
 {
     using Discord;
     using Discord.WebSocket;
-    using Microsoft.Extensions.Configuration;
+
     using Microsoft.Extensions.DependencyInjection;
-    using Slapbott.Data;
+    using SlapBott.Data;
     using Discord.Interactions;
     using InteractionFramework;
-    using SlapBott.Data.Repos;
-    using SlapBott.Services.Contracts;
-    using SlapBott.Services.Notifactions;
-    using SlapBott.Services.Implmentations;
     using System;
-    using SlapBott.Data;
     using Microsoft.EntityFrameworkCore;
 
     public class Program
     {
-        private static IConfiguration _configuration;
+
         private static IServiceProvider _servicesProvider;
-        private static RepliesHandler _handler;
+
         private static readonly DiscordSocketConfig _socketConfig = new()
         {
             GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.GuildMembers,
@@ -30,7 +25,7 @@
         public static async Task Main(string[] args)
         {
 
-            
+
 
             //_configuration = new ConfigurationBuilder()
             //    .AddEnvironmentVariables(prefix: "DC_")
@@ -42,32 +37,18 @@
                 .AddSingleton(_socketConfig)
                 .AddSingleton<SlapbottDiscordSocketClient>()
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<SlapbottDiscordSocketClient>()))
-                .AddSingleton( (x) =>{ 
+                .AddSingleton((x) => {
                     return new InteractionHandler(
                         x.GetRequiredService<SlapbottDiscordSocketClient>(),
                         x.GetRequiredService<InteractionService>(),
                         x
-                    ); 
-                })                
-                .AddSingleton<RegistrationService>()
-                .AddSingleton<SkillService>()
-                .AddSingleton<SkillRepo>()
-                .AddSingleton<ItemService>()                
-                .AddSingleton<RegistrationRepositry>()
-                .AddSingleton<PlayerCharacterRepositry>()
-                .AddSingleton<PlayerCharacterService>()
-                .AddSingleton<RegionService>()
-                .AddSingleton<EnemyService>()
-                .AddSingleton<CombatStateService>()
-                .AddSingleton<CombatManager>()
-                .AddSingleton<CombatStateRepositry>()
-                .AddSingleton<EnemyRepositry>()
-                .AddSingleton<EnemyTemplateRepo>()
-                .AddSingleton<RegionRepo>()
-                .AddSingleton<EnemyStateRepo>()
-                .AddSingleton<PlayerStateRepo>()
-                .AddSingleton<RaidService>();
-                
+                    );
+                });
+
+            Services.Startup.ConfigureServices(_services);
+            Startup.ConfigureServices(_services, Properties.Resources.DbConnection);
+
+
 
             _services.AddDbContext<SlapbottDbContext>(options => options.UseSqlite(Properties.Resources.DbConnection));
 
@@ -79,7 +60,6 @@
 
             });
 
-            Startup.ConfigureServices(_services, Properties.Resources.DbConnection);
 
             _servicesProvider = _services.BuildServiceProvider();
 
