@@ -20,7 +20,7 @@ namespace SlapBott.Data
 
                 );
             }
-
+            services.AddSingleton<DiscordGuildRepo>();
             services.AddSingleton<SkillRepo>();
             services.AddSingleton<RegistrationRepositry>();
             services.AddSingleton<PlayerCharacterRepositry>();

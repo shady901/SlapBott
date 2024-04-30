@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <None Update="slapbott.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

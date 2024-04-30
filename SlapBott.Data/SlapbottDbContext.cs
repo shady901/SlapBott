@@ -28,6 +28,7 @@ namespace SlapBott.Data
        public DbSet<CharacterClass> CharacterClasses { get; set; }
         public DbSet<EnemyTemplate> EnemyTemplates { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<DiscordGuild> DiscordGuilds { get; set; }
         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
 
@@ -49,7 +50,7 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<Character>(new CharacterConfiguration());
             modelBuilder.ApplyConfiguration<EnemyTemplate>(new EnemyTemplateConfiguration());
             modelBuilder.ApplyConfiguration<Region>(new RegionConfiguration());
-
+            modelBuilder.ApplyConfiguration<DiscordGuild>(new DiscordGuildConfiguration());
 
         }
 

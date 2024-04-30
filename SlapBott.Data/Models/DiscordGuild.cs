@@ -11,6 +11,7 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
         public ulong GuildId { get; set; }
+        public ulong CategoryId { get; set; }
         public Dictionary<Regions,ulong> ConfiguredChannels { get; set; } 
 
     }

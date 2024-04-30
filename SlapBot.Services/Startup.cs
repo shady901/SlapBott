@@ -19,6 +19,7 @@ namespace SlapBott.Services
             services.AddSingleton<ItemService>();
             services.AddSingleton<RegistrationService>();
             services.AddSingleton<SkillService>();
+            services.AddSingleton<DiscordGuildService>();
         }
     }
 }

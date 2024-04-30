@@ -8,7 +8,7 @@ namespace SlapBott.Data.Enums
 {
     public enum Regions
     {
-        None = 0, 
+        
         BadLands,
         Chaotic_Rift,
         Blizzard_Highlands,
