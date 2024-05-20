@@ -47,7 +47,7 @@ namespace SlapBott.Data.Repos
         }
 
 
-        public void SaveAndSetRegionBossToPending(Region region)
+        public void SaveAndSetRegionToPending(Region region)
         {
             region.isBossPending = true;
             AddOrUpdateEntity(region);

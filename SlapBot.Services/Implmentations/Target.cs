@@ -25,7 +25,7 @@ namespace SlapBott.Services.Implmentations
         public CharacterClassDto CharacterClassDto { get; set; }
         public List<int> Skills { get; set; } = new List<int>();
         public int StateId { get; set; }
-
+        public InventoryDto Inventory { get; set; }
         const double ResMax = .75;
 
         public void ApplyDamage(int damage, StatType elementalType)

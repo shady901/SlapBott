@@ -1,8 +1,11 @@
-﻿using SlapBott.Data.Enums;
+﻿using MediatR;
+using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
+using SlapBott.Services;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
+using SlapBott.Services.Notifactions;
 using System.Security.Cryptography;
 using System.Threading.Channels;
 
@@ -19,8 +22,10 @@ namespace SlapBott.Services.Implmentations
         private RegionService _regionService;
         private EnemyService _enemyService;
         private CombatStateService _combatStateService;
-        public RaidService(CombatManager combatManager, RegionService regionService, EnemyService enemyService, CombatStateService combatStateService)
+        private IMediator _mediator;
+        public RaidService(CombatManager combatManager, RegionService regionService, EnemyService enemyService, CombatStateService combatStateService, IMediator mediator)
         {
+            _mediator = mediator;
             _enemyService = enemyService;
             _regionService = regionService;
             _combatManager = combatManager;
@@ -89,27 +94,26 @@ namespace SlapBott.Services.Implmentations
                 _regionService.SaveRegion(pendingRegion);
 
 
+                _mediator.Send(new PostRaidNotification(myraid, pendingRegion.RegionName));
                 
-                //PostRaid (WithAttackButton/Flee/UseItem)
-                //(reminder) Manage Buttons
             }
-            //Check if one is about to happen else do nothing       
+          
            
         }
 
-        private RaidBossDto GenerateRaidBoss(Regions regionName)
+        private void GenerateRaidBoss(Regions regionName)
         {
-            Random rnd = new Random();
+
             RegionDto region = _regionService.GetRegionByRegionEnum(regionName);
             RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();
             var state = _combatStateService.GetCombatStateByIdOrNew(0);
-            var stateId = _combatStateService.SaveState(state).Id;
-            _regionService.SaveAndSetRegionBossToPending(region);
+            var stateId = _combatStateService.SaveState(state).Id;            
+            _regionService.SaveAndSetRegionToPending(region);
             raidBoss.RegionId = region.Id;
             raidBoss.StateId = stateId;
             var raidBossId = _enemyService.SaveRaidBoss(raidBoss).Id;
             EnemyCombatStateAssignAndSave(stateId,raidBossId);
-            return raidBoss;
+           
         }
         private void EnemyCombatStateAssignAndSave(int stateId,int EnemyId)
         {

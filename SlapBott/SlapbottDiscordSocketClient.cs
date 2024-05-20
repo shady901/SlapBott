@@ -57,7 +57,7 @@ namespace SlapBott
             TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
 
             // Create a timer that ticks every hour
-            TimeSpan interval = TimeSpan.FromHours(1);
+            TimeSpan interval = TimeSpan.FromSeconds(30);
             _timer = new Timer(callback, null, TimeSpan.Zero, interval);
 
             return Task.CompletedTask;

@@ -22,9 +22,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlapBott.ItemProject", "SlapBott.ItemProject\SlapBott.ItemProject.csproj", "{106271A8-2235-415A-B5FE-41C629BB65C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlapBott.RaidSpawnTimer", "SlapBott.RaidSpawnTimer\SlapBott.RaidSpawnTimer.csproj", "{E6DC3CF6-CA50-4295-98EC-6CCF7AD0BFF3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D6A9A777-BE0C-4BCC-9303-8F1BD528346C} = {D6A9A777-BE0C-4BCC-9303-8F1BD528346C}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -22,11 +22,15 @@ namespace SlapBott.Services.Implmentations
         }
         public void SaveEnemy(EnemyDto enemy)
         {
-            _enemyRepositry.SaveEnemy(enemy.ToEnemy());
+           var original = _enemyRepositry.GetEnemyByID<Enemy>(enemy.Id);
+            _enemyRepositry.SaveEnemy(enemy.ToEnemy(original));
         }
         public RaidBoss SaveRaidBoss(RaidBossDto raidBoss, RaidBoss? OriginalRb = null)
         {
-
+            if (OriginalRb == null)
+            {
+                OriginalRb = _enemyRepositry.GetEnemyByID<RaidBoss>(raidBoss.Id);
+            }
            return (RaidBoss)_enemyRepositry.SaveEnemy(raidBoss.ToRaidBoss(OriginalRb));
         }
 

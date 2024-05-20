@@ -21,6 +21,7 @@ namespace SlapBott.Services.Dtos
                 ClassID = (int)boss.Character.ClassId,
                 RegionId = boss.RegionId,
                 StateId = boss.Character.CombatStateID,
+               
             };
         } 
 
@@ -39,11 +40,7 @@ namespace SlapBott.Services.Dtos
     
         public RaidBoss ToRaidBoss(RaidBoss? raidBoss = null)
         {
-            if (raidBoss == null)// if making new raid boss it will be null
-            {
-                raidBoss = new RaidBoss(){Character= new Character() {Inventory = new Inventory()} };
-                raidBoss.Id = Id;
-            }
+           
             raidBoss.RegionId = RegionId;
             raidBoss.Character.Name = Name??string.Empty;
             raidBoss.Character.Description = Description??string.Empty;

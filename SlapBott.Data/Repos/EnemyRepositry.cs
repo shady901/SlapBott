@@ -12,12 +12,17 @@ namespace SlapBott.Data.Repos
             _dbContext = dBContext;
 
         }
-        public T GetEnemyByID<T>(int Id) where T : Enemy
+        public T? GetEnemyByID<T>(int Id) where T : Enemy
         {
+            T enemy;
+            if (Id>0)
+            {
+               enemy = (T)_dbContext.Enemies.First(enemy => enemy.Id == Id);
+                return enemy;
+            }
 
-            T enemy = (T)_dbContext.Enemies.First(enemy => enemy.Id == Id);
+            return Activator.CreateInstance<T>();
 
-            return enemy;
         }
         
         public Enemy SaveEnemy(Enemy enemy)

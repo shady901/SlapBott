@@ -75,11 +75,11 @@ namespace SlapBott.Services.Implmentations
             
             _regionRepo.SaveRegion(regionDto.ToRegion(region));
         }
-        public void SaveAndSetRegionBossToPending(RegionDto regionDto)
+        public void SaveAndSetRegionToPending(RegionDto regionDto)
         {
             Region region = _regionRepo.GetRegionByIdOrNew(regionDto.Id);
 
-            _regionRepo.SaveAndSetRegionBossToPending(region);
+            _regionRepo.SaveAndSetRegionToPending(regionDto.ToRegion(region));
         
         }
 

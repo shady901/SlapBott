@@ -16,6 +16,13 @@ namespace SlapBott.Services.Implmentations
             _discordGuildRepo = discordGuildRepo;
         }
 
+      
+
+        public IEnumerable<DiscordGuild> GetAllGuilds()
+        {
+          return _discordGuildRepo.GetAll();
+        }
+
         public void SaveGuild(DiscordGuild discordGuild)
         {
             _discordGuildRepo.SaveGuild(discordGuild);

@@ -20,6 +20,14 @@ namespace SlapBott.Data.Models
         [ForeignKey("CharacterId")]
         public virtual Character Character { get; set; }
 
+
+        public Enemy() 
+        {
+            if (Character == null)
+            {
+                Character = new Character() { Inventory = new(), Stats = new() };
+            }
+        }
     }
 
 
