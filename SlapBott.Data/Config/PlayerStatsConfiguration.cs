@@ -11,11 +11,11 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<Stats> builder)
         {
-            builder
+            //builder
                 
-                .HasOne(s => s.Character)
-                .WithOne(c => c.Stats)
-                .HasForeignKey<Character>(s => s.StatsId);
+            //    .HasOne(s => s.Character)
+            //    .WithOne(c => c.Stats)
+            //    .HasForeignKey<Character>(s => s.StatsId);
             
             builder.Property(x => x.stats)
                            .HasConversion(

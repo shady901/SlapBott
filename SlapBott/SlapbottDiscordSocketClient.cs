@@ -1,19 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SlapBott.Data;
-using Discord.Interactions;
-using InteractionFramework;
-using SlapBott.Data.Repos;
-using SlapBott.Services.Contracts;
-using SlapBott.Services.Notifactions;
 using SlapBott.Services.Implmentations;
-using System;
-using SlapBott.Data;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.ComponentModel;
 using SlapBott.Notifications;
 
 // Here we can initialize the service that will register and execute our commands
@@ -45,7 +34,7 @@ namespace SlapBott
             await LoginAsync(token, client_token);
             await StartAsync();
 
-            await RaidChecker();
+           // await RaidChecker();
             
             return this;
 
@@ -54,11 +43,16 @@ namespace SlapBott
         private Task RaidChecker()
         {
 
-            TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
+            var d = serviceProvider.GetService<RaidService>();
+
+            //TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
 
             // Create a timer that ticks every hour
-            TimeSpan interval = TimeSpan.FromSeconds(30);
-            _timer = new Timer(callback, null, TimeSpan.Zero, interval);
+            //TimeSpan interval = TimeSpan.FromSeconds(60);
+            //_timer = new Timer(callback, null, TimeSpan.Zero, interval);
+
+            //d.RaidCheck(null); 
+            d.RaidCheck(null);
 
             return Task.CompletedTask;
 

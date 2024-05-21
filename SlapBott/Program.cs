@@ -9,7 +9,7 @@
     using InteractionFramework;
     using System;
     using Microsoft.EntityFrameworkCore;
-
+    using SlapBott.Services.Implmentations;
 
     public class Program
     {
@@ -75,6 +75,18 @@
 
             //var discordclient = await SlapBottDiscordClient.StartAsync(_servicesProvider);
 
+            var s = _servicesProvider.GetService<RaidService>();
+
+            s.RaidCheck(null);
+
+            await Task.Delay(60000);
+            s.RaidCheck(null);
+
+            //TimerCallback callback = _servicesProvider.GetService<RaidService>().RaidCheck;
+
+            // Create a timer that ticks every hour
+            //TimeSpan interval = TimeSpan.FromMinutes(1);
+            //Timer timer = new Timer(callback, null, TimeSpan.Zero, interval);
             await Task.Delay(Timeout.Infinite);
 
 

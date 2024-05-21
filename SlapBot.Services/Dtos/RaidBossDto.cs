@@ -40,7 +40,10 @@ namespace SlapBott.Services.Dtos
     
         public RaidBoss ToRaidBoss(RaidBoss? raidBoss = null)
         {
-           
+            if(raidBoss == null)
+            {
+                raidBoss = new RaidBoss() { Character = new Character() { Stats = new Stats()} };
+            }
             raidBoss.RegionId = RegionId;
             raidBoss.Character.Name = Name??string.Empty;
             raidBoss.Character.Description = Description??string.Empty;

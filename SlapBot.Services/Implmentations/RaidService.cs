@@ -66,7 +66,7 @@ namespace SlapBott.Services.Implmentations
 
        
 
-        public void RaidCheck(object? state)
+        public async void RaidCheck(object? state)
         {
 
 
@@ -77,54 +77,54 @@ namespace SlapBott.Services.Implmentations
             //generate one, assign region as pending to give time to sign up to boss
             if (a != null)
             {
-                GenerateRaidBoss(a.RegionName);
+               await GenerateRaidBoss(a.RegionName);
             }
 
             //then check if a region currently has pending, then display rb to server and set as not 
 
 
-            if (pendingRegion != null)
-            {
-                RaidBoss temp = (RaidBoss)pendingRegion.Enemies.First(x => !x.IsDead && x.GetType().Equals(typeof( RaidBoss)));
-                pendingRegion.isBossPending = false;
-                pendingRegion.HasActiveBoss = true;
-                RaidBossDto myraid = RaidBossDto.FromRecord(temp);
-                myraid.SetupPlayerCountStats(_combatStateService.GetCombatStateByIdOrNew(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
-                _enemyService.SaveRaidBoss(myraid,temp);
-                _regionService.SaveRegion(pendingRegion);
+            //if (pendingRegion != null)
+            //{
+            //    RaidBoss temp = (RaidBoss)pendingRegion.Enemies.First(x => !x.IsDead && x.GetType().Equals(typeof( RaidBoss)));
+            //    pendingRegion.isBossPending = false;
+            //    pendingRegion.HasActiveBoss = true;
+            //    RaidBossDto myraid = RaidBossDto.FromRecord(temp);
+            //    myraid.SetupPlayerCountStats(_combatStateService.GetCombatStateByIdOrNew(myraid.StateId).Characters.Count); // calls setupPcount with state characters count (multiplies raid for player count)
+            //    _enemyService.SaveRaidBoss(myraid,temp);
+            //    _regionService.SaveRegion(pendingRegion);
 
 
-                _mediator.Send(new PostRaidNotification(myraid, pendingRegion.RegionName));
+            //  await  _mediator.Send(new PostRaidNotification(myraid, pendingRegion.RegionName));
                 
-            }
+            //}
           
            
         }
 
-        private void GenerateRaidBoss(Regions regionName)
+        private async Task GenerateRaidBoss(Regions regionName)
         {
 
             RegionDto region = _regionService.GetRegionByRegionEnum(regionName);
             RaidBossDto raidBoss = _enemyService.GenerateNewRaidBoss();
             var state = _combatStateService.GetCombatStateByIdOrNew(0);
-            var stateId = _combatStateService.SaveState(state).Id;            
+            var stateId = _combatStateService.SaveState(state).Id;
             _regionService.SaveAndSetRegionToPending(region);
             raidBoss.RegionId = region.Id;
             raidBoss.StateId = stateId;
             var raidBossId = _enemyService.SaveRaidBoss(raidBoss).Id;
-            EnemyCombatStateAssignAndSave(stateId,raidBossId);
-           
+            await EnemyCombatStateAssignAndSave(stateId, raidBossId);
+
         }
-        private void EnemyCombatStateAssignAndSave(int stateId,int EnemyId)
+        private async Task EnemyCombatStateAssignAndSave(int stateId,int EnemyId)
         {
 
-            EnemyCombatStateDto state = _combatStateService.GetEnemyStateByIdOrNew(0);
+            EnemyCombatStateDto state = _combatStateService.GetEnemyStateByIdOrNew(stateId);
             state.IsActive = true;
             state.CombatStateId = stateId;
             state.ParticipantId = EnemyId;
             state.HadTurn = false;
             _combatStateService.SaveEnemyCombatState(state);
-
+            await Task.CompletedTask;  
         }
 
        

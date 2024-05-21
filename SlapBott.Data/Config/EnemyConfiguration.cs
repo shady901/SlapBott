@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SlapBott.Data.Models;
-using System.Reflection.Emit;
 
 namespace SlapBott.Data.Config
 {
@@ -10,6 +9,8 @@ namespace SlapBott.Data.Config
         public void Configure(EntityTypeBuilder<Enemy> builder)
         {
             builder.ToTable("Enemies");
+
+
     
         }
     }

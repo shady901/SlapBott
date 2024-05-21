@@ -51,7 +51,16 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<EnemyTemplate>(new EnemyTemplateConfiguration());
             modelBuilder.ApplyConfiguration<Region>(new RegionConfiguration());
             modelBuilder.ApplyConfiguration<DiscordGuild>(new DiscordGuildConfiguration());
-
+            // Iterate over all entity types in the model
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                // Iterate over all foreign key relationships for each entity type
+                foreach (var foreignKey in entityType.GetForeignKeys())
+                {
+                    // Set the delete behavior to Restrict to remove cascade delete
+                    foreignKey.DeleteBehavior = DeleteBehavior.NoAction;
+                }
+            }
         }
 
     }

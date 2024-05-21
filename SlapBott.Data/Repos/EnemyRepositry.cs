@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SlapBott.Data.Models;
 using System;
 
 namespace SlapBott.Data.Repos
@@ -33,18 +34,32 @@ namespace SlapBott.Data.Repos
         }
         public void AddOrUpdateEnemy(Enemy enemy)
         {
-            var meth = _dbContext.Enemies.Update;
-
-
             if (enemy.Id <= 0) // not in the database
             {
-                meth = _dbContext.Enemies.Add;
+                _dbContext.Enemies.Add(enemy);
+            }
+            else
+            {
+                _dbContext.Enemies.Update(enemy);
             }
 
-            meth(enemy);
+            //DisplayTrackedEnemy();
 
         }
+        //public void DisplayTrackedEnemy()
+        //{
+        //    var trackedEntities = _dbContext.ChangeTracker.Entries<RaidBoss>();
 
+        //    foreach (var entry in trackedEntities)
+        //    {
+        //        Console.WriteLine($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+
+        //        foreach (var property in entry.CurrentValues.Properties)
+        //        {
+        //            Console.WriteLine($"{property.Name}: {entry.CurrentValues[property]}");
+        //        }
+        //    }
+        //}
        
     }
 }

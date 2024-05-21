@@ -32,9 +32,10 @@ namespace SlapBott.Handlers
                 var channel = _discordClient.GetGuild(GuildId)?.GetTextChannel(RegionChannels[notification.Region]); // Replace 'YourRegion' with the appropriate region enum value
                 if (channel != null)
                 {
-                    // You can format your message content here
+                    // message content needs buttons and stuff for interactibility
                     var messageContent = $"Raid notification: {notification.Component.Name}"; // Example message content
                     await channel.SendMessageAsync(messageContent);
+                    
                 }
             }
         }

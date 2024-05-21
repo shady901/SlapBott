@@ -21,7 +21,7 @@ namespace SlapBott.Data.Repos
 
         public EnemyTemplate GetTemplate(Classes? classes = null, Races? race = null)
         {
-            IQueryable<EnemyTemplate> query = _dbContext.EnemyTemplates;
+            IQueryable<EnemyTemplate> query = _dbContext.EnemyTemplates.AsNoTracking();
 
             if (classes != null)
             {
@@ -42,8 +42,8 @@ namespace SlapBott.Data.Repos
             }
             int randomIndex = new Random().Next(totalCount-1);
             EnemyTemplate randomTemplate = templates[randomIndex];
-
             return randomTemplate;
         }
+       
     }
 }

@@ -57,8 +57,7 @@ namespace SlapBott.Data.Migrations
 
                     b.HasIndex("RaceId");
 
-                    b.HasIndex("StatsId")
-                        .IsUnique();
+                    b.HasIndex("StatsId");
 
                     b.ToTable("Characters");
                 });
@@ -197,7 +196,7 @@ namespace SlapBott.Data.Migrations
                             LearnedSkillIds = "[1]",
                             Name = "Skeleton Warrior",
                             RaceId = 5,
-                            Stats = "{\"resistanceTypes\":[10,14,11,12,13],\"Id\":0,\"Character\":null,\"stats\":{\"Dexterity\":0,\"Strength\":0,\"Intelligence\":0,\"CritChance\":0,\"MaxHealth\":0,\"Health\":0,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0},\"Health\":0,\"MaxHealth\":0,\"Strength\":0,\"Dexterity\":0,\"Intelligence\":0,\"CritChance\":0,\"AttackDamage\":0,\"SpellPower\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"ArmorRating\":0,\"DodgeChance\":0}"
+                            Stats = "{\"resistanceTypes\":[10,14,11,12,13],\"Id\":0,\"stats\":{\"Dexterity\":0,\"Strength\":0,\"Intelligence\":0,\"CritChance\":0,\"MaxHealth\":0,\"Health\":0,\"AttackDamage\":0,\"ArmorRating\":0,\"DodgeChance\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"SpellPower\":0,\"PhysicalDamage\":0,\"ElementalDamage\":0,\"Speed\":0,\"ChaosDamage\":0},\"Health\":0,\"MaxHealth\":0,\"Strength\":0,\"Dexterity\":0,\"Intelligence\":0,\"CritChance\":0,\"AttackDamage\":0,\"SpellPower\":0,\"ChaosResistance\":0,\"FireResistance\":0,\"PhysicalResistance\":0,\"FrostResistance\":0,\"LightningResistance\":0,\"ArmorRating\":0,\"DodgeChance\":0}"
                         });
                 });
 
@@ -324,42 +323,42 @@ namespace SlapBott.Data.Migrations
                         {
                             Id = 1,
                             HasActiveBoss = false,
-                            RegionName = 6,
+                            RegionName = 5,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 2,
                             HasActiveBoss = false,
-                            RegionName = 5,
+                            RegionName = 4,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 3,
                             HasActiveBoss = false,
-                            RegionName = 2,
+                            RegionName = 1,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 4,
                             HasActiveBoss = false,
-                            RegionName = 4,
+                            RegionName = 3,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 5,
                             HasActiveBoss = false,
-                            RegionName = 3,
+                            RegionName = 2,
                             isBossPending = false
                         },
                         new
                         {
                             Id = 6,
                             HasActiveBoss = false,
-                            RegionName = 1,
+                            RegionName = 0,
                             isBossPending = false
                         });
                 });
@@ -573,16 +572,18 @@ namespace SlapBott.Data.Migrations
                 {
                     b.HasOne("SlapBott.Data.Models.CharacterClass", "CharacterClass")
                         .WithMany("Character")
-                        .HasForeignKey("ClassId");
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("SlapBott.Data.Models.Race", "Race")
                         .WithMany("Character")
-                        .HasForeignKey("RaceId");
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("SlapBott.Data.Models.Stats", "Stats")
-                        .WithOne("Character")
-                        .HasForeignKey("SlapBott.Data.Models.Character", "StatsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany()
+                        .HasForeignKey("StatsId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("CharacterClass");
@@ -597,12 +598,13 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
                         .WithMany()
                         .HasForeignKey("CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SlapBott.Data.Models.Region", "Region")
                         .WithMany("Enemies")
-                        .HasForeignKey("RegionId");
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Character");
 
@@ -613,11 +615,13 @@ namespace SlapBott.Data.Migrations
                 {
                     b.HasOne("SlapBott.Data.Models.CharacterClass", "CharacterClass")
                         .WithMany()
-                        .HasForeignKey("ClassId");
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("SlapBott.Data.Models.Race", "Race")
                         .WithMany()
-                        .HasForeignKey("RaceId");
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CharacterClass");
 
@@ -629,7 +633,7 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
                         .WithOne("Inventory")
                         .HasForeignKey("SlapBott.Data.Models.Inventory", "CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Character");
@@ -640,13 +644,13 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
                         .WithOne()
                         .HasForeignKey("SlapBott.Data.Models.PlayerCharacter", "CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SlapBott.Data.Models.Registration", "Registration")
                         .WithMany("PlayerCharacters")
                         .HasForeignKey("RegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Character");
@@ -658,7 +662,8 @@ namespace SlapBott.Data.Migrations
                 {
                     b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
                         .WithMany()
-                        .HasForeignKey("ActiveCharacterId");
+                        .HasForeignKey("ActiveCharacterId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Character");
                 });
@@ -668,13 +673,13 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.Skill", "Skill")
                         .WithMany()
                         .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SlapBott.Services.Combat.Models.Turn", "Turn")
                         .WithMany("AttackRecords")
                         .HasForeignKey("TurnId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Skill");
@@ -687,13 +692,13 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Services.Combat.Models.CombatState", "CombatState")
                         .WithMany("Enemies")
                         .HasForeignKey("CombatStateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SlapBott.Data.Models.Enemy", "Enemy")
                         .WithMany()
                         .HasForeignKey("ParticipantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("CombatState");
@@ -706,13 +711,13 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Services.Combat.Models.CombatState", "CombatState")
                         .WithMany("Characters")
                         .HasForeignKey("CombatStateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SlapBott.Data.Models.PlayerCharacter", "Character")
                         .WithMany()
                         .HasForeignKey("ParticipantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Character");
@@ -725,14 +730,14 @@ namespace SlapBott.Data.Migrations
                     b.HasOne("SlapBott.Data.Models.Character", "Attacker")
                         .WithMany()
                         .HasForeignKey("AttackerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SlapBott.Services.Combat.Models.CombatState", "CombatState")
                         .WithMany("Turns")
                         .HasForeignKey("TurnId", "CombatStateId")
                         .HasPrincipalKey("CurrentTurnId", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Attacker");
@@ -763,12 +768,6 @@ namespace SlapBott.Data.Migrations
             modelBuilder.Entity("SlapBott.Data.Models.Registration", b =>
                 {
                     b.Navigation("PlayerCharacters");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.Stats", b =>
-                {
-                    b.Navigation("Character")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SlapBott.Services.Combat.Models.CombatState", b =>

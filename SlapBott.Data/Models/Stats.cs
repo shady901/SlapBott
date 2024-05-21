@@ -1,10 +1,6 @@
 ﻿using SlapBott.Data.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SlapBott.Data.Models
 {
@@ -12,7 +8,7 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
  
-        public virtual Character Character { get; set; }
+        //public virtual Character Character { get; set; }
 
         public Dictionary<StatType, int> stats { get; set; }
 
@@ -149,23 +145,6 @@ namespace SlapBott.Data.Models
 
         }
 
-        public Stats InitialiseRaidBossStats()
-        {
-            
-            Dictionary<StatType, int> Temp = new();
-            foreach (var stat in stats)
-            {
-                int modifiedValue = stat.Value * 10;
-                if (resistanceTypes.Contains(stat.Key))
-                {
-                    modifiedValue = 75;
-                }
-                Temp.Add(stat.Key,modifiedValue);
-            }
-            stats = Temp;
-
-            return this;
-        }
-        
+      
     }
 }

@@ -1,4 +1,5 @@
-﻿using SlapBott.Data.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using SlapBott.Data.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

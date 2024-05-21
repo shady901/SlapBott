@@ -27,6 +27,7 @@ namespace SlapBott.Services.Implmentations
         }
         public RaidBoss SaveRaidBoss(RaidBossDto raidBoss, RaidBoss? OriginalRb = null)
         {
+
             if (OriginalRb == null)
             {
                 OriginalRb = _enemyRepositry.GetEnemyByID<RaidBoss>(raidBoss.Id);
@@ -57,12 +58,17 @@ namespace SlapBott.Services.Implmentations
 
         public RaidBossDto GenerateNewRaidBoss(Classes? classes = null,Races? races = null )
         {
-
+            var template = _enemyTemplateRepositry.GetTemplate(classes: classes, race: races);
             RaidBossDto raidBoss = new RaidBossDto() { };
-            raidBoss.AssignTemplateToBoss(_enemyTemplateRepositry.GetTemplate(classes:classes, race:races));
+            raidBoss.AssignTemplateToBoss(template);
             raidBoss.Stats.InitialiseRaidBossStats();            
+
+
+
             return raidBoss;
+
         }
+       
 
     }
 }
