@@ -58,6 +58,21 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Inventories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Equiped = table.Column<string>(type: "TEXT", nullable: true),
+                    Bag = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inventories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PlayersStats",
                 columns: table => new
                 {
@@ -142,6 +157,11 @@ namespace SlapBott.Data.Migrations
                         principalTable: "CharacterClasses",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Characters_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Characters_PlayersStats_StatsId",
                         column: x => x.StatsId,
                         principalTable: "PlayersStats",
@@ -204,26 +224,6 @@ namespace SlapBott.Data.Migrations
                         name: "FK_Enemies_Regions_RegionId",
                         column: x => x.RegionId,
                         principalTable: "Regions",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Inventories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Equiped = table.Column<string>(type: "TEXT", nullable: true),
-                    Bag = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inventories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Inventories_Characters_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Characters",
                         principalColumn: "Id");
                 });
 
@@ -418,6 +418,12 @@ namespace SlapBott.Data.Migrations
                 column: "ClassId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Characters_InventoryId",
+                table: "Characters",
+                column: "InventoryId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Characters_RaceId",
                 table: "Characters",
                 column: "RaceId");
@@ -456,12 +462,6 @@ namespace SlapBott.Data.Migrations
                 name: "IX_EnemyTemplates_RaceId",
                 table: "EnemyTemplates",
                 column: "RaceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Inventories_CharacterId",
-                table: "Inventories",
-                column: "CharacterId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayerCharacter_CharacterId",
@@ -525,6 +525,10 @@ namespace SlapBott.Data.Migrations
                 table: "Characters");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Characters_Inventories_InventoryId",
+                table: "Characters");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Characters_PlayersStats_StatsId",
                 table: "Characters");
 
@@ -550,9 +554,6 @@ namespace SlapBott.Data.Migrations
                 name: "EnemyTemplates");
 
             migrationBuilder.DropTable(
-                name: "Inventories");
-
-            migrationBuilder.DropTable(
                 name: "PlayerCharacterCombatState");
 
             migrationBuilder.DropTable(
@@ -575,6 +576,9 @@ namespace SlapBott.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CharacterClasses");
+
+            migrationBuilder.DropTable(
+                name: "Inventories");
 
             migrationBuilder.DropTable(
                 name: "PlayersStats");

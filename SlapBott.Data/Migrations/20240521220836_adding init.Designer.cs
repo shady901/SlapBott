@@ -11,7 +11,7 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240521064446_adding init")]
+    [Migration("20240521220836_adding init")]
     partial class addinginit
     {
         /// <inheritdoc />
@@ -57,6 +57,9 @@ namespace SlapBott.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("InventoryId")
+                        .IsUnique();
 
                     b.HasIndex("RaceId");
 
@@ -219,9 +222,6 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CharacterId")
-                        .IsUnique();
 
                     b.ToTable("Inventories");
                 });
@@ -578,6 +578,12 @@ namespace SlapBott.Data.Migrations
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("SlapBott.Data.Models.Inventory", "Inventory")
+                        .WithOne("Character")
+                        .HasForeignKey("SlapBott.Data.Models.Character", "InventoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("SlapBott.Data.Models.Race", "Race")
                         .WithMany("Character")
                         .HasForeignKey("RaceId")
@@ -590,6 +596,8 @@ namespace SlapBott.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("CharacterClass");
+
+                    b.Navigation("Inventory");
 
                     b.Navigation("Race");
 
@@ -629,17 +637,6 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("CharacterClass");
 
                     b.Navigation("Race");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
-                {
-                    b.HasOne("SlapBott.Data.Models.Character", "Character")
-                        .WithOne("Inventory")
-                        .HasForeignKey("SlapBott.Data.Models.Inventory", "CharacterId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
@@ -748,14 +745,15 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("CombatState");
                 });
 
-            modelBuilder.Entity("SlapBott.Data.Models.Character", b =>
-                {
-                    b.Navigation("Inventory");
-                });
-
             modelBuilder.Entity("SlapBott.Data.Models.CharacterClass", b =>
                 {
                     b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
+                {
+                    b.Navigation("Character")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Race", b =>
