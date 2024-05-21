@@ -11,6 +11,7 @@ namespace SlapBott.Services.Dtos
 {
     public class StatsDto
     {
+        
         public Dictionary<StatType, int> stats { get; set; }
 
         public HashSet<StatType> resistanceTypes = new HashSet<StatType>
@@ -54,7 +55,7 @@ namespace SlapBott.Services.Dtos
             stats = Stats.stats;
             return this;
         }
-        public Stats ToStats(Stats stats)
+        public Stats ToStats(Stats? stats = null)
         {
             if (stats == null)
             {

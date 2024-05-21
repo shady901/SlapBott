@@ -89,6 +89,10 @@ namespace SlapBott.Services.Dtos
 
         internal Inventory? ToInventory(Inventory? inventory = null)
         {
+            if (inventory == null)
+            { 
+                inventory = new Inventory();
+            }
             inventory.Equiped = Equiped;
             inventory.Bag = Bag;
             return inventory;

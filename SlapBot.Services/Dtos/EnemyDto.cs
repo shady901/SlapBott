@@ -21,7 +21,7 @@ namespace SlapBott.Services.Dtos
                 Id = enemy.Id,
                 Name = enemy.Character.Name,
                 Description = enemy.Character.Description,
-                Stats = enemy.Character.Stats,
+                Stats = new StatsDto().FromStats(enemy.Character.Stats),
 
             };
         }
@@ -32,7 +32,7 @@ namespace SlapBott.Services.Dtos
                 Id = enemy.Id,
                 Name = enemy.Character.Name,
                 Description = enemy.Character.Description,
-                Stats = enemy.Character.Stats,
+                Stats = new StatsDto().FromStats(enemy.Character.Stats),
            
             };
         }
@@ -42,7 +42,7 @@ namespace SlapBott.Services.Dtos
             enemy.Id = Id;
             enemy.Character.Name = Name;
             enemy.Character.Description = Description;
-            enemy.Character.Stats = Stats;
+            enemy.Character.Stats = Stats.ToStats();
             
             return enemy;
         }

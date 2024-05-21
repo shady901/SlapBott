@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Notifactions
 {
-    public class PostRaidNotification(RaidBossDto bossDto,Regions region) : INotification
+    public class SendRaidBossRequest(RaidBossDto bossDto,Regions region) : IRequest<bool>
     {
         public RaidBossDto Component = bossDto;
         public Regions Region = region;

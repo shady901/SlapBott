@@ -10,6 +10,7 @@ using SlapBott.Data.Models;
 using SlapBott.Services.Implmentations;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Channels;
@@ -47,11 +48,16 @@ namespace SlapBott.Commands
             
 
             IRole Role = await GetOrCreateRole();
+            var botGuildUser = Context.Guild.GetUser(Context.Client.CurrentUser.Id);
+
+            // Assign the role to the bot
+            await (botGuildUser as IGuildUser).AddRoleAsync(Role);
 
             ICategoryChannel categoryChannel = await GetOrCreateCategoryChannelAsync(Role);
-          
+           
              List<ITextChannel> ExistingChannels = (List<ITextChannel>)CheckCategoryChannelForChannels(categoryChannel);
            
+         
             Dictionary<Regions,ulong> channels= CreateChannels(GetChannelProperties(categoryChannel.Id),ExistingChannels);
             _discordGuildService.SaveGuild(new DiscordGuild() {GuildId = discordGuildId,CategoryId=categoryChannel.Id,ConfiguredChannels=channels });
             await RespondAsync("Channels And Role Permissions Setup");

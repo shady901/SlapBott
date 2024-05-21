@@ -14,14 +14,14 @@ using Discord;
 using Discord.WebSocket;
 using SlapBott.Services.Notifactions;
 
-namespace SlapBott.Handlers
+namespace SlapBott.RequestHandlers
 {
-    public class PostRaidHandler(IMediator mediator, DiscordSocketClient discordClient) : INotificationHandler<PostRaidNotification>
+    public class SendRaidBossRequestHandler(IMediator mediator, SlapbottDiscordSocketClient discordClient) : IRequestHandler<SendRaidBossRequest, bool>
     {
-        private IMediator _mediator { get; } = mediator;
-        private readonly DiscordSocketClient _discordClient = discordClient;
+        private IMediator _mediator = mediator;
+        private readonly SlapbottDiscordSocketClient _discordClient = discordClient;
 
-        public async Task Handle(PostRaidNotification notification, CancellationToken cancellationToken)
+        public async Task<bool> Handle(SendRaidBossRequest notification, CancellationToken cancellationToken)
         {
             var Guilds = await _mediator.Send(new GetAllGuilds());
             foreach (var guild in Guilds)
@@ -34,10 +34,22 @@ namespace SlapBott.Handlers
                 {
                     // message content needs buttons and stuff for interactibility
                     var messageContent = $"Raid notification: {notification.Component.Name}"; // Example message content
-                    await channel.SendMessageAsync(messageContent);
-                    
+                    try
+                    {
+                        await channel.SendMessageAsync(messageContent);
+
+                    }
+                    catch (Exception x)
+                    {
+
+                        Console.WriteLine(x.Message);
+                    }
+                   
                 }
             }
+            return true;
         }
+
+        
     }
 }

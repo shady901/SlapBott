@@ -75,12 +75,8 @@
 
             //var discordclient = await SlapBottDiscordClient.StartAsync(_servicesProvider);
 
-            var s = _servicesProvider.GetService<RaidService>();
+            //var s = _servicesProvider.GetService<RaidService>();
 
-            s.RaidCheck(null);
-
-            await Task.Delay(60000);
-            s.RaidCheck(null);
 
             //TimerCallback callback = _servicesProvider.GetService<RaidService>().RaidCheck;
 

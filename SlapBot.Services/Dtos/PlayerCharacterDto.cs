@@ -29,7 +29,6 @@ namespace SlapBott.Services.Dtos
         public CharacterClassDto? CharacterClass { get; set; }
         public SubClassDto? SubClass { get; set; }
         //equipement inventory starts at id of 
-        public InventoryDto? Inventory { get; set; }
         public string? Name { get; set; } 
         public string? Description { get; set; }
       //  public int CharId { get; private set; }
@@ -50,7 +49,7 @@ namespace SlapBott.Services.Dtos
 
                 regId = playercharacter.RegistrationId,
                 statsId = playercharacter.Character.StatsId,
-                Stats = playercharacter.Character.Stats,
+                Stats = new StatsDto().FromStats(playercharacter.Character.Stats),
                 IsTemp = playercharacter.IsTemp,
                 Name = playercharacter.Character.Name ?? "Temp",
                 Description = playercharacter.Character.Description ?? "Temp",
@@ -65,6 +64,7 @@ namespace SlapBott.Services.Dtos
                 CombatStateId = playercharacter.Character.CombatStateID,
                 SelectedClass = playercharacter.Character.ClassId is null ? Classes.None : (Classes)playercharacter.Character.ClassId,
                 CharacterClass = playercharacter.Character.CharacterClass is null ? new CharacterClassDto() : new CharacterClassDto().FromClass(playercharacter.Character.CharacterClass),
+                InventoryId = playercharacter.Character.InventoryId,
                 Inventory = new InventoryDto().FromInventory(playercharacter.Character.Inventory),
             };
             
@@ -77,13 +77,12 @@ namespace SlapBott.Services.Dtos
             playerCharacter.DiscordId = DiscordId;
             playerCharacter.Character.Name = Name;
             playerCharacter.Character.Description = Description;
-            playerCharacter.Character.Stats = Stats;
+            playerCharacter.Character.Stats = Stats.ToStats(playerCharacter.Character.Stats);
             playerCharacter.IsTemp = IsTemp;
             playerCharacter.Character.RaceId = (int)SelectedRace;
             playerCharacter.Character.ClassId = SelectedClass == Classes.None ? null : (int)SelectedClass;
             playerCharacter.Character.LearnedSkillIds = Skills;
-            playerCharacter.Character.Inventory = Inventory?.ToInventory();
-           
+            playerCharacter.Character.Inventory = Inventory.ToInventory(playerCharacter.Character.Inventory);
             return playerCharacter;
         }
 

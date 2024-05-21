@@ -29,15 +29,16 @@ namespace SlapBott.Commands
             var UserId = Context.User.Id;
             try
             {
-                if (_registrationService.CharacterLimitReachedByDiscordId(UserId))
-                {
 
-                    await Context.Interaction.RespondAsync("You have Reached The Limit Of Characters You Cannot Create Anymore",ephemeral:true);
-                    return;
-                }
-            
                 if (_registrationService.CheckIfPlayerExists(UserId))
                 {
+                    if (_registrationService.CharacterLimitReachedByDiscordId(UserId))
+                    {
+
+                        await Context.Interaction.RespondAsync("You have Reached The Limit Of Characters You Cannot Create Anymore", ephemeral: true);
+                        return;
+                    }
+
                     await Context.Interaction.RespondAsync(embed: BuilderReplies.ChoseRaceEmbed(), components: BuilderReplies.GetChoseRaceMessageComponent(), ephemeral:true);
 
                 }
@@ -45,6 +46,7 @@ namespace SlapBott.Commands
                 {
                     await Context.Interaction.RespondAsync("U have not Joined the Bot");
                 }
+
             }
             catch (Exception ex)
             {

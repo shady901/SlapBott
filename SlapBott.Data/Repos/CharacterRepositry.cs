@@ -18,13 +18,17 @@ namespace SlapBott.Data.Repos
             PlayerCharacter? playerCharacter = null;
             try
             {
-                 playerCharacter = await _dbContext.PlayerCharacter
-                    .Where(pc => pc.DiscordId == id && pc.IsTemp && pc.RegistrationId == regId)
-                    .Include(pc => pc.Character.Stats)
-                    .Include(pc => pc.Character.Race)
-                    .Include(pc => pc.Character.CharacterClass)
-                    .Include(pc => pc.Character.Inventory)                   
-                    .FirstOrDefaultAsync();
+                if (id > 0 & regId >0)
+                {
+                    playerCharacter = await _dbContext.PlayerCharacter
+                  .Where(pc => pc.DiscordId == id && pc.IsTemp && pc.RegistrationId == regId)
+                  .Include(pc => pc.Character.Stats)
+                  .Include(pc => pc.Character.Race)
+                  .Include(pc => pc.Character.CharacterClass)
+                  .Include(pc => pc.Character.Inventory)
+                  .FirstOrDefaultAsync();
+                }
+               
             }catch( Exception ex )
             {
                 Console.WriteLine(ex.Message);

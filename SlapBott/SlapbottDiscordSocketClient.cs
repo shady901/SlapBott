@@ -12,7 +12,7 @@ using SlapBott.Notifications;
 
 namespace SlapBott
 {
-    internal class SlapbottDiscordSocketClient : DiscordSocketClient, IDisposable
+    public class SlapbottDiscordSocketClient : DiscordSocketClient, IDisposable
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IMediator _mediator;
@@ -33,26 +33,26 @@ namespace SlapBott
             
             await LoginAsync(token, client_token);
             await StartAsync();
-
-           // await RaidChecker();
-            
+          
+            Ready += SlapbottDiscordSocketClient_Ready;
             return this;
 
         }
 
+        private async Task SlapbottDiscordSocketClient_Ready()
+        {
+            await RaidChecker();          
+        }
+
         private Task RaidChecker()
         {
+            TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
+            TimeSpan interval = TimeSpan.FromDays(1);
 
-            var d = serviceProvider.GetService<RaidService>();
+            // Delay the first call to RaidCheck by the interval
+            TimeSpan dueTime = interval;
 
-            //TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
-
-            // Create a timer that ticks every hour
-            //TimeSpan interval = TimeSpan.FromSeconds(60);
-            //_timer = new Timer(callback, null, TimeSpan.Zero, interval);
-
-            //d.RaidCheck(null); 
-            d.RaidCheck(null);
+            _timer = new Timer(callback, null, dueTime, interval);
 
             return Task.CompletedTask;
 

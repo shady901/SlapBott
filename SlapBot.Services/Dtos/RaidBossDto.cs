@@ -16,7 +16,7 @@ namespace SlapBott.Services.Dtos
                 Id = boss.Id,
                 Name = boss.Character.Name,
                 Description = boss.Character.Description ?? string.Empty,
-                Stats = boss.Character.Stats,
+                Stats = new StatsDto().FromStats(boss.Character.Stats),
                 RaceID = (int)boss.Character.RaceId,
                 ClassID = (int)boss.Character.ClassId,
                 RegionId = boss.RegionId,
@@ -47,7 +47,7 @@ namespace SlapBott.Services.Dtos
             raidBoss.RegionId = RegionId;
             raidBoss.Character.Name = Name??string.Empty;
             raidBoss.Character.Description = Description??string.Empty;
-            raidBoss.Character.Stats = Stats;
+            raidBoss.Character.Stats = Stats.ToStats();
             raidBoss.Character.RaceId = RaceID;
             raidBoss.Character.ClassId = ClassID;
             raidBoss.Character.CombatStateID = StateId;
@@ -59,7 +59,7 @@ namespace SlapBott.Services.Dtos
             
             Name = enemyTemplate.Name;
             Description = enemyTemplate.Description;
-            Stats = enemyTemplate.Stats;
+            Stats =new StatsDto().FromStats(enemyTemplate.Stats);
             RaceID = (int)enemyTemplate.RaceId;
             ClassID = (int)enemyTemplate.ClassId;
            

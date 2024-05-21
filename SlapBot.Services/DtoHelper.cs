@@ -16,7 +16,8 @@ namespace SlapBott.Services
 
                 foreach (var item in inT)
                 {
-                    var d = fromRecordMethod.Invoke(null, new object[] { item });
+                    var instance = Activator.CreateInstance(typeof(Tout));
+                    var d = fromRecordMethod.Invoke(instance, new object[] { item });
                     dtos.Add((Tout)d);
                 }
             }
