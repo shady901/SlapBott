@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SlapBott.Services.Implmentations;
 using MediatR;
 using SlapBott.Notifications;
+using System.ComponentModel;
 
 // Here we can initialize the service that will register and execute our commands
 //await serviceProvider.GetRequiredService<InteractionHandler>()
@@ -23,21 +24,41 @@ namespace SlapBott
             SlashCommandExecuted += Client_SlashCommandExecuted;
             SelectMenuExecuted += Client_SelectMenuExecuted;
             ModalSubmitted += Client_ModalSubmitted;
+            ButtonExecuted += SlapbottDiscordSocketClient_ButtonExecuted;
+            GuildScheduledEventCreated += SlapbottDiscordSocketClient_GuildScheduledEventCreated;
+            InviteCreated += SlapbottDiscordSocketClient_InviteCreated;
+            Ready += SlapbottDiscordSocketClient_Ready;
+
             this.serviceProvider = serviceProvider;
             _mediator = mediator;
         }
 
+      
         public async Task<SlapbottDiscordSocketClient> StartAsync(TokenType token,string client_token)
         {
 
             
             await LoginAsync(token, client_token);
             await StartAsync();
-          
-            Ready += SlapbottDiscordSocketClient_Ready;
+
+
+
+            
             return this;
 
         }
+
+        private Task SlapbottDiscordSocketClient_InviteCreated(SocketInvite arg)
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task SlapbottDiscordSocketClient_GuildScheduledEventCreated(SocketGuildEvent arg)
+        {
+            return Task.CompletedTask;
+        }
+
+       
 
         private async Task SlapbottDiscordSocketClient_Ready()
         {
@@ -47,7 +68,7 @@ namespace SlapBott
         private Task RaidChecker()
         {
             TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
-            TimeSpan interval = TimeSpan.FromDays(1);
+            TimeSpan interval = TimeSpan.FromSeconds(15);
 
             // Delay the first call to RaidCheck by the interval
             TimeSpan dueTime = interval;
@@ -56,6 +77,12 @@ namespace SlapBott
 
             return Task.CompletedTask;
 
+        }
+        private Task SlapbottDiscordSocketClient_ButtonExecuted(SocketMessageComponent component)
+        {
+            Console.WriteLine($"Client_ButtoneExecuted: {component.Data.CustomId}");
+            _mediator.Publish(new ButtonExecuted(component));
+            return Task.CompletedTask;
         }
 
         private Task Client_ModalSubmitted(SocketModal modal)

@@ -34,9 +34,10 @@ namespace SlapBott.RequestHandlers
                 {
                     // message content needs buttons and stuff for interactibility
                     var messageContent = $"Raid notification: {notification.Component.Name}"; // Example message content
+                  
                     try
                     {
-                        await channel.SendMessageAsync(messageContent);
+                        await channel.SendMessageAsync(messageContent,components:new ComponentBuilder().WithButton(BuilderReplies.JoinRaidButton(notification.Component.Id)).Build());
 
                     }
                     catch (Exception x)

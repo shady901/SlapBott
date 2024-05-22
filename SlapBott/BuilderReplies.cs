@@ -1,4 +1,5 @@
 ﻿using Discord;
+using SlapBott.CommandsEnum;
 using SlapBott.Data.Enums;
 using SlapBott.Enums;
 using SlapBott.ItemProject.Items;
@@ -162,6 +163,13 @@ namespace SlapBott
 
             return embed.Build();
         }
-
+        public static ButtonBuilder JoinRaidButton(int id)
+        {
+            ButtonBuilder myButton = new ButtonBuilder();
+            myButton.WithCustomId(ButtonCustomIds.JoinRaid.ToString()+$" {id}");
+            myButton.WithStyle(ButtonStyle.Danger);
+            myButton.WithLabel("Join Raid Boss");
+            return myButton;
+        }
     }
 }

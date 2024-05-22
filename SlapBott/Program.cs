@@ -18,7 +18,10 @@
 
         private static readonly DiscordSocketConfig _socketConfig = new()
         {
-            GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.GuildMembers,
+            GatewayIntents = GatewayIntents.MessageContent |
+                     GatewayIntents.GuildMembers |
+                     GatewayIntents.GuildMessages |
+                     GatewayIntents.GuildMessageReactions,
             AlwaysDownloadUsers = true,
         };
 

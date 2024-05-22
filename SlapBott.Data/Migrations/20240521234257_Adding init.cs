@@ -7,7 +7,7 @@
 namespace SlapBott.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addinginit : Migration
+    public partial class Addinginit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

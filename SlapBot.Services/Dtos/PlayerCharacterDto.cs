@@ -19,9 +19,9 @@ namespace SlapBott.Services.Dtos
         public RaceDto? Race { get; set; }
         public ulong DiscordId { get; set; }
         //public Stats Stats { get; set; }
-        public int regId { get; set; }
+        public int RegId { get; set; }
         public ulong CharExp { get; set; }
-        public int level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
+        public int Level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
         //   public List<Ailments> ailments { get; set; }
         //   public List<Buff> Buffs { get; set; }
 
@@ -32,7 +32,7 @@ namespace SlapBott.Services.Dtos
         public string? Name { get; set; } 
         public string? Description { get; set; }
       //  public int CharId { get; private set; }
-        public int statsId { get; set; }
+        public int StatsId { get; set; }
         public int CombatStateId { get; set; } = 0;
        
         public static PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
@@ -47,8 +47,8 @@ namespace SlapBott.Services.Dtos
             return new PlayerCharacterDto
             {
 
-                regId = playercharacter.RegistrationId,
-                statsId = playercharacter.Character.StatsId,
+                RegId = playercharacter.RegistrationId,
+                StatsId = playercharacter.Character.StatsId,
                 Stats = new StatsDto().FromStats(playercharacter.Character.Stats),
                 IsTemp = playercharacter.IsTemp,
                 Name = playercharacter.Character.Name ?? "Temp",
@@ -73,7 +73,7 @@ namespace SlapBott.Services.Dtos
         public PlayerCharacter ToCharacter(PlayerCharacter? playerCharacter = null)
         {
            
-            playerCharacter.RegistrationId = regId;
+            playerCharacter.RegistrationId = RegId;
             playerCharacter.DiscordId = DiscordId;
             playerCharacter.Character.Name = Name;
             playerCharacter.Character.Description = Description;
@@ -114,10 +114,10 @@ namespace SlapBott.Services.Dtos
         public void AddExp(int exp)
         {
 
-            var oldlevel = level;
+            var oldlevel = Level;
             CharExp += (ulong)exp;
 
-            HasLeveled = oldlevel != level;
+            HasLeveled = oldlevel != Level;
         }
 
        

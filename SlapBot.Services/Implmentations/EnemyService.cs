@@ -49,7 +49,7 @@ namespace SlapBott.Services.Implmentations
 
         public T GetEnemyTargetByID<T>(int EnemyID) where T : Target
         {
-            return GetEnemyAs<T, Enemy>(EnemyID); ;
+            return GetEnemyAs<T, Enemy>(EnemyID); 
         }
         private T GetEnemyByID<T>(int EnemyID) where T : Enemy 
         {
