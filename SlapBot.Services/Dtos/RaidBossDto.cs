@@ -21,7 +21,7 @@ namespace SlapBott.Services.Dtos
                 ClassID = (int)boss.Character.ClassId,
                 RegionId = boss.RegionId,
                 StateId = boss.Character.CombatStateID,
-               
+                
             };
         } 
 

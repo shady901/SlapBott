@@ -10,6 +10,8 @@
     using System;
     using Microsoft.EntityFrameworkCore;
     using SlapBott.Services.Implmentations;
+    using MediatR;
+    using SlapBott.RequestHandlers;
 
     public class Program
     {
@@ -48,7 +50,7 @@
                         x
                     );
                 });
-
+        
             Services.Startup.ConfigureServices(_services);
             Startup.ConfigureServices(_services, Properties.Resources.DbConnection);
 

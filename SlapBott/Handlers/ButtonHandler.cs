@@ -11,7 +11,7 @@ namespace SlapBott.Handlers
 {
     public class ButtonHandler(IMediator mediator) : INotificationHandler<ButtonExecuted>
     {
-        private readonly IMediator _mediator = mediator;
+        private IMediator _mediator = mediator;
         private SocketMessageComponent _button;
         public async Task Handle(ButtonExecuted notification, CancellationToken cancellationToken)
         {
@@ -51,12 +51,13 @@ namespace SlapBott.Handlers
         }
         private async void JoinRaid(int raidBossId)
         {
-            
-            
-            //get channel id/name and compare with DB to get raidboss
-            //request for combatstate
-          RaidBossDto raidBossDto = await _mediator.Send(new RequestGetEnemyCharacter<RaidBossDto>(raidBossId));
-            int stateId = raidBossDto.StateId;
+//probs check for active character
+
+            RaidBossDto raidBossDto = await _mediator.Send(new RequestGetEnemyCharacter(raidBossId));
+            PlayerCharacterDto player = await _mediator.Send(new RequestGetExistingCharacterOrNew(_button.User.Id));
+            await _mediator.Publish(new CreateAndAssignPlayerStateNotification(player.Id, raidBossDto.StateId));
+            player.StateId = raidBossDto.StateId;
+            await _mediator.Send(new RequestSavePlayerCharacterDto(player));
             //check if combat has started reply with fight has already begun and dismiss
             //request to be inputed into combat state
 
