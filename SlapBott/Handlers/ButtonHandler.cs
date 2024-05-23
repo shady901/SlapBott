@@ -5,14 +5,16 @@ using SlapBott.CommandsEnum;
 using SlapBott.Notifications;
 using SlapBott.Requests;
 using SlapBott.Services.Dtos;
+using SlapBott.Services.Implmentations;
 
 
 namespace SlapBott.Handlers
 {
-    public class ButtonHandler(IMediator mediator) : INotificationHandler<ButtonExecuted>
+    public class ButtonHandler(IMediator mediator, SkillService skillService) : INotificationHandler<ButtonExecuted>
     {
         private IMediator _mediator = mediator;
         private SocketMessageComponent _button;
+        private SkillService _skillService = skillService;
         public async Task Handle(ButtonExecuted notification, CancellationToken cancellationToken)
         {
             _button = notification.socketButtonComponent;
@@ -51,13 +53,27 @@ namespace SlapBott.Handlers
         }
         private async void JoinRaid(int raidBossId)
         {
-//probs check for active character
+           
+            RegistrationDto reg= await _mediator.Send(new GetRegistration(_button.User.Id));
+           
+            RaidBossDto raidBossDto =  await _mediator.Send(new RequestGetEnemyCharacter(raidBossId));
+            PlayerCharacterDto player = await _mediator.Send(new RequestGetExistingCharacterOrNew(_button.User.Id, reg.ActiveCharacterId));
+            if (player.StateId <=0) // check if player has a state active already
+            {
+                await _mediator.Publish(new CreateAndAssignPlayerStateNotification(player.Id, raidBossDto.StateId));
+                player.StateId = raidBossDto.StateId;
+                await _mediator.Send(new RequestSavePlayerCharacterDto(player));
+                await _button.RespondAsync("BossData And DropDownNotImplemented",
+                    embed: BuilderReplies.DisplayCharacterObjectSheet(raidBossDto),
+                    components:BuilderReplies.CreateSkillsDropDown(_skillService.GetSkillCollectionByIds(player.Skills).ToList(),raidBossId,Enums.SelectMenuCommands.UseSkill),
+                    ephemeral: true);
 
-            RaidBossDto raidBossDto = await _mediator.Send(new RequestGetEnemyCharacter(raidBossId));
-            PlayerCharacterDto player = await _mediator.Send(new RequestGetExistingCharacterOrNew(_button.User.Id));
-            await _mediator.Publish(new CreateAndAssignPlayerStateNotification(player.Id, raidBossDto.StateId));
-            player.StateId = raidBossDto.StateId;
-            await _mediator.Send(new RequestSavePlayerCharacterDto(player));
+            }
+            else
+            {
+               await _button.RespondAsync("This Character is Already In Combat",ephemeral: true);
+            }
+          
             //check if combat has started reply with fight has already begun and dismiss
             //request to be inputed into combat state
 

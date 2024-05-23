@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Requests
 {
-    public class RequestGetEnemyCharacter : IRequest<RaidBossDto>
+    public class RequestGetEnemyCharacter : IRequest<EnemyDto>
     {
         public int EnemyId { get; }
 

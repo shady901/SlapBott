@@ -133,16 +133,7 @@ namespace SlapBott
             return embed;
         }
        
-        public static Embed DisplayCharacterObject<T>(T DisplayObject) where T : IDisplayAble
-        {
-            var embed = new EmbedBuilder()
-             .WithTitle($"{DisplayObject.Name ?? "BossNameDisplayIssue"}")
-             .WithDescription("")
-             .WithFooter("");
-                      
-           
-            return embed.Build();
-        }
+      
         public static Embed EmbedObject(DisplayDto DisplayObject) 
         {
             var embed = new EmbedBuilder()
@@ -153,12 +144,12 @@ namespace SlapBott
 
             return embed.Build();
         }
-        public static Embed DisplayCharacterObjectSheet<T>(T DisplayObject) where T : IDisplayAble
+        public static Embed DisplayCharacterObjectSheet<T>(T DisplayObject) where T : IDisplayable
         {
             var embed = new EmbedBuilder()
              .WithTitle($"{DisplayObject.Name ?? "BossNameDisplayIssue"}")
-             .WithDescription("")
-             .WithFooter("");
+             .WithDescription($"{DisplayObject.Description}")
+             .WithFooter($"FooterText");
 
 
             return embed.Build();
@@ -170,6 +161,23 @@ namespace SlapBott
             myButton.WithStyle(ButtonStyle.Danger);
             myButton.WithLabel("Join Raid Boss");
             return myButton;
+        }
+        public static MessageComponent CreateSkillsDropDown(List<SkillDto> skills, int EnemyCustomId, SelectMenuCommands selectMenuCommand)
+        {
+            var em = new SelectMenuBuilder()
+            .WithPlaceholder("Select A Skill You Would like To Use")
+            .WithCustomId(selectMenuCommand.ToString() + $" {EnemyCustomId}")
+            .WithMinValues(1)
+            .WithMaxValues(1);
+           foreach (var skill in skills)
+            {
+                em.AddOption(skill.Name,skill.Id.ToString(),skill.Description);
+            }
+            var builder = new ComponentBuilder()
+             .WithSelectMenu(em)
+             .Build();
+
+            return builder;
         }
     }
 }

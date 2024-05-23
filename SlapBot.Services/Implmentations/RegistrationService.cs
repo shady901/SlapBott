@@ -50,6 +50,7 @@ namespace SlapBott.Services.Implmentations
 
         public void SaveRegistration(Registration p)
         {
+          
             _registrationRepositry.SaveRegistration(p);
         }
 

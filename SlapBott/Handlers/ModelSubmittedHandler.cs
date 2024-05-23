@@ -43,7 +43,9 @@ namespace SlapBott.Handlers
                 case ModalSubmittedCommands.NameAndDescription:
 
                     playercharacter = await _mediator.Send(new UpdateNameAndDescriptionPlayerCharacter(playercharacter, modal.Data.Components), cancellationToken);
-                    await _mediator.Send(new RequestSavePlayerCharacterDto(playercharacter));
+                   playercharacter = await _mediator.Send(new RequestSavePlayerCharacterDto(playercharacter));
+                    registration.ActiveCharacterId = playercharacter.Id;
+                    await _mediator.Send(new SaveRegistrationRequest(registration));
                     await modal.RespondAsync(embed:BuilderReplies.ReplyCreatedCompleteEmbed(playercharacter.Name,playercharacter.Description,playercharacter.SelectedRace.ToString(),playercharacter.SelectedClass.ToString()));
                     break;
                 default:

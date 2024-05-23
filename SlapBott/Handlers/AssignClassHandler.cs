@@ -21,6 +21,7 @@ namespace SlapBott.Handlers
             var Data = component.Component.Data;
             PlayerCharacterDto Character = await Mediator.Send(new RequestGetExistingCharacterOrNew(User.Id));
             Character.SelectedClass = (Classes)Enum.Parse(typeof(Classes), Data.Values.First());
+            Character.Skills.Add(1);
             await Mediator.Send(new RequestSavePlayerCharacterDto(Character));
             var Modal = BuilderReplies.ModalCharacterNameDescription();
             await component.Component.RespondWithModalAsync(Modal);

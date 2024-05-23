@@ -1,7 +1,7 @@
 ﻿
 namespace SlapBott.Enums
 {
-    internal enum ModalSubmittedCommands
+    public enum ModalSubmittedCommands
     {
 
        NameAndDescription 
@@ -11,8 +11,9 @@ namespace SlapBott.Enums
 
 
     
-    internal enum SelectMenuCommands
+    public enum SelectMenuCommands
     {
+        UseSkill,
         AssigningRace,
         AssignClass,
         AssignSubClass,

@@ -18,13 +18,18 @@ namespace SlapBott.Services.Implmentations
         {
             return await _playerCharacterRepositry.GetTempPlayerCharacterByDiscordID(id,regId);
         }
-        public async Task SaveCharacter(PlayerCharacterDto p)
+        public async Task<PlayerCharacter> GetPlayerCharacterByCharacterId(int id)
+        {
+            return await _playerCharacterRepositry.GetPlayerCharacterByCharacterId(id);
+        }
+        public async Task<PlayerCharacterDto> SaveCharacter(PlayerCharacterDto p)
         {
 
             PlayerCharacter? player = await _playerCharacterRepositry.GetPlayerCharacterByDiscordID(p.DiscordId, p.RegId);
+           
 
-          
-            _playerCharacterRepositry.SaveCharacter(p.ToCharacter(player));
+
+          return PlayerCharacterDto.FromCharacter( _playerCharacterRepositry.SaveCharacter(p.ToCharacter(player)));
         }
     }
 }

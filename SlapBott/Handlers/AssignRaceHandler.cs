@@ -24,6 +24,7 @@ namespace SlapBott.Handlers
             PlayerCharacterDto Character = await Mediator.Send(new RequestGetExistingCharacterOrNew(User.Id));           
             Character.SelectedRace = (Races)Enum.Parse(typeof(Races), Data.Values.First());          
             await Mediator.Send(new RequestSavePlayerCharacterDto(Character));
+            
             var embed = BuilderReplies.RaceSelectedReply(Data.Values.First());
             var dropDown= BuilderReplies.GetChoseClassMessageComponent();
             await component.Component.RespondAsync(embed:embed,components:dropDown);            

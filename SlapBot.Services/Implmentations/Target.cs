@@ -12,19 +12,24 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Implmentations
 {
-    public abstract class Target: ITarget
+    public abstract class Target: IDisplayable, ITarget
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public int? RegionId { get; set; }
         public StatsDto? Stats { get; set; }
         public int RaceID { get; set; }
         public int ClassID { get; set; }
         public RaceDto Race { get; set; }
-        public CharacterClassDto CharacterClassDto { get; set; }
         public List<int> Skills { get; set; } = new List<int>();
         public int StateId { get; set; } = 0;
+        public CharacterClassDto? CharacterClass { get; set; }
+        public SubClassDto? SubClass { get; set; }
+        public ulong CharExp { get; set; }
+        public int StatsId { get; set; }
+        public int CombatStateId { get; set; } = 0;
+
         public int InventoryId { get; set; }
         public InventoryDto Inventory { get; set; }
         const double ResMax = .75;

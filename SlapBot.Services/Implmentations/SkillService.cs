@@ -1,5 +1,6 @@
 ﻿using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
+using SlapBott.Services.Dtos;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,10 +19,15 @@ namespace SlapBott.Services.Implmentations
             _skillRepo = repo;
           
         }
-        public ICollection<Skill> GetSkillCollectionByIds(ICollection<int> list)
+        public ICollection<SkillDto> GetSkillCollectionByIds(ICollection<int> list)
         {
-
-            return _skillRepo.GetSkillCollectionByIdlist(list);
+        
+            ICollection<SkillDto>? collectionDto = new List<SkillDto>();
+            foreach (var skill in _skillRepo.GetSkillCollectionByIdlist(list))
+            {
+                collectionDto.Add(new SkillDto().FromSkill(skill));
+            }
+            return collectionDto;
                    
         }
         public Skill GetSkillById(int Id)

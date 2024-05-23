@@ -10,25 +10,24 @@ using System.Threading.Tasks;
 
 namespace SlapBott.RequestHandlers
 {
-    public class SavePlayerCharacterDtoHandler(IMediator mediator,PlayerCharacterService playerCharacterService) : IRequestHandler<RequestSavePlayerCharacterDto, bool>
+    public class SavePlayerCharacterDtoHandler(IMediator mediator,PlayerCharacterService playerCharacterService) : IRequestHandler<RequestSavePlayerCharacterDto, PlayerCharacterDto>
     {
         private readonly IMediator mediator = mediator;
 
         private PlayerCharacterService _playerCharacterService = playerCharacterService;
 
-        public async Task<bool> Handle(RequestSavePlayerCharacterDto request, CancellationToken cancellationToken)
+        public async Task<PlayerCharacterDto> Handle(RequestSavePlayerCharacterDto request, CancellationToken cancellationToken)
         {
             try
             {
-               await _playerCharacterService.SaveCharacter(request.CharacterDto);
-
-            }
+             return  await _playerCharacterService.SaveCharacter(request.CharacterDto);
+             }
             catch (Exception ex)
             {
                 Console.WriteLine("SavePlayerCharacterDtoHandler: "+ex);
             }
-         
-            return false;
+            return new PlayerCharacterDto();
+            
         }
     }
 }

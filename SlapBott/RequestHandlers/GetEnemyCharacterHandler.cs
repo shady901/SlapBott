@@ -6,7 +6,7 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.RequestHandlers
 {
-    public class GetEnemyCharacterHandler: IRequestHandler<RequestGetEnemyCharacter, RaidBossDto> 
+    public class GetEnemyCharacterHandler: IRequestHandler<RequestGetEnemyCharacter, EnemyDto> 
     {
         private readonly IMediator _mediator;
         private readonly EnemyService _enemyService;
@@ -17,9 +17,9 @@ namespace SlapBott.RequestHandlers
             _mediator = mediator;
         }
 
-        public async Task<RaidBossDto> Handle(RequestGetEnemyCharacter request, CancellationToken cancellationToken)
+        public async Task<EnemyDto> Handle(RequestGetEnemyCharacter request, CancellationToken cancellationToken)
         {
-           return await Task.FromResult(_enemyService.GetEnemyTargetByID<RaidBossDto>(request.EnemyId));
+           return await Task.FromResult(_enemyService.GetEnemyTargetByID<EnemyDto>(request.EnemyId));
         }
     }
 }

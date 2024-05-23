@@ -2,6 +2,7 @@
 using System;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -13,8 +14,14 @@ namespace SlapBott.Services.Dtos
     public class RegistrationDto
     {
 
-        public int? Id { get; set; }
-        public required ulong discordUserID { get; set; }
+        public int Id { get; set; }
+        public ulong discordUserID { get; set; }
+        public string UserName { get; set; }
+
+        public List<PlayerCharacter> PlayerCharacters { get; set; } = new List<PlayerCharacter>();
+        public int? ActiveCharacterId { get; set; }
+
+        public PlayerCharacter? Character { get; set; }
 
 
         public RegistrationDto()
@@ -27,6 +34,10 @@ namespace SlapBott.Services.Dtos
             {
                 Id = user.Id,
                 discordUserID = user.DiscordId,
+                UserName = user.UserName,
+                Character = user.Character,
+                ActiveCharacterId = user.ActiveCharacterId,
+                PlayerCharacters = user.PlayerCharacters,
 
             };
             
@@ -39,11 +50,18 @@ namespace SlapBott.Services.Dtos
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public Registration ToUser(Registration? p = null)
+        public Registration ToRegistration(Registration? p = null)
         {
+            if (p == null)
+            {
+                p = new Registration();
+            }
            
             p.DiscordId = discordUserID;
-           
+            p.PlayerCharacters = PlayerCharacters;
+            p.Character = Character;
+            p.ActiveCharacterId = ActiveCharacterId;
+            p.UserName = UserName;
             return p;
         }
     }

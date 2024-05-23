@@ -6,8 +6,8 @@ namespace SlapBott.Data.Models
     {
 
         public int Id { get; set; } 
-        public required ulong DiscordId { get; set; }
-        public required string UserName { get; set; }
+        public ulong DiscordId { get; set; }
+        public string? UserName { get; set; }
 
         public virtual List<PlayerCharacter> PlayerCharacters { get; set; } = new List<PlayerCharacter>();
         public int? ActiveCharacterId { get; set; }

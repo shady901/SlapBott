@@ -4,7 +4,7 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.Services.Dtos
 {
-    public class EnemyDto: Target , IDisplayAble ,ITarget
+    public class EnemyDto: Target
     {
 
 

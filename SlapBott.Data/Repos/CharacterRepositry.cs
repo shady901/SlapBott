@@ -36,6 +36,30 @@ namespace SlapBott.Data.Repos
 
             return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new(),Bag = new()} }, DiscordId = id, RegistrationId = regId};
         }
+        public async Task<PlayerCharacter> GetPlayerCharacterByCharacterId(int id)
+        {
+            PlayerCharacter? playerCharacter = null;
+            try
+            {
+                if (id > 0 )
+                {
+                    playerCharacter = await _dbContext.PlayerCharacter
+                  .Where(pc => pc.CharacterId == id)
+                  .Include(pc => pc.Character.Stats)
+                  .Include(pc => pc.Character.Race)
+                  .Include(pc => pc.Character.CharacterClass)
+                  .Include(pc => pc.Character.Inventory)
+                  .FirstOrDefaultAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return playerCharacter ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new(), Bag = new() } }};
+        }
         public async Task<PlayerCharacter> GetPlayerCharacterByDiscordID(ulong id, int regId)
         {
 
@@ -49,11 +73,11 @@ namespace SlapBott.Data.Repos
 
             return Character ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new(), Bag = new() } }, DiscordId = id, RegistrationId = regId };
         }
-        public void SaveCharacter(PlayerCharacter playerCharacter)
+        public PlayerCharacter SaveCharacter(PlayerCharacter playerCharacter)
         {
             AddOrUpdateCharacter(playerCharacter);
             _dbContext.SaveChanges();
-
+            return playerCharacter;
         }
      
         public void AddOrUpdateCharacter(PlayerCharacter c)

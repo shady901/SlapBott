@@ -1,40 +1,26 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
-using SlapBott.Services.Contracts;
 using SlapBott.Services.Implmentations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {
-    public class PlayerCharacterDto : Target,IDisplayAble, ITarget
+    public class PlayerCharacterDto : Target
     {
       
         public bool IsTemp { get; set; }
         public bool HasLeveled { get; set; } = false;
         public Races SelectedRace { get; set; }
-        public RaceDto? Race { get; set; }
+        public Classes SelectedClass { get; set; }
         public ulong DiscordId { get; set; }
         //public Stats Stats { get; set; }
         public int RegId { get; set; }
-        public ulong CharExp { get; set; }
+      
         public int Level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
         //   public List<Ailments> ailments { get; set; }
         //   public List<Buff> Buffs { get; set; }
 
-        public Classes SelectedClass { get; set; }
-        public CharacterClassDto? CharacterClass { get; set; }
-        public SubClassDto? SubClass { get; set; }
-        //equipement inventory starts at id of 
-        public string? Name { get; set; } 
-        public string? Description { get; set; }
-      //  public int CharId { get; private set; }
-        public int StatsId { get; set; }
-        public int CombatStateId { get; set; } = 0;
-       
+    
+    
         public static PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
             if (playercharacter.Character == null)

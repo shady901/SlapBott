@@ -28,12 +28,17 @@ namespace SlapBott
             GuildScheduledEventCreated += SlapbottDiscordSocketClient_GuildScheduledEventCreated;
             InviteCreated += SlapbottDiscordSocketClient_InviteCreated;
             Ready += SlapbottDiscordSocketClient_Ready;
+            ThreadMemberJoined += SlapbottDiscordSocketClient_ThreadMemberJoined;
 
             this.serviceProvider = serviceProvider;
             _mediator = mediator;
         }
 
-      
+        private Task SlapbottDiscordSocketClient_ThreadMemberJoined(SocketThreadUser arg)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<SlapbottDiscordSocketClient> StartAsync(TokenType token,string client_token)
         {
 

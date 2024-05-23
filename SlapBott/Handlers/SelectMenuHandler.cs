@@ -46,6 +46,9 @@ namespace SlapBott.Handlers
                 case SelectMenuCommands.AssignClass:
                     await _mediator.Publish(new AssignClassNotification(component));
                     break;
+                case SelectMenuCommands.UseSkill:
+                    await _mediator.Publish(new SelectMenuUsedSkillNotification(component));
+                    break;
                 default:
                     break;
             }
