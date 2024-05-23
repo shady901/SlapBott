@@ -56,7 +56,7 @@ namespace SlapBott.Handlers
            
             RegistrationDto reg= await _mediator.Send(new GetRegistration(_button.User.Id));
            
-            RaidBossDto raidBossDto =  await _mediator.Send(new RequestGetEnemyCharacter(raidBossId));
+            RaidBossDto raidBossDto =  await _mediator.Send(new RequestGetRaidCharacter(raidBossId));
             PlayerCharacterDto player = await _mediator.Send(new RequestGetExistingCharacterOrNew(_button.User.Id, reg.ActiveCharacterId));
             if (player.StateId <=0) // check if player has a state active already
             {

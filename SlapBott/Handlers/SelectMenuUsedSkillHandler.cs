@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SlapBott.Notifications;
+using SlapBott.RequestHandlers;
 using SlapBott.Requests;
 using SlapBott.Services.Dtos;
 using System;
@@ -23,6 +24,8 @@ namespace SlapBott.Handlers
                enemyId = int.Parse(customId[1]);
             }
             EnemyDto enemyDto =  await _mediator.Send(new RequestGetEnemyCharacter(enemyId));
+            RegistrationDto registrationDto = await _mediator.Send(new GetRegistration(notification.messageComponent.User.Id));
+            PlayerCharacterDto characterDto = await _mediator.Send(new RequestGetExistingCharacterOrNew(notification.messageComponent.User.Id,registrationDto.ActiveCharacterId));
 
         }
     }
