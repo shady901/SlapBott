@@ -5,7 +5,7 @@ using SlapBott.Services.Implmentations;
 
 namespace SlapBott.RequestHandlers
 {
-    public class GetExistingCharacterOrNewHandler(PlayerCharacterService playerCharacterService, IMediator mediator) 
+    public class GetExistingActiveCharacterOrNewHandler(PlayerCharacterService playerCharacterService, IMediator mediator) 
         : IRequestHandler<RequestGetExistingCharacterOrNew, PlayerCharacterDto>
     {
         private readonly PlayerCharacterService playerCharacterService = playerCharacterService;
@@ -15,8 +15,9 @@ namespace SlapBott.RequestHandlers
         {
             bool temp = request.TempUser ?? false;
             var userId = request.UserId;
+
             var registration = await _mediator.Send(new GetRegistration(userId));
-            if (!temp&&request.CharId != null) { return PlayerCharacterDto.FromCharacter(await playerCharacterService.GetPlayerCharacterByCharacterId((int)request.CharId)); }
+            if (!temp&&registration.ActiveCharacterId != 0) { return PlayerCharacterDto.FromCharacter(await playerCharacterService.GetPlayerCharacterByCharacterId((int)registration.ActiveCharacterId)); }
             var _playerCharacter = await playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(userId, (int)registration.Id);
             return PlayerCharacterDto.FromCharacter(_playerCharacter);
         }

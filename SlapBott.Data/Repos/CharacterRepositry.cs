@@ -36,7 +36,7 @@ namespace SlapBott.Data.Repos
 
             return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new(),Bag = new()} }, DiscordId = id, RegistrationId = regId};
         }
-        public async Task<PlayerCharacter> GetPlayerCharacterByCharacterId(int id)
+        public async Task<PlayerCharacter> GetPlayerCharacterByPlayerCharacterId(int id)
         {
             PlayerCharacter? playerCharacter = null;
             try
@@ -44,7 +44,7 @@ namespace SlapBott.Data.Repos
                 if (id > 0 )
                 {
                     playerCharacter = await _dbContext.PlayerCharacter
-                  .Where(pc => pc.CharacterId == id)
+                  .Where(pc => pc.Id == id)
                   .Include(pc => pc.Character.Stats)
                   .Include(pc => pc.Character.Race)
                   .Include(pc => pc.Character.CharacterClass)

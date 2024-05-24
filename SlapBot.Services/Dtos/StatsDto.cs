@@ -95,10 +95,10 @@ namespace SlapBott.Services.Dtos
             get => stats[StatType.CritChance];
             set => stats[StatType.CritChance] = value;
         }
-       public int AttackDamage
+       public int PhysicalPower
         {
-            get => stats[StatType.AttackDamage];
-            set => stats[StatType.AttackDamage] = value;
+            get => stats[StatType.PhysicalPower];
+            set => stats[StatType.PhysicalPower] = value;
         }
         public int SpellPower
         {

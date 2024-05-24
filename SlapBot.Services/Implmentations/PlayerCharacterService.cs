@@ -20,7 +20,7 @@ namespace SlapBott.Services.Implmentations
         }
         public async Task<PlayerCharacter> GetPlayerCharacterByCharacterId(int id)
         {
-            return await _playerCharacterRepositry.GetPlayerCharacterByCharacterId(id);
+            return await _playerCharacterRepositry.GetPlayerCharacterByPlayerCharacterId(id);
         }
         public async Task<PlayerCharacterDto> SaveCharacter(PlayerCharacterDto p)
         {

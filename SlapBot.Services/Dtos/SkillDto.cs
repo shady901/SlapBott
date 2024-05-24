@@ -1,5 +1,7 @@
-﻿using SlapBott.Data.Enums;
+﻿using MediatR;
+using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
+using SlapBott.Services.Implmentations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,11 +54,6 @@ namespace SlapBott.Services.Dtos
                 StatTypeRatio = mySkill.StatTypeRatio,
             };
         }
-        public int CalculateDamage()
-        {
-
-            return 0;
-        
-        }
+      
     }
 }

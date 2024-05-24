@@ -8,8 +8,7 @@ namespace SlapBott.Data.Enums
         DodgeChance,
         Dexterity,
         Strength,
-        Intelligence,
-        AttackDamage,
+        Intelligence,       
         CritChance,
         Health,
         MaxHealth,
@@ -25,7 +24,7 @@ namespace SlapBott.Data.Enums
         SpellPower,
         Speed,
         ElementalDamage,
-        PhysicalDamage,
+        PhysicalPower,
         ChaosDamage,
         
     }

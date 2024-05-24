@@ -30,8 +30,7 @@ namespace SlapBott.ItemProject.Enums
         Strength,
         [AffixRange(0, 1)]
         Intelligence,
-        [AffixRange(0, 1)]
-        AttackDamage,
+       
         [AffixRange(0, 1)]
         CritChance,
         [AffixRange(0, 1)]
@@ -56,9 +55,9 @@ namespace SlapBott.ItemProject.Enums
         [AffixRange(0, 1)]
         Speed,
         [AffixRange(0, 1)]
-        ElementalDamage,
+        PhysicalPower,
         [AffixRange(0, 1)]
-        PhysicalDamage,
+        ElementalDamage,      
         [AffixRange(0, 1)]
         ChaosDamage,
     }
@@ -75,8 +74,6 @@ namespace SlapBott.ItemProject.Enums
         Strength,
         [AffixRange(0, 1)]
         Intelligence,
-        [AffixRange(0, 1)]
-        AttackDamage,
         [AffixRange(0, 1)]
         CritChance,
         [AffixRange(0, 1)]
@@ -103,7 +100,7 @@ namespace SlapBott.ItemProject.Enums
         [AffixRange(0, 1)]
         ElementalDamage,
         [AffixRange(0, 1)]
-        PhysicalDamage,
+        PhysicalPower,
         [AffixRange(0, 1)]
         ChaosDamage,
     }

@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Requests
 {
-    public class RequestGetExistingCharacterOrNew(ulong Id,int? characterId = null,bool? Temp=null): IRequest<PlayerCharacterDto>
+    public class RequestGetExistingCharacterOrNew(ulong Id,bool? Temp=null): IRequest<PlayerCharacterDto>
     {
         public ulong UserId { get; } = Id;
-        public int? CharId { get; } = characterId;
-        public bool? TempUser { get; } =Temp;    
+       public bool? TempUser { get; } =Temp;    
     }
 }
