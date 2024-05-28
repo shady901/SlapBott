@@ -1,6 +1,5 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
-using SlapBott.Services.Implmentations;
 
 namespace SlapBott.Services.Dtos
 {
@@ -19,8 +18,9 @@ namespace SlapBott.Services.Dtos
         //   public List<Ailments> ailments { get; set; }
         //   public List<Buff> Buffs { get; set; }
 
-    
-    
+
+     
+
         public static PlayerCharacterDto FromCharacter(PlayerCharacter playercharacter)
         {
             if (playercharacter.Character == null)
@@ -58,7 +58,7 @@ namespace SlapBott.Services.Dtos
         }
         public PlayerCharacter ToCharacter(PlayerCharacter? playerCharacter = null)
         {
-           
+         
             playerCharacter.RegistrationId = RegId;
             playerCharacter.DiscordId = DiscordId;
             playerCharacter.Character.Name = Name;

@@ -57,12 +57,8 @@ namespace SlapBott.Data.Models
             set => stats[StatType.CritChance] = value;
         }
         [NotMapped]
-        public int AttackDamage 
-        { 
-            get => stats[StatType.AttackDamage]; 
-            set => stats[StatType.AttackDamage] = value;
-        }
-        [NotMapped]
+        
+     
         public int SpellPower 
         { 
             get => stats[StatType.SpellPower]; 
@@ -110,6 +106,12 @@ namespace SlapBott.Data.Models
             get => stats[StatType.DodgeChance];
             set => stats[StatType.DodgeChance] = value;
         }
+        [NotMapped]
+        public int PhysicalPower
+        {
+            get => stats[StatType.PhysicalPower];
+            set => stats[StatType.PhysicalPower] = value;
+        }
 
 
 
@@ -124,7 +126,6 @@ namespace SlapBott.Data.Models
                {StatType.CritChance,0},
                {StatType.MaxHealth,0},
                {StatType.Health,0},
-               {StatType.AttackDamage,0},
                {StatType.ArmorRating,0},
                {StatType.DodgeChance,0 },
                 
@@ -135,7 +136,7 @@ namespace SlapBott.Data.Models
                {StatType.FrostResistance,0},
                {StatType.LightningResistance,0},
                {StatType.SpellPower,0},
-               {StatType.PhysicalDamage,0},
+               {StatType.PhysicalPower,0},
                {StatType.ElementalDamage,0},
                {StatType.Speed,0},
                {StatType.ChaosDamage,0},

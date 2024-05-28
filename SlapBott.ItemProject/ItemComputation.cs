@@ -1,13 +1,6 @@
 ﻿using SlapBott.Data.Enums;
-using SlapBott.ItemProject.Contracts;
 using SlapBott.ItemProject.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SlapBott.ItemProject
 {
@@ -29,7 +22,7 @@ namespace SlapBott.ItemProject
 
         public object GenerateItem(int? seed = null, int? DroppedLevel = null, WeaponType weaponType = WeaponType.None, ArmorType armorType = ArmorType.None)
         {
-            SetSeededRandom(seed);
+           seed = SetSeededRandom(seed);
             var equipedType = GenerateEquipType();
             Type ItemType = GetTypeFromEquipType(equipedType);
             if (ItemType ==typeof(Weapon))
@@ -53,11 +46,11 @@ namespace SlapBott.ItemProject
                     return typeof(Armor);
             }
         }
-        private void SetSeededRandom(int? seed)
+        private int SetSeededRandom(int? seed)
         {
             int _seed = seed ?? GenerateNewSeed();
             _seedRandom = new Random(_seed);
-            
+            return _seed;
         }
         private int GenerateNewSeed()
         {

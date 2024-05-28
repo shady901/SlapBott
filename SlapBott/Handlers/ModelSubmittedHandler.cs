@@ -31,7 +31,7 @@ namespace SlapBott.Handlers
                 return;
             }
 
-            PlayerCharacterDto? playercharacter = await _mediator.Send(new RequestGetExistingCharacterOrNew(userId), cancellationToken);
+            PlayerCharacterDto? playercharacter = await _mediator.Send(new RequestGetExistingCharacterOrNew(userId,Temp:true), cancellationToken);
 
             if (modal.Data.CustomId == null)
             {
@@ -43,8 +43,10 @@ namespace SlapBott.Handlers
                 case ModalSubmittedCommands.NameAndDescription:
 
                     playercharacter = await _mediator.Send(new UpdateNameAndDescriptionPlayerCharacter(playercharacter, modal.Data.Components), cancellationToken);
-                   playercharacter = await _mediator.Send(new RequestSavePlayerCharacterDto(playercharacter));
+                    playercharacter.IsTemp = false;
+                    playercharacter = await _mediator.Send(new RequestSavePlayerCharacterDto(playercharacter));
                     registration.ActiveCharacterId = playercharacter.Id;
+                    
                     await _mediator.Send(new SaveRegistrationRequest(registration));
                     await modal.RespondAsync(embed:BuilderReplies.ReplyCreatedCompleteEmbed(playercharacter.Name,playercharacter.Description,playercharacter.SelectedRace.ToString(),playercharacter.SelectedClass.ToString()));
                     break;

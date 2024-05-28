@@ -30,9 +30,10 @@ namespace SlapBott.Handlers
             PlayerCharacterDto characterDto = await _mediator.Send(new RequestGetExistingCharacterOrNew(notification.messageComponent.User.Id));
 
             SkillDto UsedSkillDto = await _mediator.Send(new RequestGetSkill(int.Parse(dropDownValue)));
-           var Dmg = _combatManager.ApplyDamage<>();
-
-
+            _combatManager.Attack<>(UsedSkillDto, characterDto, enemyDto);
+            var Dmg = _combatManager.CalcAndApplyDamage(UsedSkillDto,characterDto,enemyDto);
+            await notification.messageComponent.RespondAsync($"Result:\n Damage: {Dmg}");
+            //check if object died
         }
     }
 }

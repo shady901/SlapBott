@@ -32,9 +32,8 @@ namespace SlapBott.Services.Dtos
                {StatType.CritChance,0},
                {StatType.MaxHealth,0},
                {StatType.Health,0},
-               {StatType.AttackDamage,0},
                {StatType.ArmorRating,0},
-               {StatType.DodgeChance,0 },
+               
                 
                //%'s----------------
                {StatType.ChaosResistance,0},
@@ -43,10 +42,11 @@ namespace SlapBott.Services.Dtos
                {StatType.FrostResistance,0},
                {StatType.LightningResistance,0},
                {StatType.SpellPower,0},
-               {StatType.PhysicalDamage,0},
+               {StatType.PhysicalPower,0},
                {StatType.ElementalDamage,0},
                {StatType.Speed,0},
                {StatType.ChaosDamage,0},
+               {StatType.DodgeChance,0 },
             };
 
         }

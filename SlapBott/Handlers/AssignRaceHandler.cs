@@ -21,7 +21,17 @@ namespace SlapBott.Handlers
         {
             var User = component.Component.User;
             var Data = component.Component.Data;
-            PlayerCharacterDto Character = await Mediator.Send(new RequestGetExistingCharacterOrNew(User.Id));           
+            PlayerCharacterDto Character = new();
+            try
+            {
+               Character = await Mediator.Send(new RequestGetExistingCharacterOrNew(User.Id,Temp:true));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+       
+            }
+         
             Character.SelectedRace = (Races)Enum.Parse(typeof(Races), Data.Values.First());          
             await Mediator.Send(new RequestSavePlayerCharacterDto(Character));
             

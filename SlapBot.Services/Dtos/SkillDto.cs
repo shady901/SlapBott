@@ -33,7 +33,7 @@ namespace SlapBott.Services.Dtos
                 case ElementalType.Lightning:
                     return StatType.ElementalDamage;
                 case ElementalType.Physical:
-                    return StatType.PhysicalDamage;
+                    return StatType.PhysicalPower;
                 case ElementalType.Chaos:
                     return StatType.ChaosDamage;
                 default:

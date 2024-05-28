@@ -112,7 +112,7 @@ namespace SlapBott
 
             Embed embed = new EmbedBuilder()
                .WithTitle($"{weapon.Name}")
-               .WithDescription($"Damage: {weapon.Damage}({weapon.itemAffixes.First(x=>x.StatType == StatType.AttackDamage)}) \nSlotType: {weapon.EquipType}\nILevel:{weapon.ItemLevel}\nAccuracy: {weapon.Accuracy}\nAttackSpeed:{weapon.AttackSpeed}\nAffixes:\n{Affixes}\nRarety: {weapon.itemRarety}")
+               .WithDescription($"Damage: {weapon.Damage}\nSlotType: {weapon.EquipType}\nILevel:{weapon.ItemLevel}\nAccuracy: {weapon.Accuracy}\nAttackSpeed:{weapon.AttackSpeed}\nAffixes:\n{Affixes}\nRarety: {weapon.itemRarety}")
                  .WithFooter("Seed:" + weapon.Seed)
                .Build();
             return embed;

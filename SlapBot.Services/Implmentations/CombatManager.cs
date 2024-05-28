@@ -1,6 +1,7 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Dtos;
+using SlapBott.Services.Objects;
 
 namespace SlapBott.Services.Implmentations
 {
@@ -57,69 +58,74 @@ namespace SlapBott.Services.Implmentations
         //}
         public int CalculateDamage<TSender, TReciever>(TSender sender, TReciever reciever, SkillDto usedSkill) where TSender : Target where TReciever : Target
         {
-            int damage;
+            //
+            //EQUIPSTATS AND COMBAT EFFECTS NOT INCLUDED
+            //
+            int damage = 0;
             int PowerModifier;
             //physical elemental or chaos for calculating increases
-            StatType ElementalType =  usedSkill.GetSkillStatTypeByElement();
+            ElementalType ElementalType = usedSkill.ElementalType;
             
             switch (ElementalType)
             {
-                case StatType.PhysicalDamage:
-                    PowerModifier = sender.Stats.AttackDamage;
+                case ElementalType.Physical:
+                    PowerModifier = sender.Stats.PhysicalPower;
                     break;
-                case StatType.ChaosDamage:
-                    PowerModifier = (int)((sender.Stats.SpellPower*0.5)+(sender.Stats.AttackDamage*0.5));
+                case ElementalType.Chaos:
+                    PowerModifier = (int)((sender.Stats.SpellPower*0.5)+(sender.Stats.PhysicalPower*0.5));
                     break;
                 default:
                     PowerModifier = sender.Stats.SpellPower;
                     break;
             }
 
+           
             foreach (var item in usedSkill.StatTypeRatio)
             {
                 damage =+ (int)(sender.Stats.stats[item.Key] * usedSkill.StatTypeRatio[item.Key]);
             }
 
-            //
-            //
-            //
-            return 0;
+           
+            return damage*(1+(PowerModifier/100));
         
         }
-        public int CalcAndApplyDamage<TSender,TReciever>(SkillDto UsedSkill, TSender sender , TReciever reciever) where TSender : Target where TReciever : Target
+        private int CalcAndApplyDamage<TSender,TReciever>(SkillDto UsedSkill, TSender sender , TReciever reciever) where TSender : Target where TReciever : Target
         {
             var dmg = CalculateDamage(sender, reciever, UsedSkill);
-            dmg = ApplyDamage(reciever, dmg);
+            dmg = ApplyDamage(reciever, dmg,UsedSkill.ElementalType);
 
 
             return dmg;
         }
 
-        private int ApplyDamage<TReciever>(TReciever reciever, int dmg) where TReciever : Target
+        private int ApplyDamage<TReciever>(TReciever reciever, int dmg,ElementalType elementalType) where TReciever : Target
         {
-            throw new NotImplementedException();
+           return reciever.ApplyDamage(dmg,elementalType);
         }
 
-       
-        public StatType GetStatTypeByElementalType(ElementalType elementalType)
+      
+
+        public AttackResults Attack<TSender, TReciever>(SkillDto usedSkillDto, TSender sender, TReciever reciever) where TSender : Target where TReciever : Target
         {
-            switch (elementalType)
+            AttackResults attackResults = new AttackResults();
+            attackResults.Dodged = CalcDodge(reciever.Stats.DodgeChance);
+            if (attackResults.Dodged == false)
             {
-              
-                case ElementalType.Fire:
-                    return StatType.FireResistance;
-                case ElementalType.Frost:
-                    return StatType.FrostResistance;
-                case ElementalType.Lightning:
-                    return StatType.LightningResistance;
-                case ElementalType.Physical:
-                    return StatType.PhysicalResistance;
-                case ElementalType.Chaos:
-                    return StatType.ChaosResistance;
-                default:
-                    return StatType.none;
+                attackResults.Damage = CalcAndApplyDamage(usedSkillDto, sender, reciever);
             }
+
+            return attackResults;
         }
-       
+
+        private bool CalcDodge(int dodgeChance)
+        {
+            Random r = new Random();
+
+            // Generate a random number between 0 and 99 inclusive.
+            int roll = r.Next(1, 101);
+
+            // If the roll is less than the dodge chance, a dodge occurs.
+            return roll < dodgeChance;
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace SlapBott.RequestHandlers
             var userId = request.UserId;
 
             var registration = await _mediator.Send(new GetRegistration(userId));
-            if (!temp&&registration.ActiveCharacterId != 0) { return PlayerCharacterDto.FromCharacter(await playerCharacterService.GetPlayerCharacterByCharacterId((int)registration.ActiveCharacterId)); }
+            if (!temp) { return PlayerCharacterDto.FromCharacter(await playerCharacterService.GetPlayerCharacterByCharacterId((int)registration.ActiveCharacterId)); }
             var _playerCharacter = await playerCharacterService.GetTempPlayerCharacterByDiscordIdOrNew(userId, (int)registration.Id);
             return PlayerCharacterDto.FromCharacter(_playerCharacter);
         }

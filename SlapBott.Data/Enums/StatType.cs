@@ -4,23 +4,25 @@ namespace SlapBott.Data.Enums
     public enum StatType
     {
         none = 0,
-        ArmorRating,
-        DodgeChance,
+        ArmorRating,      
         Dexterity,
         Strength,
-        Intelligence,       
-        CritChance,
+        Intelligence,             
         Health,
         MaxHealth,
 
 
-
+        //%resistances
         FireResistance,
         FrostResistance,
         LightningResistance,
         PhysicalResistance,
         ChaosResistance,
+
+
         //%Modifiers
+        CritChance,
+        DodgeChance,
         SpellPower,
         Speed,
         ElementalDamage,

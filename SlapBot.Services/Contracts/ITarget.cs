@@ -8,7 +8,6 @@ namespace SlapBott.Services.Contracts
     {
 
 
-        public void ApplyDamage(int damage, StatType elementalType);
-
+       
     }
 }
