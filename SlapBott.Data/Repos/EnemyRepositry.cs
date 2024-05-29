@@ -21,6 +21,7 @@ namespace SlapBott.Data.Repos
             {
                enemy = (T)_dbContext.Enemies
                     .Include(x => x.Character.Inventory)
+                      
                     .Include(x => x.Character.Stats)
                     .First(enemy => enemy.Id == Id);
                

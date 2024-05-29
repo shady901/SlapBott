@@ -20,7 +20,7 @@ namespace SlapBott.Services.Dtos
                 ClassID = (int)boss.Character.ClassId,
                 RegionId = boss.RegionId,
                 StateId = boss.Character.CombatStateID,
-                
+                Skills = boss.Character.LearnedSkillIds,
             };
         } 
 
@@ -50,6 +50,7 @@ namespace SlapBott.Services.Dtos
             raidBoss.Character.RaceId = RaceID;
             raidBoss.Character.ClassId = ClassID;
             raidBoss.Character.CombatStateID = StateId;
+            raidBoss.Character.LearnedSkillIds = Skills;
             return raidBoss;
         }
 
@@ -61,6 +62,7 @@ namespace SlapBott.Services.Dtos
             Stats =new StatsDto().FromStats(enemyTemplate.Stats);
             RaceID = (int)enemyTemplate.RaceId;
             ClassID = (int)enemyTemplate.ClassId;
+            Skills = enemyTemplate.LearnedSkillIds;
            
            
         }

@@ -19,7 +19,8 @@ namespace SlapBott.Data.Models
         //[ForeignKey("BStatsId")]
         //public  Stats? BStats { get; set; }
         public int StatsId { get; set; }
-        public Stats? Stats { get; set; }
+        [ForeignKey("StatsId")]
+        public virtual Stats? Stats { get; set; }
         public int InventoryId { get; set; }
        // [ForeignKey("InventoryId")]
         public Inventory? Inventory { get; set; }

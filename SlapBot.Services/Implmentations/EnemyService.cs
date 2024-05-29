@@ -20,10 +20,11 @@ namespace SlapBott.Services.Implmentations
             _enemyRepositry = repo;
             //_mediator = mediator;
         }
-        public void SaveEnemy(EnemyDto enemy)
+        public EnemyDto SaveEnemy(EnemyDto enemy)
         {
            var original = _enemyRepositry.GetEnemyByID<Enemy>(enemy.Id);
-            _enemyRepositry.SaveEnemy(enemy.ToEnemy(original));
+
+            return EnemyDto.FromRecord(_enemyRepositry.SaveEnemy(enemy.ToEnemy(original)));
         }
         public RaidBoss SaveRaidBoss(RaidBossDto raidBoss, RaidBoss? OriginalRb = null)
         {

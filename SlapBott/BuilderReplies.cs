@@ -5,6 +5,7 @@ using SlapBott.Enums;
 using SlapBott.ItemProject.Items;
 using SlapBott.Services.Contracts;
 using SlapBott.Services.Dtos;
+using SlapBott.Services.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -178,6 +179,22 @@ namespace SlapBott
              .Build();
 
             return builder;
+        }
+
+        public static Embed EmbedTurnResults(AttackResults<PlayerCharacterDto, EnemyDto> result, EnemyDto enemyDto, AttackResults<EnemyDto, PlayerCharacterDto>? enemyAttackResult = null)
+        {
+            string description = $"{result.Sender.Name}\nUsed Skill: {result.Skill.Name}\nDamageType: {result.Skill.ElementalType}\nDamage Done: {result.Damage}";
+            if (enemyAttackResult != null)
+            {
+                description += $"\n\n{enemyAttackResult.Sender.Name} Has Attacked Back\nUsed Skill: {enemyAttackResult.Skill.Name}\nDamageType: {enemyAttackResult.Skill.ElementalType}\nDamage Done: {enemyAttackResult.Damage}";
+            }
+            var embed = new EmbedBuilder()
+             .WithTitle($"{result.Sender.Name} Attacked {result.Receiver.Name}")
+
+             .WithDescription(description);
+            
+
+            return embed.Build();
         }
     }
 }

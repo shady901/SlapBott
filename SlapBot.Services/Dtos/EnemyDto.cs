@@ -21,7 +21,8 @@ namespace SlapBott.Services.Dtos
                 Name = enemy.Character.Name,
                 Description = enemy.Character.Description,
                 Stats = new StatsDto().FromStats(enemy.Character.Stats),
-
+                Skills = enemy.Character.LearnedSkillIds,
+                
             };
         }
         public EnemyDto FromEnemy(Enemy enemy)
@@ -32,7 +33,7 @@ namespace SlapBott.Services.Dtos
                 Name = enemy.Character.Name,
                 Description = enemy.Character.Description,
                 Stats = new StatsDto().FromStats(enemy.Character.Stats),
-           
+                Skills = enemy.Character.LearnedSkillIds,
             };
         }
         public Enemy ToEnemy(Enemy? enemy = null)
@@ -44,6 +45,13 @@ namespace SlapBott.Services.Dtos
             enemy.Character.Stats = Stats.ToStats();
             
             return enemy;
+        }
+
+        public static int GetRandomFromList(List<int> list)
+        {
+            Random random = new Random();
+            int index = random.Next(list.Count);
+            return list[index];
         }
     }
 }

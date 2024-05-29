@@ -18,18 +18,13 @@ namespace SlapBott
         private readonly IServiceProvider serviceProvider;
         private readonly IMediator _mediator;
         private Timer _timer ;
+        
         public SlapbottDiscordSocketClient(IServiceProvider serviceProvider, IMediator mediator)
         {
             Log += LogAsync;
-            SlashCommandExecuted += Client_SlashCommandExecuted;
-            SelectMenuExecuted += Client_SelectMenuExecuted;
-            ModalSubmitted += Client_ModalSubmitted;
-            ButtonExecuted += SlapbottDiscordSocketClient_ButtonExecuted;
-            GuildScheduledEventCreated += SlapbottDiscordSocketClient_GuildScheduledEventCreated;
-            InviteCreated += SlapbottDiscordSocketClient_InviteCreated;
+          
             Ready += SlapbottDiscordSocketClient_Ready;
-            ThreadMemberJoined += SlapbottDiscordSocketClient_ThreadMemberJoined;
-
+            
             this.serviceProvider = serviceProvider;
             _mediator = mediator;
         }
@@ -67,6 +62,14 @@ namespace SlapBott
 
         private async Task SlapbottDiscordSocketClient_Ready()
         {
+            SlashCommandExecuted += Client_SlashCommandExecuted;
+            SelectMenuExecuted += Client_SelectMenuExecuted;
+            ModalSubmitted += Client_ModalSubmitted;
+            ButtonExecuted += SlapbottDiscordSocketClient_ButtonExecuted;
+            GuildScheduledEventCreated += SlapbottDiscordSocketClient_GuildScheduledEventCreated;
+            InviteCreated += SlapbottDiscordSocketClient_InviteCreated;
+            ThreadMemberJoined += SlapbottDiscordSocketClient_ThreadMemberJoined;
+
             await RaidChecker();          
         }
 
@@ -120,7 +123,7 @@ namespace SlapBott
        
         public void Dispose()
         {
-           _timer.Dispose();
+            _timer.Dispose();
         }
 
 

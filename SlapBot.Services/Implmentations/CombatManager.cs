@@ -82,7 +82,7 @@ namespace SlapBott.Services.Implmentations
            
             foreach (var item in usedSkill.StatTypeRatio)
             {
-                damage =+ (int)(sender.Stats.stats[item.Key] * usedSkill.StatTypeRatio[item.Key]);
+                damage += (int)(sender.Stats.stats[item.Key] * usedSkill.StatTypeRatio[item.Key]);
             }
 
            
@@ -105,15 +105,15 @@ namespace SlapBott.Services.Implmentations
 
       
 
-        public AttackResults Attack<TSender, TReciever>(SkillDto usedSkillDto, TSender sender, TReciever reciever) where TSender : Target where TReciever : Target
+        public AttackResults<TSender,TReciever> Attack<TSender, TReciever>(SkillDto usedSkillDto, TSender sender, TReciever reciever) where TSender : Target where TReciever : Target
         {
-            AttackResults attackResults = new AttackResults();
+            AttackResults<TSender, TReciever> attackResults = new AttackResults<TSender,TReciever>(sender,reciever);
             attackResults.Dodged = CalcDodge(reciever.Stats.DodgeChance);
             if (attackResults.Dodged == false)
             {
                 attackResults.Damage = CalcAndApplyDamage(usedSkillDto, sender, reciever);
             }
-
+            attackResults.Skill = usedSkillDto;
             return attackResults;
         }
 

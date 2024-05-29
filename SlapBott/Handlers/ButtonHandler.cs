@@ -18,6 +18,15 @@ namespace SlapBott.Handlers
         public async Task Handle(ButtonExecuted notification, CancellationToken cancellationToken)
         {
             _button = notification.socketButtonComponent;
+            //Check if In Db
+            //if ()
+            //{
+            //    await _button.RespondAsync("Please join the bot and create a character",ephemeral:true);
+            //    return;
+            //}
+        
+
+         
             SocketMessageComponentData buttonData = _button.Data;
             string[] CustomId = _button.Data.CustomId.Split(' ');
             CompareCustomIdAndBeginMethods(CustomId[0],int.Parse(CustomId[1]));
