@@ -73,20 +73,6 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayersStats",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    stats = table.Column<string>(type: "TEXT", nullable: false),
-                    PhysicalPower = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlayersStats", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Races",
                 columns: table => new
                 {
@@ -134,6 +120,47 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Stats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    stats = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stats", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EnemyTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Stats = table.Column<string>(type: "TEXT", nullable: true),
+                    RaceId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: true),
+                    LearnedSkillIds = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnemyTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EnemyTemplates_CharacterClasses_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "CharacterClasses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EnemyTemplates_Races_RaceId",
+                        column: x => x.RaceId,
+                        principalTable: "Races",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Characters",
                 columns: table => new
                 {
@@ -163,42 +190,14 @@ namespace SlapBott.Data.Migrations
                         principalTable: "Inventories",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Characters_PlayersStats_StatsId",
-                        column: x => x.StatsId,
-                        principalTable: "PlayersStats",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Characters_Races_RaceId",
                         column: x => x.RaceId,
                         principalTable: "Races",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EnemyTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Stats = table.Column<string>(type: "TEXT", nullable: true),
-                    RaceId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ClassId = table.Column<int>(type: "INTEGER", nullable: true),
-                    LearnedSkillIds = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EnemyTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EnemyTemplates_CharacterClasses_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "CharacterClasses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_EnemyTemplates_Races_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "Races",
+                        name: "FK_Characters_Stats_StatsId",
+                        column: x => x.StatsId,
+                        principalTable: "Stats",
                         principalColumn: "Id");
                 });
 
@@ -530,11 +529,11 @@ namespace SlapBott.Data.Migrations
                 table: "Characters");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Characters_PlayersStats_StatsId",
+                name: "FK_Characters_Races_RaceId",
                 table: "Characters");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Characters_Races_RaceId",
+                name: "FK_Characters_Stats_StatsId",
                 table: "Characters");
 
             migrationBuilder.DropForeignKey(
@@ -582,10 +581,10 @@ namespace SlapBott.Data.Migrations
                 name: "Inventories");
 
             migrationBuilder.DropTable(
-                name: "PlayersStats");
+                name: "Races");
 
             migrationBuilder.DropTable(
-                name: "Races");
+                name: "Stats");
 
             migrationBuilder.DropTable(
                 name: "Characters");

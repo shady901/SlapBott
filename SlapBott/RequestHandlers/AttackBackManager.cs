@@ -15,7 +15,7 @@ namespace SlapBott.RequestHandlers
             EnemyDto enemyDto = request.EnemyDto;
             PlayerCharacterDto characterDto = request.PlayerCharacterDto;
             SkillDto skillDto = await _mediator.Send(new RequestGetSkill(EnemyDto.GetRandomFromList(enemyDto.Skills)));
-            var result = _combatManager.Attack(skillDto,enemyDto,characterDto);
+            var result = await _combatManager.Attack(skillDto,enemyDto,characterDto);
             result.Skill = skillDto;
             result.Receiver = characterDto;
             result.Sender = enemyDto;

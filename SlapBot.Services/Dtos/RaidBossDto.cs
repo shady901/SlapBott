@@ -45,12 +45,14 @@ namespace SlapBott.Services.Dtos
             }
             raidBoss.RegionId = RegionId;
             raidBoss.Character.Name = Name??string.Empty;
-            raidBoss.Character.Description = Description??string.Empty;
-            raidBoss.Character.Stats = Stats.ToStats();
+            raidBoss.Character.Description = Description ?? string.Empty;
             raidBoss.Character.RaceId = RaceID;
             raidBoss.Character.ClassId = ClassID;
             raidBoss.Character.CombatStateID = StateId;
             raidBoss.Character.LearnedSkillIds = Skills;
+
+            Stats?.ToStats(raidBoss.Character.Stats);
+            
             return raidBoss;
         }
 

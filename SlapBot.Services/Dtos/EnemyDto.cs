@@ -42,7 +42,8 @@ namespace SlapBott.Services.Dtos
             enemy.Id = Id;
             enemy.Character.Name = Name;
             enemy.Character.Description = Description;
-            enemy.Character.Stats = Stats.ToStats();
+
+            Stats.ToStats(enemy.Character.Stats);
             
             return enemy;
         }

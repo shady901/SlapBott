@@ -69,20 +69,34 @@ namespace SlapBott
             GuildScheduledEventCreated += SlapbottDiscordSocketClient_GuildScheduledEventCreated;
             InviteCreated += SlapbottDiscordSocketClient_InviteCreated;
             ThreadMemberJoined += SlapbottDiscordSocketClient_ThreadMemberJoined;
+            
+           //await RaidChecker();
 
-            await RaidChecker();          
         }
 
         private Task RaidChecker()
         {
-            TimerCallback callback = serviceProvider.GetService<RaidService>().RaidCheck;
+
+            TimerCallback callback = (object state) =>
+            {
+                var f = new object();
+                lock(f) {
+                    serviceProvider.GetService<RaidService>().RaidCheck(state);
+                }
+                };
             TimeSpan interval = TimeSpan.FromSeconds(15);
 
             // Delay the first call to RaidCheck by the interval
             TimeSpan dueTime = interval;
 
             _timer = new Timer(callback, null, dueTime, interval);
+                //serviceProvider.GetService<RaidService>().RaidCheck(null);
+                //Task.Delay(20000);
+                //serviceProvider.GetService<RaidService>().RaidCheck(null);
+                //Task.Delay(20000);
+                //serviceProvider.GetService<RaidService>().RaidCheck(null);
 
+            //Task.Delay(20000);
             return Task.CompletedTask;
 
         }
@@ -104,7 +118,14 @@ namespace SlapBott
         private Task Client_SelectMenuExecuted(SocketMessageComponent component)
         {
             Console.WriteLine($"Client_SelectMenuExecuted: {component.Data.CustomId}");
-            _mediator.Publish(new SelectMenuExecuted(component));
+
+            var t = new object();
+
+            lock (t)
+            {
+                _mediator.Publish(new SelectMenuExecuted(component));
+            }
+
             return Task.CompletedTask;
         }
 

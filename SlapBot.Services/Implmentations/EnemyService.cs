@@ -2,11 +2,6 @@
 using SlapBott.Data.Models;
 using SlapBott.Data.Repos;
 using SlapBott.Services.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlapBott.Services.Implmentations
 {
@@ -46,7 +41,6 @@ namespace SlapBott.Services.Implmentations
             }
             return default;
         }
-
 
         public T GetEnemyTargetByID<T>(int EnemyID) where T : Target
         {

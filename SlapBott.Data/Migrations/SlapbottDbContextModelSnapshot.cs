@@ -435,7 +435,7 @@ namespace SlapBott.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PlayersStats");
+                    b.ToTable("Stats");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.TurnAttackRecord", b =>

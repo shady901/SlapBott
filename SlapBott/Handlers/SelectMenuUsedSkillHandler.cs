@@ -28,34 +28,47 @@ namespace SlapBott.Handlers
             int enemyId = customId.Length >= 2 ? int.Parse(customId[1]) : 0;
 
             EnemyDto enemyDto = await _mediator.Send(new RequestGetEnemyCharacter(enemyId));
-            enemyDto.Stats.Health = 100;
-            enemyDto.Stats.MaxHealth = 100;
+            if(enemyDto.Stats.Health == 0)
+            {
+                enemyDto.Stats.Health = 100;
+                enemyDto.Stats.MaxHealth = 100;
+            }
+
             PlayerCharacterDto characterDto = await _mediator.Send(new RequestGetExistingCharacterOrNew(notification.messageComponent.User.Id));
             characterDto.Stats.Strength = 50;
             SkillDto usedSkillDto = await _mediator.Send(new RequestGetSkill(int.Parse(dropDownValue)));
-
-            AttackResults<PlayerCharacterDto,EnemyDto> result = _combatManager.Attack(usedSkillDto, characterDto, enemyDto);
-
-            AttackResults<EnemyDto,PlayerCharacterDto> enemyAttackResult = new AttackResults<EnemyDto, PlayerCharacterDto>(enemyDto,characterDto);
-            if (enemyDto.Stats.Health > 0)
+            try
             {
-                enemyAttackResult = await _mediator.Send(new RequestAttackBack(characterDto, enemyDto));
-                characterDto = enemyAttackResult.Receiver;
-                enemyDto = enemyAttackResult.Sender;
-            }
+                AttackResults<PlayerCharacterDto, EnemyDto> result = await _combatManager.Attack(usedSkillDto, characterDto, enemyDto);
+
+                AttackResults<EnemyDto, PlayerCharacterDto> enemyAttackResult = new AttackResults<EnemyDto, PlayerCharacterDto>(enemyDto, characterDto);
+                if (enemyDto.Stats.Health > 0)
+                {
+                    enemyAttackResult = await _mediator.Send(new RequestAttackBack(characterDto, enemyDto));
+                    characterDto = enemyAttackResult.Receiver;
+                    enemyDto = enemyAttackResult.Sender;
+                }
 
 
-            await notification.messageComponent.RespondAsync(embed: BuilderReplies.EmbedTurnResults(result, enemyDto,enemyAttackResult), components: BuilderReplies.CreateSkillsDropDown(_skillService.GetSkillCollectionByIds(characterDto.Skills).ToList(), enemyId, Enums.SelectMenuCommands.UseSkill),
+                await notification.messageComponent.RespondAsync(
+                    embed: BuilderReplies.EmbedTurnResults(
+                        result, enemyDto, enemyAttackResult), 
+                    components: 
+                    BuilderReplies.CreateSkillsDropDown(
+                            _skillService.GetSkillCollectionByIds(characterDto.Skills).ToList(), 
+                            enemyId, Enums.SelectMenuCommands.UseSkill
+                        ),
             ephemeral: true);
-            
-
-           characterDto = await _mediator.Send(new RequestSavePlayerCharacterDto(characterDto));
-           enemyDto =  await _mediator.Send(new RequestSaveEnemyDto(enemyDto));
-        
-                 
-           
 
 
+                characterDto = await _mediator.Send(new RequestSavePlayerCharacterDto(characterDto));
+                //enemyDto = await _mediator.Send(new RequestSaveEnemyDto(enemyDto));
+                
+
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

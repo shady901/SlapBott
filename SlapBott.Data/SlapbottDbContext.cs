@@ -23,7 +23,7 @@ namespace SlapBott.Data
         public DbSet<Boss> Bosses { get; set; }
         public DbSet<RaidBoss> RaidBosses { get; set; }
        public DbSet<Inventory> Inventories { get; set; }
-        public DbSet<Stats> PlayersStats { get; set; }
+        public DbSet<Stats> Stats { get; set; }
         public DbSet<Race> Races { get; set; }
        public DbSet<CharacterClass> CharacterClasses { get; set; }
         public DbSet<EnemyTemplate> EnemyTemplates { get; set; }

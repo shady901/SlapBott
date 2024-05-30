@@ -1,11 +1,5 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {
@@ -55,14 +49,21 @@ namespace SlapBott.Services.Dtos
             stats = Stats.stats;
             return this;
         }
-        public Stats ToStats(Stats? stats = null)
+        public Stats ToStats(Stats? mystats = null)
         {
-            if (stats == null)
+            if (mystats == null)
             {
-                stats = new();
+                mystats = new();
             }
-            stats.stats = this.stats;
-            return stats;
+
+            mystats.stats.Clear();
+
+            foreach (var item in stats)
+            {
+                mystats.stats.Add(item.Key, item.Value);    
+            }
+            
+            return mystats;
         }
         #region Stats
         public int Health
@@ -154,7 +155,13 @@ namespace SlapBott.Services.Dtos
                 }
                 Temp.Add(stat.Key, modifiedValue);
             }
-            stats = Temp;
+            stats.Clear();
+
+            foreach (var item in Temp)
+            {
+                stats.Add(item.Key, item.Value);
+            }
+
             return this;
         }
 

@@ -63,7 +63,8 @@ namespace SlapBott.Services.Dtos
             playerCharacter.DiscordId = DiscordId;
             playerCharacter.Character.Name = Name;
             playerCharacter.Character.Description = Description;
-            playerCharacter.Character.Stats = Stats.ToStats(playerCharacter.Character.Stats);
+            //playerCharacter.Character.Stats.stats.Clear();
+            Stats.ToStats(playerCharacter.Character.Stats);
             playerCharacter.IsTemp = IsTemp;
             playerCharacter.Character.RaceId = (int)SelectedRace;
             playerCharacter.Character.ClassId = SelectedClass == Classes.None ? null : (int)SelectedClass;

@@ -19,12 +19,14 @@ namespace SlapBott.Data.Repos
             T enemy;
             if (Id>0)
             {
-               enemy = (T)_dbContext.Enemies
-                    .Include(x => x.Character.Inventory)
-                      
-                    .Include(x => x.Character.Stats)
-                    .First(enemy => enemy.Id == Id);
-               
+               var query = _dbContext.Enemies
+                     .Include(x => x.Character.Inventory)
+                     .Include(x => x.Character.Stats)
+                     .Where(enemy => enemy.Id == Id);
+
+                Console.WriteLine(query.ToQueryString());
+                enemy = (T)query.First();
+
                 return enemy;
             }
 

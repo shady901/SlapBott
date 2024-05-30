@@ -11,7 +11,7 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240527233927_Adding init")]
+    [Migration("20240529224638_Adding init")]
     partial class Addinginit
     {
         /// <inheritdoc />
@@ -432,16 +432,13 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PhysicalPower")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("stats")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PlayersStats");
+                    b.ToTable("Stats");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.TurnAttackRecord", b =>

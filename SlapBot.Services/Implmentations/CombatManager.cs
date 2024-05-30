@@ -105,7 +105,7 @@ namespace SlapBott.Services.Implmentations
 
       
 
-        public AttackResults<TSender,TReciever> Attack<TSender, TReciever>(SkillDto usedSkillDto, TSender sender, TReciever reciever) where TSender : Target where TReciever : Target
+        public async Task<AttackResults<TSender,TReciever>> Attack<TSender, TReciever>(SkillDto usedSkillDto, TSender sender, TReciever reciever) where TSender : Target where TReciever : Target
         {
             AttackResults<TSender, TReciever> attackResults = new AttackResults<TSender,TReciever>(sender,reciever);
             attackResults.Dodged = CalcDodge(reciever.Stats.DodgeChance);
