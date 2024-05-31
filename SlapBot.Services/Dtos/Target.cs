@@ -1,6 +1,7 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Contracts;
+using SlapBott.Services.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace SlapBott.Services.Dtos
         public InventoryDto Inventory { get; set; }
         const double ResMax = .75;
 
-        public int ApplyDamage(int damage, ElementalType elementalType)
+        public AttackResults<TSender,TReceiver> ApplyDamage<TSender,TReceiver>(int damage, ElementalType elementalType, AttackResults<TSender,TReceiver> attackResults) where TSender:Target where TReceiver : Target
         {
             double resistancePercentage = 1 - Math.Min((double)Stats.stats[ElementalAndStatTypeHelper.ReturnStatTypeByElementalType(elementalType)] / 100, ResMax);
 
@@ -50,9 +51,13 @@ namespace SlapBott.Services.Dtos
 
             // Reduce the character's health by the final damage
             Stats.Health -= finalDamage;
-
+            attackResults.Damage = finalDamage;
+            if (Stats.Health <=0)
+            {
+                attackResults.TargetKilled = true;
+            }
             //return for later use in display
-            return finalDamage;
+            return attackResults;
         }
 
 

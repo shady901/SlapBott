@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlapBott.Data.Models;
+using System;
 
 
 namespace SlapBott.Data.Repos
@@ -49,6 +50,7 @@ namespace SlapBott.Data.Repos
                   .Include(pc => pc.Character.Race)
                   .Include(pc => pc.Character.CharacterClass)
                   .Include(pc => pc.Character.Inventory)
+                  
                   .FirstOrDefaultAsync();
                 }
 
@@ -89,7 +91,6 @@ namespace SlapBott.Data.Repos
             {
                 meth = _dbContext.PlayerCharacter.Add;
             }
-
             meth(c);
 
         }

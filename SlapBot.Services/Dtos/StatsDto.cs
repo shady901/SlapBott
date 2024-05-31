@@ -46,23 +46,20 @@ namespace SlapBott.Services.Dtos
         }
         public StatsDto FromStats(Stats Stats)
         {
-            stats = Stats.stats;
+
+            this.stats = new Dictionary<StatType, int>(Stats.stats);
+    
             return this;
         }
-        public Stats ToStats(Stats? mystats = null)
+        public Stats ToStats(Stats? mystats = null) // orignal object stats
         {
             if (mystats == null)
             {
                 mystats = new();
             }
 
-            mystats.stats.Clear();
+            mystats.stats = new Dictionary<StatType, int>(stats);
 
-            foreach (var item in stats)
-            {
-                mystats.stats.Add(item.Key, item.Value);    
-            }
-            
             return mystats;
         }
         #region Stats

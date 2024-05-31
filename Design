@@ -14,6 +14,7 @@ Bot Mechanics:
 * Some form of dungeon spawn (either being spawned by a mechanic or just /startdungeon), i would like this to be party play and or solo 
 * a quest or job board where you can choose a passive quest to do, this can be forplayer driven quests, this could be kill amount of dragons to collect this amount of item type
 * Township system per server this includes Inn services such as heals for gold or somthing
+* Would like to add a pet system, does bonus dmg/turn in combat or helps in other situations like lifeskills, or alert level of somthing when exploring
   
 -----------------------------
 Turn based system
@@ -142,6 +143,7 @@ Whats systems required first
 * Trading 
 * Crafting
 * Professions
+* Pets 1 per char
 * Township Job Board
 * Township events
 * Acheivments

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Discord;
+using MediatR;
 using SlapBott.Data.Models;
 using SlapBott.Notifications;
 using SlapBott.RequestHandlers;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,48 +29,72 @@ namespace SlapBott.Handlers
             string dropDownValue = dropDown.messageComponent.Data.Values.First();
             int enemyId = customId.Length >= 2 ? int.Parse(customId[1]) : 0;
 
+            //getenemy
             EnemyDto enemyDto = await _mediator.Send(new RequestGetEnemyCharacter(enemyId));
-            if(enemyDto.Stats.Health == 0)
-            {
-                enemyDto.Stats.Health = 100;
-                enemyDto.Stats.MaxHealth = 100;
-            }
-
+            //getplayer
             PlayerCharacterDto characterDto = await _mediator.Send(new RequestGetExistingCharacterOrNew(notification.messageComponent.User.Id));
-            characterDto.Stats.Strength = 50;
+            //getskill player is using
             SkillDto usedSkillDto = await _mediator.Send(new RequestGetSkill(int.Parse(dropDownValue)));
             try
             {
+                //player attack returning results object
                 AttackResults<PlayerCharacterDto, EnemyDto> result = await _combatManager.Attack(usedSkillDto, characterDto, enemyDto);
-
+                //initialise enemy result object
                 AttackResults<EnemyDto, PlayerCharacterDto> enemyAttackResult = new AttackResults<EnemyDto, PlayerCharacterDto>(enemyDto, characterDto);
-                if (enemyDto.Stats.Health > 0)
+
+                //default skill dropdown
+                MessageComponent e = BuilderReplies.CreateSkillsDropDown(_skillService.GetSkillCollectionByIds(characterDto.Skills).ToList(),
+                             enemyId, Enums.SelectMenuCommands.UseSkill);
+                INotification method = null;
+                //if your attack kills enemy
+                if (result.TargetKilled)
                 {
+                    e = null;
+                method = new NotificationTargetKilled(characterDto, enemyDto);
+                }                
+                else
+                {
+                    //if enemy not dead it attacks 
                     enemyAttackResult = await _mediator.Send(new RequestAttackBack(characterDto, enemyDto));
                     characterDto = enemyAttackResult.Receiver;
                     enemyDto = enemyAttackResult.Sender;
+
+                    //if enemy attack kills you
+                    if (enemyAttackResult.TargetKilled)
+                    {
+                        e = null;
+                        method = new NotificationPlayerCharacterDied(characterDto);
+                    }
+                }
+                //save the objects
+                characterDto = await _mediator.Send(new RequestSavePlayerCharacterDto(characterDto));
+                enemyDto = await _mediator.Send(new RequestSaveEnemyDto(enemyDto));
+
+
+
+                //reply
+                await notification.messageComponent.RespondAsync(
+                     embed:
+                     BuilderReplies.EmbedTurnResults(result, enemyDto, enemyAttackResult),
+                     components:
+                      e??null,
+                    ephemeral: true);
+
+                //mediate result if any
+                if (method != null)
+                {
+                    await _mediator.Publish(method);
                 }
 
-
-                await notification.messageComponent.RespondAsync(
-                    embed: BuilderReplies.EmbedTurnResults(
-                        result, enemyDto, enemyAttackResult), 
-                    components: 
-                    BuilderReplies.CreateSkillsDropDown(
-                            _skillService.GetSkillCollectionByIds(characterDto.Skills).ToList(), 
-                            enemyId, Enums.SelectMenuCommands.UseSkill
-                        ),
-            ephemeral: true);
-
-
-                characterDto = await _mediator.Send(new RequestSavePlayerCharacterDto(characterDto));
-                //enemyDto = await _mediator.Send(new RequestSaveEnemyDto(enemyDto));
-                
-
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
+        
+
+
+       
     }
 }

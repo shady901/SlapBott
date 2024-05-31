@@ -12,7 +12,8 @@ namespace SlapBott.Services.Objects
        public int Damage { get; set; } = 0;
         public bool Dodged { get; set; } = false;
         public SkillDto? Skill { get; set; }
-
+        public bool Crit { get; set; } = false;
+        public bool TargetKilled { get; set; } = false;
         public TSender? Sender { get; set; } = sender;
         public TReceiver? Receiver { get; set; } = receiver;
     }

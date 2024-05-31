@@ -1,4 +1,6 @@
-﻿using SlapBott.Data.Enums;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.Services.Dtos;
 using SlapBott.Services.Objects;
@@ -56,16 +58,21 @@ namespace SlapBott.Services.Implmentations
         //    return damage;
             
         //}
-        public int CalculateDamage<TSender, TReciever>(TSender sender, TReciever reciever, SkillDto usedSkill) where TSender : Target where TReciever : Target
+        public int CalculateDamage<TSender, TReciever>(TSender sender, TReciever reciever, SkillDto usedSkill, AttackResults<TSender, TReciever> attackResults) where TSender : Target where TReciever : Target
         {
             //
             //EQUIPSTATS AND COMBAT EFFECTS NOT INCLUDED
             //
             int damage = 0;
             int PowerModifier;
+            double CritMulti =1;
             //physical elemental or chaos for calculating increases
             ElementalType ElementalType = usedSkill.ElementalType;
-            
+
+            if (attackResults.Crit)
+            {
+                CritMulti = 1.5;
+            }
             switch (ElementalType)
             {
                 case ElementalType.Physical:
@@ -85,22 +92,23 @@ namespace SlapBott.Services.Implmentations
                 damage += (int)(sender.Stats.stats[item.Key] * usedSkill.StatTypeRatio[item.Key]);
             }
 
-           
-            return damage*(1+(PowerModifier/100));
+
+            return (int)(damage * (1 + (PowerModifier / 100))* CritMulti);
         
         }
-        private int CalcAndApplyDamage<TSender,TReciever>(SkillDto UsedSkill, TSender sender , TReciever reciever) where TSender : Target where TReciever : Target
+        private AttackResults<TSender, TReciever> CalcAndApplyDamage<TSender,TReciever>(SkillDto UsedSkill, TSender sender , TReciever reciever, AttackResults<TSender,TReciever> attackResults) where TSender : Target where TReciever : Target
         {
-            var dmg = CalculateDamage(sender, reciever, UsedSkill);
-            dmg = ApplyDamage(reciever, dmg,UsedSkill.ElementalType);
+            var dmg = CalculateDamage(sender, reciever, UsedSkill, attackResults);
 
 
-            return dmg;
+
+            return ApplyDamage(reciever, dmg, UsedSkill.ElementalType, attackResults);
         }
 
-        private int ApplyDamage<TReciever>(TReciever reciever, int dmg,ElementalType elementalType) where TReciever : Target
+        private AttackResults<TSender,TReciever> ApplyDamage<TSender,TReciever>(TReciever reciever, int dmg,ElementalType elementalType, AttackResults<TSender, TReciever> attackResults) where TReciever : Target where TSender :Target
         {
-           return reciever.ApplyDamage(dmg,elementalType);
+            reciever.ApplyDamage(dmg, elementalType, attackResults);
+            return attackResults;
         }
 
       
@@ -111,7 +119,11 @@ namespace SlapBott.Services.Implmentations
             attackResults.Dodged = CalcDodge(reciever.Stats.DodgeChance);
             if (attackResults.Dodged == false)
             {
-                attackResults.Damage = CalcAndApplyDamage(usedSkillDto, sender, reciever);
+                if (CalcCrit(sender.Stats.CritChance))
+                {
+                    attackResults.Crit = true;
+                }
+                CalcAndApplyDamage<TSender,TReciever>(usedSkillDto, sender, reciever,attackResults);
             }
             attackResults.Skill = usedSkillDto;
             return attackResults;
@@ -119,13 +131,18 @@ namespace SlapBott.Services.Implmentations
 
         private bool CalcDodge(int dodgeChance)
         {
+            return RandomRoll100() < dodgeChance;
+        }
+        private bool CalcCrit(int critChance)
+        {
+            return RandomRoll100() < critChance;
+        }
+        private int RandomRoll100()
+        {
             Random r = new Random();
 
-            // Generate a random number between 0 and 99 inclusive.
             int roll = r.Next(1, 101);
-
-            // If the roll is less than the dodge chance, a dodge occurs.
-            return roll < dodgeChance;
+            return roll;
         }
     }
 }
