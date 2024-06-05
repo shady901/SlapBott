@@ -30,13 +30,15 @@ namespace SlapBott.Services.Dtos
         public CharacterClassDto? CharacterClass { get; set; }
         public SubClassDto? SubClass { get; set; }
         public ulong CharExp { get; set; }
+        public int Level => (int)(450 + Math.Sqrt(202500 + 1800 * CharExp)) / 900;
+
         public int StatsId { get; set; }
         public int CombatStateId { get; set; } = 0;
 
         public int InventoryId { get; set; }
         public InventoryDto Inventory { get; set; }
         const double ResMax = .75;
-
+        
         public AttackResults<TSender,TReceiver> ApplyDamage<TSender,TReceiver>(int damage, ElementalType elementalType, AttackResults<TSender,TReceiver> attackResults) where TSender:Target where TReceiver : Target
         {
             double resistancePercentage = 1 - Math.Min((double)Stats.stats[ElementalAndStatTypeHelper.ReturnStatTypeByElementalType(elementalType)] / 100, ResMax);

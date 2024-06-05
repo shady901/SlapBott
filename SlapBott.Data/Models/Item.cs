@@ -1,28 +1,17 @@
 ﻿using SlapBott.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlapBott.Data.Models
 {
     public class Item
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        //ItemID as in what type
+        public int ItemID { get; set; }      
+        public int Seed { get; set; } 
+        
+        public int DroppedLevel { get; set; }
+        public int Count { get; set; }
 
-        private Stats _stats { get; set; }
-
-        public Item() { }
-        public Item GenerateItem(ulong seed)
-        {
-
-            return new Item { _stats = new Stats { Strength = 1, Intelligence =1 ,Dexterity =1 } };
-        }
-
-        public int GetStatByType(StatType stat)
-        {
-            return _stats.stats[stat];
-        }
-
+       // public virtual ICollection<Crafted> Crafts { get; set; }
     }
 }

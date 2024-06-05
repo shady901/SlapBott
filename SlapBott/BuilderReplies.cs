@@ -182,11 +182,11 @@ namespace SlapBott
         }
 
         //needs to change doesnt display enough 
-        public static Embed EmbedTurnResults(AttackResults<PlayerCharacterDto, EnemyDto> result, EnemyDto enemyDto, AttackResults<EnemyDto, PlayerCharacterDto>? enemyAttackResult = null)
+        public static Embed EmbedTurnResults(AttackResults<PlayerCharacterDto, EnemyDto> result, AttackResults<EnemyDto, PlayerCharacterDto>? enemyAttackResult = null)
         {   
             
             string description = $"{result.Sender.Name}\nUsed Skill: {result.Skill.Name}\nDamageType: {result.Skill.ElementalType}\nDamage Done: {result.Damage}";
-            if (enemyAttackResult != null)
+            if (enemyAttackResult != null&& enemyAttackResult.Skill != null)
             {
 
                 description += $"\n\n{enemyAttackResult.Sender.Name} Has Attacked Back\nUsed Skill: {enemyAttackResult.Skill.Name}\nDamageType: {enemyAttackResult.Skill.ElementalType}\nDamage Done: {enemyAttackResult.Damage}";

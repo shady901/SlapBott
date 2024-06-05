@@ -50,7 +50,7 @@ namespace SlapBott.Handlers
                 if (result.TargetKilled)
                 {
                     e = null;
-                method = new NotificationTargetKilled(characterDto, enemyDto);
+                method = new NotificationTargetKilled(characterDto, enemyDto , notification.messageComponent);
                 }                
                 else
                 {
@@ -75,7 +75,7 @@ namespace SlapBott.Handlers
                 //reply
                 await notification.messageComponent.RespondAsync(
                      embed:
-                     BuilderReplies.EmbedTurnResults(result, enemyDto, enemyAttackResult),
+                     BuilderReplies.EmbedTurnResults(result, enemyAttackResult),
                      components:
                       e??null,
                     ephemeral: true);

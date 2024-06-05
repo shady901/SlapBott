@@ -22,7 +22,7 @@ namespace SlapBott.ItemProject
 
         public object GenerateItem(int? seed = null, int? DroppedLevel = null, WeaponType weaponType = WeaponType.None, ArmorType armorType = ArmorType.None)
         {
-           seed = SetSeededRandom(seed);
+            seed = SetSeededRandom(seed);
             var equipedType = GenerateEquipType();
             Type ItemType = GetTypeFromEquipType(equipedType);
             if (ItemType ==typeof(Weapon))
@@ -31,7 +31,12 @@ namespace SlapBott.ItemProject
             }
             return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, armorType,seed);
         }
-        
+
+        //public T GenerateNewItem<T>(int? seed = null, int? DroppedLevel = null) where T : Item
+        //{
+            
+        //    return Activator.CreateInstance(typeof(T), _seedRandom, DroppedLevel, equipedType, armorType, seed);
+        //}
 
 
         private Type GetTypeFromEquipType(EquipType equip)

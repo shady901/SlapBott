@@ -32,10 +32,10 @@ namespace SlapBott.Services.Implmentations
                );
         }
 
-        public Stats GetAllStatsOnItems(List<Equipment> equiped) 
+        public Stats GetAllStatsOnItems(List<Data.Models.Item> equiped) 
         {
             Stats stats = new Stats();
-            foreach (Equipment item in equiped)
+            foreach (Data.Models.Item item in equiped)
             {
                 object temp = _itemComputation.GenerateItem(item.Seed, item.DroppedLevel, item.WeaponType, item.ArmorType);
                 if (temp is Weapon weapon)

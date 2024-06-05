@@ -86,7 +86,7 @@ namespace SlapBott.Services.Dtos
             return null;
 
         }
-        public Equipment GetEquipmentBySlot(EquipType d)
+        public Item GetEquipmentBySlot(EquipType d)
         {
             return null; //Inventory.Equiped;
         }
@@ -95,11 +95,11 @@ namespace SlapBott.Services.Dtos
         /// </summary>
         /// <param name="ID"></param>
         /// <returns>an equiment</returns>
-        public Equipment GetEquipmentByItemID(int ID)
+        public Item GetEquipmentByItemID(int ID)
         {
             return null; // Inventory.First(e => e.ItemID == ID);
         }
-        public void AddExp(int exp)
+        public void AddExp(ulong exp)
         {
 
             var oldlevel = Level;

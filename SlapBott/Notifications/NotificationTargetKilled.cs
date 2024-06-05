@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Discord;
+using Discord.WebSocket;
+using MediatR;
 using SlapBott.Services.Dtos;
 using System;
 using System.Collections.Generic;
@@ -8,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Notifications
 {
-    public class NotificationTargetKilled(PlayerCharacterDto playerCharacterDto, EnemyDto enemyDto):INotification
+    public class NotificationTargetKilled(PlayerCharacterDto playerCharacterDto, EnemyDto enemyDto, SocketMessageComponent messageComponent):INotification
     {
        public PlayerCharacterDto PlayerCharacterDto = playerCharacterDto;
-        public EnemyDto EnemyDto = enemyDto;
+       public EnemyDto EnemyDto = enemyDto;
+        public SocketMessageComponent MessageComponent = messageComponent;
     }
 }
