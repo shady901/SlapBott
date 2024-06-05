@@ -8,9 +8,12 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<InventoryItem> builder)
         {
-           builder.HasOne(c=>c.Inventory)
-                .WithOne()
-                .HasForeignKey<InventoryItem>(c => c.InventoryId);
+
+           //builder.HasOne(c=>c.Inventory)
+           //     .WithOne()
+           //     .HasForeignKey<InventoryItem>(c => c.InventoryId);
+
+
 
             builder.HasOne(z => z.Equipment)
                 .WithOne()

@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240529224638_Adding init")]
-    partial class Addinginit
+    [Migration("20240605022947_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,9 +212,6 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Bag")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("CharacterId")
                         .HasColumnType("INTEGER");
 
@@ -224,6 +221,60 @@ namespace SlapBott.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Inventories");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.InventoryItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId")
+                        .IsUnique();
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("InventoryItems");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ArmorType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DroppedLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EquipType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Seed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("WeaponType")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("items");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
@@ -639,6 +690,25 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Race");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.InventoryItem", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Item", "Equipment")
+                        .WithOne()
+                        .HasForeignKey("SlapBott.Data.Models.InventoryItem", "EquipmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SlapBott.Data.Models.Inventory", "Inventory")
+                        .WithMany("Items")
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Inventory");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
@@ -752,8 +822,9 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
                 {
-                    b.Navigation("Character")
-                        .IsRequired();
+                    b.Navigation("Character");
+
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Race", b =>

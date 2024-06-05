@@ -35,7 +35,7 @@ namespace SlapBott.Data.Repos
                 Console.WriteLine(ex.Message);
             }
 
-            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new(),Bag = new()} }, DiscordId = id, RegistrationId = regId};
+            return playerCharacter ?? new PlayerCharacter() {Character = new() {Stats= new(),Inventory = new() {Equiped = new()} }, DiscordId = id, RegistrationId = regId};
         }
         public async Task<PlayerCharacter> GetPlayerCharacterByPlayerCharacterId(int id)
         {
@@ -60,7 +60,7 @@ namespace SlapBott.Data.Repos
                 Console.WriteLine(ex.Message);
             }
 
-            return playerCharacter ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new(), Bag = new() } }};
+            return playerCharacter ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new() } }};
         }
         public async Task<PlayerCharacter> GetPlayerCharacterByDiscordID(ulong id, int regId)
         {
@@ -73,7 +73,7 @@ namespace SlapBott.Data.Repos
                     .Include(pc => pc.Character.Inventory)
                     .FirstOrDefaultAsync();
 
-            return Character ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new(), Bag = new() } }, DiscordId = id, RegistrationId = regId };
+            return Character ?? new PlayerCharacter() { Character = new() { Stats = new(), Inventory = new() { Equiped = new() } }, DiscordId = id, RegistrationId = regId };
         }
         public PlayerCharacter SaveCharacter(PlayerCharacter playerCharacter)
         {

@@ -67,7 +67,7 @@ namespace SlapBott.Services.Dtos
                 }
                 else
                 {
-                    temp = Bag.Where(x => x.Id == Id).FirstOrDefault();
+                    temp = Bag.Where(x => x.Id.ToString() == Id).FirstOrDefault();
                 }
 
             }
@@ -83,7 +83,7 @@ namespace SlapBott.Services.Dtos
         public InventoryDto FromInventory(Inventory? inventory)
         {
             Equiped = inventory.Equiped;
-            Bag = inventory.Bag;
+            
             return this;
         }
 
@@ -94,7 +94,6 @@ namespace SlapBott.Services.Dtos
                 inventory = new Inventory();
             }
             inventory.Equiped = Equiped;
-            inventory.Bag = Bag;
             return inventory;
         }
     }
