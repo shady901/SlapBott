@@ -1,5 +1,7 @@
 ﻿using SlapBott.Data.Enums;
+using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Items;
+
 
 
 namespace SlapBott.ItemProject
@@ -15,42 +17,28 @@ namespace SlapBott.ItemProject
 
         }
 
-        private EquipType GenerateEquipType()
+      
+
+        public T GenerateItem<T>(ItemParameters itemParameters)
         {
-           return (EquipType)_seedRandom.Next(1, 7);
+            itemParameters.Seed = SetSeededRandom(itemParameters.Seed);
+            var equipedType = GenerateEquipTypeFromItemType(typeof(T));
+            return (T)Activator.CreateInstance(typeof(T), _seedRandom, equipedType, itemParameters);
         }
 
-        public object GenerateItem(int? seed = null, int? DroppedLevel = null, WeaponType weaponType = WeaponType.None, ArmorType armorType = ArmorType.None)
+        public EquipType GenerateEquipTypeFromItemType(Type type)
         {
-            seed = SetSeededRandom(seed);
-            var equipedType = GenerateEquipType();
-            Type ItemType = GetTypeFromEquipType(equipedType);
-            if (ItemType ==typeof(Weapon))
+            if (type != typeof(Weapon))
             {
-                return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, weaponType,seed);
+                return (EquipType)_seedRandom.Next(1, 5);
+
             }
-            return Activator.CreateInstance(ItemType, _seedRandom, DroppedLevel, equipedType, armorType,seed);
+            return (EquipType)_seedRandom.Next(6, 8);
+
         }
+         
 
-        //public T GenerateNewItem<T>(int? seed = null, int? DroppedLevel = null) where T : Item
-        //{
-            
-        //    return Activator.CreateInstance(typeof(T), _seedRandom, DroppedLevel, equipedType, armorType, seed);
-        //}
-
-
-        private Type GetTypeFromEquipType(EquipType equip)
-        {
-            switch (equip)
-            {
-                case EquipType.MainHand:
-                    return typeof(Weapon);
-                case EquipType.OffHand:
-                    return typeof(Weapon);
-                default:
-                    return typeof(Armor);
-            }
-        }
+    
         private int SetSeededRandom(int? seed)
         {
             int _seed = seed ?? GenerateNewSeed();

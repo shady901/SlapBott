@@ -75,6 +75,7 @@ namespace SlapBott.Services.Dtos
             Stats.stats[StatType.Health] = Stats.stats[StatType.MaxHealth];
            
         }
-      
+
+       
     }
 }

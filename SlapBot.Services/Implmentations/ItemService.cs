@@ -1,14 +1,17 @@
 ﻿using SlapBott.Data.Enums;
 using SlapBott.Data.Models;
 using SlapBott.ItemProject;
+using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Contracts;
 using SlapBott.ItemProject.Items;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Item = SlapBott.ItemProject.Items.Item;
 
 namespace SlapBott.Services.Implmentations
 {
@@ -21,46 +24,18 @@ namespace SlapBott.Services.Implmentations
         
         }
 
-        public object GetItemObjectBySeed(int? Seed = null, int? droppedLevel = null,WeaponType WeaponType = WeaponType.None,ArmorType ArmorType= ArmorType.None)
+        public T GenerateNewItem<T>(ItemParameters itemParameters) where T:Item
         {   
            return _itemComputation
-               .GenerateItem(
-               seed:Seed,
-               DroppedLevel:droppedLevel,
-               weaponType: WeaponType,
-               armorType:ArmorType
-               );
+               .GenerateItem<T>(itemParameters);
         }
-
-        public Stats GetAllStatsOnItems(List<Data.Models.Item> equiped) 
+        public Type GenerateRandomItemType()
         {
-            Stats stats = new Stats();
-            foreach (Data.Models.Item item in equiped)
-            {
-                object temp = _itemComputation.GenerateItem(item.Seed, item.DroppedLevel, item.WeaponType, item.ArmorType);
-                if (temp is Weapon weapon)
-                {
-                    foreach (var itemAffix in weapon.itemAffixes)
-                    {
-                        if (stats.stats.ContainsKey(itemAffix.StatType))
-                        {
-                            stats.stats[itemAffix.StatType] += itemAffix.StatValue;
-                        }                       
-                    }
-                }
-                else if (temp is Armor armor)
-                {
-                    foreach (var itemAffix in armor.itemAffixes)
-                    {
-                        if (stats.stats.ContainsKey(itemAffix.StatType))
-                        {
-                            stats.stats[itemAffix.StatType] += itemAffix.StatValue;
-                        }                        
-                    }
-                }
-            }
-            return stats;
+            Type[] types = new Type[] {typeof(Armor),typeof(Weapon)};
+            Random random   = new Random();
+           return types[random.Next(2)];
         }
-
+       
+      
     }
 }

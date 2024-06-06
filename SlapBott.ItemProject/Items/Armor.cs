@@ -1,4 +1,5 @@
 ﻿using SlapBott.Data.Enums;
+using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Contracts;
 using SlapBott.ItemProject.Extensions;
 using System;
@@ -19,13 +20,10 @@ namespace SlapBott.ItemProject.Items
         public int EvasonStat { get; set; }
         public double WeaponAttackSpeedModifer { get; set; }
         private Random _seededRandom;
-        public Armor(Random random, int itemLevel, EquipType equipType, ArmorType armorType = ArmorType.None,int? seed = null) : base(random, itemLevel, equipType,seed)
+        public Armor(Random random,EquipType equipType,ItemParameters itemParameters) : base(random,  equipType,itemParameters)
         {
+            ArmorType = itemParameters.ArmorType?? ArmorType.None;
             _seededRandom = random;
-            if (armorType != ArmorType.None)
-            {
-                ArmorType = armorType;
-            }
             GetRandomArmorType();
             ModifyItemBasedOnLevel();
             ModifyArmorBasedOnLevel();

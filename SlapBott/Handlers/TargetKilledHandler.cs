@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Items;
 using SlapBott.Notifications;
 using SlapBott.RequestHandlers;
@@ -8,6 +9,7 @@ using SlapBott.Services.Implmentations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,15 +25,34 @@ namespace SlapBott.Handlers
         private ItemService _itemService = itemService;
         public async Task Handle(NotificationTargetKilled notification, CancellationToken cancellationToken)
         {
+
+           //get the combatstate from the enemy state
+            CombatStateDto state = await GetCombatStateFromEnemyState(notification.EnemyDto.CombatStateId);
+            //get a percent of exp from boss
             var exp = GetPercentExpFromExp(notification.EnemyDto.CharExp);
-            notification.PlayerCharacterDto.AddExp(exp);
+            //add the exp to each character
+            GiveAllParticipatingPlayersExp(state.Characters,exp);
+            //get the loot table
 
 
+            //assign material rewards MATERIALS NOT INPLEMENTED but would be here
+
+
+            //roll for lootable 
+            //generate items from loot table
+            //save list of players
+            //edit boss stuff to finish raid
+            //post notifications to players/servers
+
+
+
+            ItemParameterBuilder builder = new ItemParameterBuilder();
+            Type a = _itemService.GenerateRandomItemType();
+            var Item = GetItem(builder,a);
 
 
 
             //need to check drop table for stuff before getting item type ect
-            Item? Item = _itemService.GetItemObjectBySeed(droppedLevel: notification.EnemyDto.Level) as Item;
 
 
 
@@ -45,16 +66,23 @@ namespace SlapBott.Handlers
            await  notification.MessageComponent.FollowupAsync($"You Killed {notification.EnemyDto.Name}\nYou Gained {exp} EXP\nYou Gained Item('s): {Item.Name}");
         }
 
+        private void GiveAllParticipatingPlayersExp(ICollection<PlayerCharacterCombatStateDto> characters, ulong exp)
+        {
 
+            foreach (PlayerCharacterCombatStateDto character in characters)
+            { 
+                character.Character.AddExp(exp);
+            
+            }
+        }
 
+        //get the state from the state id
+        private async Task<CombatStateDto> GetCombatStateFromEnemyState(int EnemyStateId)
+        {
+            EnemyCombatStateDto enemyCombatStateDto = await _mediator.Send(new RequestGetEnemyCombatState(EnemyStateId));
+            return await _mediator.Send(new RequestCombatStateDto(enemyCombatStateDto.CombatStateId));
 
-
-
-
-
-
-
-
+        }
         //get exp from enemy and get a % of it 
         private ulong GetPercentExpFromExp(ulong exp)
         {
@@ -63,6 +91,14 @@ namespace SlapBott.Handlers
             return (ulong)(exp * (double)(random.Next(1 , 6) / 100));
         }
 
-       
+        private Item GetItem(ItemParameterBuilder builder, Type type) 
+        {
+            if (type == typeof(Armor))
+            {
+                return _itemService.GenerateNewItem<Armor>(builder.Build());
+            }
+            return _itemService.GenerateNewItem<Weapon>(builder.Build());
+        }
+
     }
 }

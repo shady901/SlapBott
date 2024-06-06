@@ -1,4 +1,5 @@
 ﻿using SlapBott.Data.Enums;
+using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Contracts;
 using SlapBott.ItemProject.Extensions;
 using System;
@@ -21,13 +22,12 @@ namespace SlapBott.ItemProject.Items
         public Handed Handed { get; set; }
         private Random _seededRandom;
         
-        public Weapon(Random random, int DroppedLevel, EquipType equipType, WeaponType weaponType = WeaponType.None, int? Seed = null) : base(random, DroppedLevel, equipType,Seed)
+        public Weapon(Random random, EquipType equipType, ItemParameters itemParameters) : base(random,equipType,itemParameters)
         {
+            WeaponType  = itemParameters.WeaponType?? WeaponType.None;
+
             _seededRandom = random;
-            if (weaponType != WeaponType.None)
-            {
-                WeaponType = weaponType;
-            }           
+            
             GetRandomWeaponTypeBasedOnEquipType();
 
 

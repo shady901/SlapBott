@@ -1,4 +1,5 @@
 ﻿using SlapBott.Data.Enums;
+using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Contracts;
 using System;
 
@@ -39,13 +40,14 @@ namespace SlapBott.ItemProject.Items
           };
         
         protected double ILevelModifier { get; set; }
-        public Item(Random random, int DroppedLevel, EquipType equipType, int? seed= null)
+        public Item(Random random,EquipType equipType, ItemParameters itemParameters)
         {
-            _DroppedLevel = DroppedLevel;
+
+            _DroppedLevel = itemParameters.DroppedLevel??0;
             EquipType = equipType;            
             _seededRandom = random;
-            Seed = (int)seed;
-            itemRarety = GenerateItemRarety();
+            Seed = itemParameters.Seed??0;
+            itemRarety = itemParameters.ItemRarety ?? GenerateItemRarety();
             ItemLevel = CalculateItemLevelOfDroppedLevel();
             GenerateItemAffixes();
             ILevelModifier = (1 + ((ItemLevel / 5) * IlevelRatio));
