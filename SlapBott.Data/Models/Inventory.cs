@@ -18,7 +18,7 @@ namespace SlapBott.Data.Models
         [ForeignKey("CharacterId")]
         public virtual Character? Character { get; set; }
 
-        public virtual Dictionary<EquipType,Item>? Equiped { get; set; }
+        public virtual Dictionary<EquipType,Equipment>? Equiped { get; set; }
         
         public virtual List<InventoryItem> Items { get; set; }
       

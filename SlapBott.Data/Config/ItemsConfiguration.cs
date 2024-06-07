@@ -4,9 +4,9 @@ using SlapBott.Data.Models;
 
 namespace SlapBott.Data.Config
 {
-    public class ItemsConfiguration : IEntityTypeConfiguration<Item>
+    public class ItemsConfiguration : IEntityTypeConfiguration<Equipment>
     {
-        public void Configure(EntityTypeBuilder<Item> builder)
+        public void Configure(EntityTypeBuilder<Equipment> builder)
         {
             builder.HasKey(x => x.Id);
         }

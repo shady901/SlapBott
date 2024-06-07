@@ -59,7 +59,7 @@ namespace SlapBott.Handlers
             //save item push notification saying player got item display stats
             if (Item != null)
             {
-                notification.PlayerCharacterDto.Inventory.SaveItemToBag(new Data.Models.Item() { Seed = Item.Seed });
+                notification.PlayerCharacterDto.Inventory.SaveItemToBag(new Data.Models.Equipment() { Seed = Item.Seed });
             }
 
             await _mediator.Send(new RequestSavePlayerCharacterDto(notification.PlayerCharacterDto));

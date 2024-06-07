@@ -16,6 +16,6 @@ namespace SlapBott.Data.Models
 
 
         [ForeignKey("EquipmentId")]
-        public virtual Item? Equipment { get; set; }
+        public virtual Equipment? Equipment { get; set; }
     }
 }

@@ -30,7 +30,10 @@ namespace SlapBott.Data
         public DbSet<Region> Regions { get; set; }
         public DbSet<DiscordGuild> DiscordGuilds { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
-        public DbSet<Item> items { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+    //    public DbSet<BaseItem> baseItems { get; set; }
+    //    public DbSet<LootTableItem> lootTableItems { get;set; }
+      //  public DbSet<LootTable> lootTables { get; set; }
         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
 
@@ -54,7 +57,9 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<Region>(new RegionConfiguration());
             modelBuilder.ApplyConfiguration<DiscordGuild>(new DiscordGuildConfiguration());
             modelBuilder.ApplyConfiguration(new InventoryItemConfiguration());
-            modelBuilder.ApplyConfiguration<Item>(new ItemsConfiguration());
+           // modelBuilder.ApplyConfiguration<Equipment>(new ItemsConfiguration());
+          //  modelBuilder.ApplyConfiguration<LootTableItem>(new LootTableItemConfiguration());
+          //  modelBuilder.ApplyConfiguration<LootTable>(new LootTableConfiguration());
             // Iterate over all entity types in the model
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

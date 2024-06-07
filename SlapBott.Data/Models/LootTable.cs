@@ -11,30 +11,24 @@ namespace SlapBott.Data.Models
     {
         public int Id { get; set; }
 
-        public List<LootableItem> lootableItems { get; set; }
+
+        public virtual List<LootTableItem>? LootableItems { get; set; }
 
     }
 
-    public class LootableItem
+    public class LootTableItem
     { 
         public int id { get; set; }
         public int ItemId { get; set; }
-
-        [ForeignKey("ItemId")]
-        public virtual BaseItem BaseItem { get; set; }
+        
+    //    [ForeignKey("ItemId")]
+    //    public virtual BaseItem? BaseItem { get; set; }
         public int DropChance { get; set; }
+        public int Amount { get; set; }
     
     
     }
 
 
-    public class BaseItem
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public bool IsConsumable { get; set; }
-        public bool IsMateral { get; set; }
-        //used in ??? proffessions make it easier to make calls/sortby
-    }
+    
 }

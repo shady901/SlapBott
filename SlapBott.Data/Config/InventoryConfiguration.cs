@@ -15,7 +15,7 @@ namespace SlapBott.Data.Config
             builder.Property(x => x.Equiped)
                             .HasConversion(
                                             v => JsonConvert.SerializeObject(v),
-                                            v => JsonConvert.DeserializeObject<Dictionary<EquipType, Item>>(v)
+                                            v => JsonConvert.DeserializeObject<Dictionary<EquipType, Equipment>>(v)
                                         );
 
             builder.HasOne(c => c.Character).WithOne(c => c.Inventory).HasForeignKey<Character>(k=>k.InventoryId);
