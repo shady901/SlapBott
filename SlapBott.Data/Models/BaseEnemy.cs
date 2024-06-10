@@ -9,6 +9,7 @@ namespace SlapBott.Data.Models
 {
     public class BaseEnemy
     {
+
         public int Id { get; set; }
         //enemy type as "Skeleton, Dragon Ect" 
         public EnemyTypes EnemyType { get; set; }

@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SlapBott.Data.Models
+﻿namespace SlapBott.Data.Models
 {
     public class Material: Item
     {
-
+              
+        public required string Profession { get; set; }
        
     }
-
-  
 }

@@ -1,14 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SlapBott.Data.Models;
+using System.Reflection.Emit;
 
 namespace SlapBott.Data.Config
 {
-    public class ItemsConfiguration : IEntityTypeConfiguration<Equipment>
+    internal class ItemsConfiguration : IEntityTypeConfiguration<Item>
     {
-        public void Configure(EntityTypeBuilder<Equipment> builder)
+        public void Configure(EntityTypeBuilder<Item> builder)
         {
-            builder.HasKey(x => x.Id);
+          builder
+                .ToTable("Items")
+                .HasKey(i => i.Id);
         }
     }
 }

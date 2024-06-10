@@ -11,8 +11,8 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    [Migration("20240605022947_init")]
-    partial class init
+    [Migration("20240610002352_seeder")]
+    partial class seeder
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,6 +206,38 @@ namespace SlapBott.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ArmorType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DroppedLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EquipType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Seed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("WeaponType")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipment");
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
                 {
                     b.Property<int>("Id")
@@ -251,30 +283,19 @@ namespace SlapBott.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ArmorType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Count")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DroppedLevel")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("EquipType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ItemID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Seed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("WeaponType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("items");
+                    b.ToTable("Items", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
@@ -615,6 +636,47 @@ namespace SlapBott.Data.Migrations
                     b.HasDiscriminator().HasValue("Boss");
                 });
 
+            modelBuilder.Entity("SlapBott.Data.Models.Consumable", b =>
+                {
+                    b.HasBaseType("SlapBott.Data.Models.Item");
+
+                    b.ToTable("Consumables", (string)null);
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Material", b =>
+                {
+                    b.HasBaseType("SlapBott.Data.Models.Item");
+
+                    b.Property<string>("Profession")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("Materials", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "",
+                            Name = "Iron Ore",
+                            Profession = "Blacksmith"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "",
+                            Name = "Herbs",
+                            Profession = "Alchemist"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "",
+                            Name = "Cloth",
+                            Profession = "Tailor"
+                        });
+                });
+
             modelBuilder.Entity("SlapBott.Data.Models.RaidBoss", b =>
                 {
                     b.HasBaseType("SlapBott.Data.Models.Boss");
@@ -692,7 +754,7 @@ namespace SlapBott.Data.Migrations
 
             modelBuilder.Entity("SlapBott.Data.Models.InventoryItem", b =>
                 {
-                    b.HasOne("SlapBott.Data.Models.Item", "Equipment")
+                    b.HasOne("SlapBott.Data.Models.Equipment", "Equipment")
                         .WithOne()
                         .HasForeignKey("SlapBott.Data.Models.InventoryItem", "EquipmentId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -813,6 +875,24 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Attacker");
 
                     b.Navigation("CombatState");
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Consumable", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Item", null)
+                        .WithOne()
+                        .HasForeignKey("SlapBott.Data.Models.Consumable", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SlapBott.Data.Models.Material", b =>
+                {
+                    b.HasOne("SlapBott.Data.Models.Item", null)
+                        .WithOne()
+                        .HasForeignKey("SlapBott.Data.Models.Material", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.CharacterClass", b =>

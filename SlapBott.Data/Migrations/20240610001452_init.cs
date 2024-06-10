@@ -58,21 +58,7 @@ namespace SlapBott.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inventories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Equiped = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inventories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "items",
+                name: "Equipment",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -87,7 +73,35 @@ namespace SlapBott.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_items", x => x.Id);
+                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Inventories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Equiped = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inventories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,15 +177,52 @@ namespace SlapBott.Data.Migrations
                 {
                     table.PrimaryKey("PK_InventoryItems", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_InventoryItems_Equipment_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "Equipment",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_InventoryItems_Inventories_InventoryId",
                         column: x => x.InventoryId,
                         principalTable: "Inventories",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Consumables",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consumables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InventoryItems_items_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "items",
-                        principalColumn: "Id");
+                        name: "FK_Consumables_Items_Id",
+                        column: x => x.Id,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Materials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Profession = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Materials", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Materials_Items_Id",
+                        column: x => x.Id,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -598,6 +649,9 @@ namespace SlapBott.Data.Migrations
                 table: "PlayerCharacter");
 
             migrationBuilder.DropTable(
+                name: "Consumables");
+
+            migrationBuilder.DropTable(
                 name: "DiscordGuilds");
 
             migrationBuilder.DropTable(
@@ -610,6 +664,9 @@ namespace SlapBott.Data.Migrations
                 name: "InventoryItems");
 
             migrationBuilder.DropTable(
+                name: "Materials");
+
+            migrationBuilder.DropTable(
                 name: "PlayerCharacterCombatState");
 
             migrationBuilder.DropTable(
@@ -619,7 +676,10 @@ namespace SlapBott.Data.Migrations
                 name: "Enemies");
 
             migrationBuilder.DropTable(
-                name: "items");
+                name: "Equipment");
+
+            migrationBuilder.DropTable(
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Skills");

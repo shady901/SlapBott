@@ -16,6 +16,7 @@ namespace SlapBott.Data.Repos
         }
         public async Task<PlayerCharacter> GetTempPlayerCharacterByDiscordID(ulong id, int regId)
         {
+            
             PlayerCharacter? playerCharacter = null;
             try
             {

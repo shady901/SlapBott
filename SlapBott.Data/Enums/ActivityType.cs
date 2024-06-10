@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Enums
 {
-    public enum EnemyTypes
+    public enum ActivityType
     {
-        None = 0,
-        Skeleton,
-        Dragon,
-
-
-
+        None  =0,
+        Mining,
+        Gathering,
+        Farming,
+        Fishing,
+        Skinning,
 
     }
 }

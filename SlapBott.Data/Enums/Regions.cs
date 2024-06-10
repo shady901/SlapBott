@@ -16,10 +16,4 @@ namespace SlapBott.Data.Enums
         Plains,
         Searing_Scale_Peaks
     }
-    public enum RegionSites
-    { 
-    
-    
-    
-    }
 }

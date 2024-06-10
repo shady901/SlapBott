@@ -28,23 +28,23 @@ namespace SlapBott.Commands
         public async Task CreateNewCharacterAysnc()
         {
             var UserId = Context.User.Id;
-            var itemObject = _itemService.GetItemObjectBySeed();
-            try
-            {
-                if (itemObject is Weapon weapon)
-                {
-                    await Context.Interaction.RespondAsync(embed:BuilderReplies.DisplayWeapon(weapon));
+            //var itemObject = _itemService.GetItemObjectBySeed();
+            //try
+            //{
+            //    if (itemObject is Weapon weapon)
+            //    {
+            //        await Context.Interaction.RespondAsync(embed:BuilderReplies.DisplayWeapon(weapon));
                    
-                }
-                if (itemObject is Armor armor)
-                {
-                    await Context.Interaction.RespondAsync(embed: BuilderReplies.DisplayArmor(armor));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            //    }
+            //    if (itemObject is Armor armor)
+            //    {
+            //        await Context.Interaction.RespondAsync(embed: BuilderReplies.DisplayArmor(armor));
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
         }
 
 

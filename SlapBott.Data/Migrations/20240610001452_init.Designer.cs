@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlapBott.Data;
 
@@ -10,9 +11,11 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    partial class SlapbottDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240610001452_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -649,29 +652,6 @@ namespace SlapBott.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.ToTable("Materials", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "",
-                            Name = "Iron Ore",
-                            Profession = "Blacksmith"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "",
-                            Name = "Herbs",
-                            Profession = "Alchemist"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "",
-                            Name = "Cloth",
-                            Profession = "Tailor"
-                        });
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.RaidBoss", b =>
