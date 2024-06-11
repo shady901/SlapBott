@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Enums
 {
-    public enum ActivityType
+    public enum ItemType
     {
-        None  =0,
-        Mining,
-        Gathering,
-        Farming,
-        Fishing,
-        Skinning,
-
+        Gear,
+        Material,
+        Consumable,
     }
 }

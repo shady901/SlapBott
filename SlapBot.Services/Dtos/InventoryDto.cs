@@ -8,16 +8,16 @@ namespace SlapBott.Services.Dtos
 {
     public class InventoryDto
     {
-        public Dictionary<EquipType, Equipment>? Equiped { get; set; }
-        public List<Equipment>? Bag { get; set; }
+        public Dictionary<EquipType, EquipmentDto>? Equiped { get; set; }
+        public List<EquipmentDto>? Bag { get; set; }
 
         
 
-        public void SaveItemToBag(Equipment equipment)
+        public void SaveItemToBag(EquipmentDto equipment)
         {
             Bag.Add(equipment);
         }
-        public void SaveItemToEquiped(Equipment? equipment = null, string? Id = null)
+        public void SaveItemToEquiped(EquipmentDto? equipment = null, string? Id = null)
         {
             var temp = GetEquipmentFromBag(Id, equipment);
             if (temp!=null)
@@ -33,12 +33,12 @@ namespace SlapBott.Services.Dtos
             }
 
         }
-        private void SaveArmorToEquiped(Equipment equipment)
+        private void SaveArmorToEquiped(EquipmentDto equipment)
         {
             SaveItemToBag(Equiped[equipment.EquipType]);
             RemoveItemFromBag(equipment: equipment);
         }
-        private void SaveWeaponToEquiped(Equipment equipment) 
+        private void SaveWeaponToEquiped(EquipmentDto equipment) 
         {
             SaveItemToBag(Equiped[equipment.EquipType]);
             if (equipment.WeaponType.GetHandedAttribute() == Handed.TwoHanded)
@@ -50,15 +50,15 @@ namespace SlapBott.Services.Dtos
             Equiped[equipment.EquipType] = equipment;
             RemoveItemFromBag(equipment: equipment);
         }
-        private bool DoesItemExistInBag(string? Id = null, Equipment? equipment = null)
+        private bool DoesItemExistInBag(string? Id = null, EquipmentDto? equipment = null)
         {
 
             return GetEquipmentFromBag(Id, equipment) != null;
         }
-        private Equipment GetEquipmentFromBag(string? Id = null, Equipment? equipment = null)
+        private EquipmentDto GetEquipmentFromBag(string? Id = null, EquipmentDto? equipment = null)
         {
 
-            Equipment? temp = null;
+            EquipmentDto? temp = null;
             if (equipment != null || Id != null)
             {
                 if (equipment == null)
@@ -73,7 +73,7 @@ namespace SlapBott.Services.Dtos
             }
             return temp;
         }
-        private void RemoveItemFromBag(Equipment equipment)
+        private void RemoveItemFromBag(EquipmentDto equipment)
         {          
             Bag.Remove(equipment);
         }
@@ -82,7 +82,6 @@ namespace SlapBott.Services.Dtos
 
         public InventoryDto FromInventory(Inventory? inventory)
         {
-            Equiped = inventory.Equiped;
             
             return this;
         }

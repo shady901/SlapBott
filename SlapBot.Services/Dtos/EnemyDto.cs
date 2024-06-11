@@ -22,7 +22,7 @@ namespace SlapBott.Services.Dtos
                 Description = enemy.Character.Description,
                 Stats = new StatsDto().FromStats(enemy.Character.Stats),
                 Skills = enemy.Character.LearnedSkillIds,
-                
+                LootTableDto = new LootTableDto().FromLootTable((LootTable)enemy.Character.LootTable)
             };
         }
         public EnemyDto FromEnemy(Enemy enemy)
@@ -34,6 +34,8 @@ namespace SlapBott.Services.Dtos
                 Description = enemy.Character.Description,
                 Stats = new StatsDto().FromStats(enemy.Character.Stats),
                 Skills = enemy.Character.LearnedSkillIds,
+                LootTableDto = new LootTableDto().FromLootTable((LootTable)enemy.Character.LootTable)
+
             };
         }
         public Enemy ToEnemy(Enemy? enemy = null)

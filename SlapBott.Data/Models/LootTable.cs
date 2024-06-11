@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SlapBott.Data.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SlapBott.Data.Models
 {
     public class LootTable
     {
         public int Id { get; set; }
+        public int EnemyId { get; set; }
 
-
-        public virtual List<LootTableItem>? LootableItems { get; set; }
-
+        public Enemy Enemy { get; set; }
+        public ICollection<LootTableItem> LootTableItems { get; set; }
     }
 
     public class LootTableItem
-    { 
-        public int id { get; set; }
+    {
+        public int Id { get; set; }
+        public int LootTableId { get; set; }
+        public LootTable LootTable { get; set; }
+
+        public ItemType? ItemType { get; set; }
         public int ItemId { get; set; }
-        
-    //    [ForeignKey("ItemId")]
-    //    public virtual BaseItem? BaseItem { get; set; }
-        public int DropChance { get; set; }
-        public int Amount { get; set; }
-    
-    
+        public int Quantity { get; set; }
+        public ItemRarety? GearRarety { get; set; }  // Only for gear items
     }
 
 
-    
+
 }

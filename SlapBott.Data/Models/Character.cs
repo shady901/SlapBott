@@ -35,8 +35,10 @@ namespace SlapBott.Data.Models
 
         public virtual List<int>? LearnedSkillIds { get; set; }
 
-       
-       
+        public ICollection<LootTable> LootTable { get; set; }
+
+
+
         // public virtual CharacterClass CharacterClass { get; set; }
         //public virtual SubClass SubClass { get; set; }
         // public Classes SelectedCharacterClass { get; set; }

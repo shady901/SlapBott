@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SlapBott.Data.Models;
+using System.Reflection.Emit;
 
 namespace SlapBott.Data.Config
 {
@@ -8,7 +9,10 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<LootTable> builder)
         {
-            builder.HasMany<LootTableItem>().WithOne().HasForeignKey(c => c.id);
+           builder
+           .HasMany(lt => lt.LootTableItems)
+           .WithOne(lti => lti.LootTable)
+           .HasForeignKey(lti => lti.LootTableId);
         }
     }
 }

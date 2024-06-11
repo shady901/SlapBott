@@ -1,13 +1,17 @@
 ﻿using SlapBott.Data.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SlapBott.Data.Models
 {
     public class Equipment
     {
         public int Id { get; set; }
-        //ItemID as in what type
-        public int ItemID { get; set; }
-        
+        public int MaterialId { get; set; } = 0;
+        public int ConsumableId { get; set; } = 0;
+        [ForeignKey("MaterialId")]
+        public Material? Material { get; set; }
+        [ForeignKey("ConsumableId")]
+        public Consumable? Consumable { get; set; }
         public int Seed { get; set; } 
         public EquipType EquipType { get; set; }   
         public WeaponType WeaponType { get; set; }

@@ -20,7 +20,7 @@ namespace SlapBott.Services.Dtos
             return new() { Description = target.Description, Name= target.Name };
         
         }
-        public static DisplayDto FromItem(Item item) 
+        public static DisplayDto FromItem(ItemDto item) 
         {
             return new() { Description = item.Description, Name = item.Name };
         }

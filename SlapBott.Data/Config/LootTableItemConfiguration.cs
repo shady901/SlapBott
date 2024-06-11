@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SlapBott.Data.Models;
+using System.Reflection.Emit;
 
 namespace SlapBott.Data.Config
 {
@@ -8,7 +9,22 @@ namespace SlapBott.Data.Config
     {
         public void Configure(EntityTypeBuilder<LootTableItem> builder)
         {
-          //  builder.HasOne(c => c.BaseItem).WithMany().HasForeignKey(c=>c.ItemId);
+            builder
+             .Property(lti => lti.ItemType)
+            .IsRequired();
+
+           builder.HasOne<Material>()
+                .WithMany()
+                .HasForeignKey(lti => lti.ItemId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne<Consumable>()
+                .WithMany()
+                .HasForeignKey(lti => lti.ItemId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

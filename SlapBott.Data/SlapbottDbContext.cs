@@ -22,10 +22,10 @@ namespace SlapBott.Data
         public DbSet<Enemy> Enemies { get; set; }
         public DbSet<Boss> Bosses { get; set; }
         public DbSet<RaidBoss> RaidBosses { get; set; }
-       public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Stats> Stats { get; set; }
         public DbSet<Race> Races { get; set; }
-       public DbSet<CharacterClass> CharacterClasses { get; set; }
+        public DbSet<CharacterClass> CharacterClasses { get; set; }
         public DbSet<EnemyTemplate> EnemyTemplates { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<DiscordGuild> DiscordGuilds { get; set; }
@@ -34,9 +34,9 @@ namespace SlapBott.Data
         public DbSet<Material> Materials { get; set; }
         public DbSet<Consumable> Consumables { get; set; }
         private DbSet<Item> Items { get; set; }
-        //    public DbSet<BaseItem> baseItems { get; set; }
-        //    public DbSet<LootTableItem> lootTableItems { get;set; }
-        //  public DbSet<LootTable> lootTables { get; set; }
+        public DbSet<LootTable> lootTables { get; set; }
+        public DbSet<LootTableItem> lootTablesItem { get; set; }    
+       
         public SlapbottDbContext(DbContextOptions<SlapbottDbContext> options) : base(options)
         {
 
@@ -64,8 +64,8 @@ namespace SlapBott.Data
             modelBuilder.ApplyConfiguration<Material>(new MaterialsConfiguration());
             modelBuilder.ApplyConfiguration<Item>(new ItemsConfiguration());
             modelBuilder.ApplyConfiguration<Consumable>(new ConsumablesConfiguration());
-            //  modelBuilder.ApplyConfiguration<LootTableItem>(new LootTableItemConfiguration());
-            //  modelBuilder.ApplyConfiguration<LootTable>(new LootTableConfiguration());
+            modelBuilder.ApplyConfiguration<LootTableItem>(new LootTableItemConfiguration());
+            modelBuilder.ApplyConfiguration<LootTable>(new LootTableConfiguration());
             // Iterate over all entity types in the model
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

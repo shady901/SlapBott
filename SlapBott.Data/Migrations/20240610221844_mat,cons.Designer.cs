@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SlapBott.Data;
 
@@ -10,9 +11,11 @@ using SlapBott.Data;
 namespace SlapBott.Data.Migrations
 {
     [DbContext(typeof(SlapbottDbContext))]
-    partial class SlapbottDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240610221844_mat,cons")]
+    partial class matcons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -315,52 +318,6 @@ namespace SlapBott.Data.Migrations
                     b.ToTable("Items", (string)null);
 
                     b.UseTptMappingStrategy();
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.LootTable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("EnemyId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EnemyId");
-
-                    b.ToTable("lootTables");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.LootTableItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("GearRarety")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ItemType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("LootTableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("LootTableId");
-
-                    b.ToTable("lootTablesItem");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
@@ -858,38 +815,6 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Inventory");
                 });
 
-            modelBuilder.Entity("SlapBott.Data.Models.LootTable", b =>
-                {
-                    b.HasOne("SlapBott.Data.Models.Enemy", "Enemy")
-                        .WithMany("LootTables")
-                        .HasForeignKey("EnemyId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Enemy");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.LootTableItem", b =>
-                {
-                    b.HasOne("SlapBott.Data.Models.Consumable", null)
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("SlapBott.Data.Models.Material", null)
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("SlapBott.Data.Models.LootTable", "LootTable")
-                        .WithMany("LootTableItems")
-                        .HasForeignKey("LootTableId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("LootTable");
-                });
-
             modelBuilder.Entity("SlapBott.Data.Models.PlayerCharacter", b =>
                 {
                     b.HasOne("SlapBott.Data.Models.Character", "Character")
@@ -1019,21 +944,11 @@ namespace SlapBott.Data.Migrations
                     b.Navigation("Character");
                 });
 
-            modelBuilder.Entity("SlapBott.Data.Models.Enemy", b =>
-                {
-                    b.Navigation("LootTables");
-                });
-
             modelBuilder.Entity("SlapBott.Data.Models.Inventory", b =>
                 {
                     b.Navigation("Character");
 
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("SlapBott.Data.Models.LootTable", b =>
-                {
-                    b.Navigation("LootTableItems");
                 });
 
             modelBuilder.Entity("SlapBott.Data.Models.Race", b =>

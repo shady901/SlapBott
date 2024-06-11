@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using SlapBott.Data.Models;
 using SlapBott.ItemProject.Builders;
 using SlapBott.ItemProject.Items;
 using SlapBott.Notifications;
 using SlapBott.RequestHandlers;
 using SlapBott.Requests;
+using SlapBott.Services;
 using SlapBott.Services.Dtos;
 using SlapBott.Services.Implmentations;
 using System;
@@ -35,9 +37,8 @@ namespace SlapBott.Handlers
             //get the loot table
 
 
-            //assign material rewards MATERIALS NOT INPLEMENTED but would be here
-
-
+            GiveAllParticipatingPlayersLoot(state.Characters, notification.EnemyDto.LootTableDto);
+            
             //roll for lootable 
             //generate items from loot table
             //save list of players
@@ -52,8 +53,7 @@ namespace SlapBott.Handlers
 
 
 
-            //need to check drop table for stuff before getting item type ect
-
+            
 
 
             //save item push notification saying player got item display stats
@@ -61,9 +61,26 @@ namespace SlapBott.Handlers
             {
                 notification.PlayerCharacterDto.Inventory.SaveItemToBag(new Data.Models.Equipment() { Seed = Item.Seed });
             }
-
+            
             await _mediator.Send(new RequestSavePlayerCharacterDto(notification.PlayerCharacterDto));
            await  notification.MessageComponent.FollowupAsync($"You Killed {notification.EnemyDto.Name}\nYou Gained {exp} EXP\nYou Gained Item('s): {Item.Name}");
+        }
+
+        private void GiveAllParticipatingPlayersLoot(ICollection<PlayerCharacterCombatStateDto> characters, LootTableDto LootTable)
+        {
+
+            
+
+            foreach (var character in characters)
+            {
+                character.Character.Inventory.SaveItemToBag(GetRandomItemFromLootTable(LootTable));
+            }
+        }
+
+        private async Task<EquipmentDto> GetRandomItemFromLootTable(LootTableDto lootTable)
+        {
+            
+         return  await _mediator.Send(new RequestConvertToEquipmentFromLootTableItemDto(lootTable.RandomItemFromLootTable())); 
         }
 
         private void GiveAllParticipatingPlayersExp(ICollection<PlayerCharacterCombatStateDto> characters, ulong exp)
@@ -99,6 +116,7 @@ namespace SlapBott.Handlers
             }
             return _itemService.GenerateNewItem<Weapon>(builder.Build());
         }
+       
 
     }
 }

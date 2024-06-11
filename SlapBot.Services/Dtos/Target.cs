@@ -38,7 +38,7 @@ namespace SlapBott.Services.Dtos
         public int InventoryId { get; set; }
         public InventoryDto Inventory { get; set; }
         const double ResMax = .75;
-        
+        public LootTableDto LootTableDto { get; set; }
         public AttackResults<TSender,TReceiver> ApplyDamage<TSender,TReceiver>(int damage, ElementalType elementalType, AttackResults<TSender,TReceiver> attackResults) where TSender:Target where TReceiver : Target
         {
             double resistancePercentage = 1 - Math.Min((double)Stats.stats[ElementalAndStatTypeHelper.ReturnStatTypeByElementalType(elementalType)] / 100, ResMax);

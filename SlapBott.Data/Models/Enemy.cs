@@ -20,9 +20,7 @@ namespace SlapBott.Data.Models
         public virtual Region? Region { get; set; }
         [ForeignKey("CharacterId")]
         public virtual Character Character { get; set; }
-
-
-        public Enemy() 
+       public Enemy() 
         {
             if (Character == null)
             {
