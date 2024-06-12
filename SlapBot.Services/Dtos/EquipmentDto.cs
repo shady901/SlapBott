@@ -14,8 +14,8 @@ namespace SlapBott.Services.Dtos
         public int Id { get; set; }
         public int MaterialId { get; set; } = 0;
         public int ConsumableId { get; set; } = 0;
-        public Material? Material { get; set; }
-        public Consumable? Consumable { get; set; }
+        public MaterialDto? Material { get; set; }
+        public ConsumableDto? Consumable { get; set; }
         public int Seed { get; set; }
         public EquipType EquipType { get; set; }
         public WeaponType WeaponType { get; set; }
@@ -33,8 +33,8 @@ namespace SlapBott.Services.Dtos
             Id = equipment.Id;
             MaterialId = equipment.MaterialId;
             ConsumableId = equipment.ConsumableId;
-            Material = equipment.Material;
-            Consumable = equipment.Consumable;
+            Material = new MaterialDto().FromRecord(equipment.Material);
+            Consumable =new ConsumableDto().FromRecord(equipment.Consumable);
             Seed = equipment.Seed;
             EquipType = equipment.EquipType;
             WeaponType = equipment.WeaponType;
@@ -54,8 +54,8 @@ namespace SlapBott.Services.Dtos
 
             equipment.MaterialId = this.MaterialId;
             equipment.ConsumableId = this.ConsumableId;
-            equipment.Material = this.Material;
-            equipment.Consumable = this.Consumable;
+            this.Material.ToRecord(equipment.Material);
+            this.Consumable.ToRecord(equipment.Consumable);
             equipment.Seed = this.Seed;
             equipment.EquipType = this.EquipType;
             equipment.WeaponType = this.WeaponType;
@@ -67,4 +67,4 @@ namespace SlapBott.Services.Dtos
         }
     }
 }
-}
+

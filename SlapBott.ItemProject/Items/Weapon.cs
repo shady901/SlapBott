@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.ItemProject.Items
 {
-    public class Weapon : Item
+    public class Weapon : Gear
     {
 
         public int Damage { get; set; }

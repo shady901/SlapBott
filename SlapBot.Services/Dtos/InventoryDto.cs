@@ -92,7 +92,7 @@ namespace SlapBott.Services.Dtos
             { 
                 inventory = new Inventory();
             }
-            inventory.Equiped = Equiped;
+         //   inventory.Equiped = Equiped;
             return inventory;
         }
     }

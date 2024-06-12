@@ -7,7 +7,7 @@ using System;
 
 namespace SlapBott.ItemProject.Items
 {
-    public class Item : IItem
+    public class Gear : IItem
     {
         public  int Seed { get; set; }
         public int ItemLevel { get; set; }
@@ -20,7 +20,7 @@ namespace SlapBott.ItemProject.Items
 
 
         public double IlevelRatio = 0.01;
-        private int _DroppedLevel;
+        public int DroppedLevel;
         private Random _seededRandom;
         private Dictionary<ItemRarety, double> _rarityProbabilities = new Dictionary<ItemRarety, double>
           {
@@ -40,10 +40,11 @@ namespace SlapBott.ItemProject.Items
           };
         
         protected double ILevelModifier { get; set; }
-        public Item(Random random,EquipType equipType, ItemParameters itemParameters)
+        
+        public Gear(Random random,EquipType equipType, ItemParameters itemParameters)
         {
 
-            _DroppedLevel = itemParameters.DroppedLevel??0;
+            DroppedLevel = itemParameters.DroppedLevel??0;
             EquipType = equipType;            
             _seededRandom = random;
             Seed = itemParameters.Seed??0;
@@ -57,9 +58,9 @@ namespace SlapBott.ItemProject.Items
 
         private int CalculateItemLevelOfDroppedLevel()
         {
-            if (_DroppedLevel > 1)
+            if (DroppedLevel > 1)
             {
-                return _seededRandom.Next(_DroppedLevel - 1, _DroppedLevel + 2) * 5;
+                return _seededRandom.Next(DroppedLevel - 1, DroppedLevel + 2) * 5;
             }
             return _seededRandom.Next(1, 3) * 5;
         }

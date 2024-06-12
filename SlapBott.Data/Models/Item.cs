@@ -12,6 +12,6 @@ namespace SlapBott.Data.Models
         public EnemyTypes? EnemyType { get; set; }        
         public AreaType? AreaType { get; set; }
         public Regions? Regions { get; set; }
-        public ProffessionType? AcuiredThroughType { get; set; }
+        public GatheringType? AcuiredThroughType { get; set; }
     }
 }

@@ -10,14 +10,14 @@ namespace SlapBott.Services.Dtos
 {
     public class ItemDto
     {
-        public required string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
         public int FoundLevel { get; set; }
         public EnemyTypes? EnemyType { get; set; }
         public AreaType? AreaType { get; set; }
         public Regions? Regions { get; set; }
-        public ProffessionType? AcuiredThroughType { get; set; }
+        public GatheringType? AcuiredThroughType { get; set; }
 
 
         

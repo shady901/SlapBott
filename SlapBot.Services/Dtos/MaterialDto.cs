@@ -9,17 +9,21 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Services.Dtos
 {
-    public class MaterialDto:ItemDto
+    public class MaterialDto : ItemDto
     {
-        public ProffessionType[] CanBeUsedInProffesions { get; set; }
+        public ProffesionTypes[] CanBeUsedInProffesions { get; set; }
 
 
 
 
 
-        public MaterialDto FromMaterial(Material material)  
+        public MaterialDto FromRecord(Material? material = null)
         {
-          
+            if (material == null)
+            {
+                material = new Material() { Name = string.Empty };
+            }
+
             CanBeUsedInProffesions = material.CanBeUsedInProffesions;
             Name = material.Name;
             Description = material.Description;
@@ -29,8 +33,26 @@ namespace SlapBott.Services.Dtos
             Regions = material.Regions;
             AcuiredThroughType = material.AcuiredThroughType;
 
-            return this;         
-        
+            return this;
+
+        }
+        public Material ToRecord(Material? material = null)
+        {
+            if (material == null)
+            {
+                material = new Material() { Name = string.Empty };
+            }
+
+            material.CanBeUsedInProffesions = CanBeUsedInProffesions;
+            material.Name = Name;
+            material.Description = Description;
+            material.FoundLevel = FoundLevel;
+            material.EnemyType = EnemyType;
+            material.AreaType = AreaType;
+            material.Regions = Regions;
+            material.AcuiredThroughType = AcuiredThroughType;
+
+            return material;
         }
     }
 

@@ -21,10 +21,10 @@ namespace SlapBott.Handlers
     //this occurs when a player kills their target they should receive rewards,
     //need to check the state object to get all the active participants,
     //give rewards reset states id's = 0, remove enemy from play (raidboss remove from region ect)
-    public class TargetKilledHandler(IMediator mediator, ItemService itemService) : INotificationHandler<NotificationTargetKilled>
+    public class TargetKilledHandler(IMediator mediator, GearService gearService) : INotificationHandler<NotificationTargetKilled>
     {
         private IMediator _mediator = mediator;
-        private ItemService _itemService = itemService;
+        private GearService _gearService = gearService;
         public async Task Handle(NotificationTargetKilled notification, CancellationToken cancellationToken)
         {
 
@@ -39,31 +39,16 @@ namespace SlapBott.Handlers
 
             GiveAllParticipatingPlayersLoot(state.Characters, notification.EnemyDto.LootTableDto);
             
-            //roll for lootable 
-            //generate items from loot table
+           
             //save list of players
             //edit boss stuff to finish raid
             //post notifications to players/servers
 
 
 
-            ItemParameterBuilder builder = new ItemParameterBuilder();
-            Type a = _itemService.GenerateRandomItemType();
-            var Item = GetItem(builder,a);
-
-
-
-            
-
-
-            //save item push notification saying player got item display stats
-            if (Item != null)
-            {
-                notification.PlayerCharacterDto.Inventory.SaveItemToBag(new Data.Models.Equipment() { Seed = Item.Seed });
-            }
-            
+          
             await _mediator.Send(new RequestSavePlayerCharacterDto(notification.PlayerCharacterDto));
-           await  notification.MessageComponent.FollowupAsync($"You Killed {notification.EnemyDto.Name}\nYou Gained {exp} EXP\nYou Gained Item('s): {Item.Name}");
+           await  notification.MessageComponent.FollowupAsync($"You Killed {notification.EnemyDto.Name}\nYou Gained {exp} EXP\nYou Gained Item('s): {Gear.Name}");
         }
 
         private void GiveAllParticipatingPlayersLoot(ICollection<PlayerCharacterCombatStateDto> characters, LootTableDto LootTable)
@@ -73,14 +58,15 @@ namespace SlapBott.Handlers
 
             foreach (var character in characters)
             {
-                character.Character.Inventory.SaveItemToBag(GetRandomItemFromLootTable(LootTable));
+               
+                 character.Character.Inventory.SaveItemToBag(GetRandomItemFromLootTable(LootTable).Result);
             }
         }
 
         private async Task<EquipmentDto> GetRandomItemFromLootTable(LootTableDto lootTable)
         {
             
-         return  await _mediator.Send(new RequestConvertToEquipmentFromLootTableItemDto(lootTable.RandomItemFromLootTable())); 
+         return   await _mediator.Send(new RequestConvertToEquipmentFromLootTableItemDto(lootTable.RandomItemFromLootTable())); 
         }
 
         private void GiveAllParticipatingPlayersExp(ICollection<PlayerCharacterCombatStateDto> characters, ulong exp)
@@ -108,15 +94,7 @@ namespace SlapBott.Handlers
             return (ulong)(exp * (double)(random.Next(1 , 6) / 100));
         }
 
-        private Item GetItem(ItemParameterBuilder builder, Type type) 
-        {
-            if (type == typeof(Armor))
-            {
-                return _itemService.GenerateNewItem<Armor>(builder.Build());
-            }
-            return _itemService.GenerateNewItem<Weapon>(builder.Build());
-        }
-       
-
+      
+      
     }
 }

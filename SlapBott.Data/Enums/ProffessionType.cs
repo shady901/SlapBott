@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SlapBott.Data.Enums
 {
-    public enum ProffessionType
+    public enum GatheringType
     {
         None  =0,
         Mining,
@@ -15,5 +15,12 @@ namespace SlapBott.Data.Enums
         Fishing,
         Skinning,
 
+    }
+    public enum ProffesionTypes
+    { 
+        None = 0,
+        BlackSmith = 1,
+        Alchemist = 2,
+        
     }
 }

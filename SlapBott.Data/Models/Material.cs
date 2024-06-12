@@ -4,7 +4,7 @@ namespace SlapBott.Data.Models
 {
     public class Material: Item
     {
-        public ProffessionType[] CanBeUsedInProffesions { get; set; }      
+        public ProffesionTypes[] CanBeUsedInProffesions { get; set; }      
         
     }
 }

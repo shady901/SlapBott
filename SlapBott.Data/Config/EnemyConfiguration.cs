@@ -10,10 +10,7 @@ namespace SlapBott.Data.Config
         {
             builder.ToTable("Enemies");
 
-            builder.HasMany(e => e.LootTables)
-            .WithOne(lt => lt.Enemy)
-            .HasForeignKey(lt => lt.EnemyId);
-
+            
 
         }
     }

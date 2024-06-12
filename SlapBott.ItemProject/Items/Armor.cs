@@ -12,7 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace SlapBott.ItemProject.Items
 {
-    public class Armor : Item
+    public class Armor : Gear
     {
         public ArmorType ArmorType { get; set; }
         public ArmorWeight Weight { get; set; }
